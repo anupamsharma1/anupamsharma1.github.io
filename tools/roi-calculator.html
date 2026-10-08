@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Estate ROI Calculator</title>
+<style>
+:root{--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--border-radius-md:8px;--border-radius-lg:12px;
+--color-background-primary:#ffffff;--color-background-secondary:#f4f3f1;--color-text-primary:#1d1b19;--color-text-secondary:#5d5852;
+--color-text-info:#1b4f8f;--color-text-success:#1d7a3e;--color-border-secondary:#cfcac4;--color-border-tertiary:#e4e0db;--color-border-info:#6b8fc2}
+html,body{background:var(--color-background-primary);color:var(--color-text-primary)}
+body{padding:16px 20px;font-size:14px}
+</style></head><body>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:12px 0}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.tab:hover{background:var(--color-background-secondary)}
+.tab.active-spj{background:#1B3A6B;color:#fff;border-color:#1B3A6B}
+.tab.active-omaxe{background:#8B1A1A;color:#fff;border-color:#8B1A1A}
+.tab.active-iris{background:#1A6B3A;color:#fff;border-color:#1A6B3A}
+.panel{display:none}
+.panel.active{display:block}
+.proj-header{padding:12px 16px;border-radius:var(--border-radius-lg);margin-bottom:14px}
+.ph-spj{background:#EEF2FA;border:0.5px solid #B5C5E8}
+.ph-omaxe{background:#FAF0EE;border:0.5px solid #E8C5B5}
+.ph-iris{background:#EEF5F0;border:0.5px solid #B5DAC0}
+.ph-title{font-size:15px;font-weight:500;margin-bottom:2px}
+.ph-sub{font-size:11px;color:var(--color-text-secondary)}
+.ph-spj .ph-title{color:#1B3A6B}
+.ph-omaxe .ph-title{color:#8B1A1A}
+.ph-iris .ph-title{color:#1A6B3A}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.section{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px;margin-bottom:10px}
+.sec-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;letter-spacing:.04em}
+.field{margin-bottom:8px}
+.field label{font-size:11px;color:var(--color-text-secondary);display:block;margin-bottom:3px}
+.field select,.field input{width:100%;padding:6px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px;outline:none}
+.field select:focus,.field input:focus{border-color:var(--color-border-info)}
+.results{border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+.res-header{padding:10px 14px;font-size:11px;font-weight:500;color:#fff}
+.rh-spj{background:#1B3A6B}.rh-omaxe{background:#8B1A1A}.rh-iris{background:#1A6B3A}
+.res-body{padding:14px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.stat-label{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px}
+.stat-val{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.stat-val.green{color:var(--color-text-success)}
+.stat-val.blue{color:var(--color-text-info)}
+.stat-val.gold{color:#B8860B}
+.breakdown{border-top:0.5px solid var(--color-border-tertiary);padding-top:10px}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.brow:last-child{border-bottom:none}
+.brow-label{color:var(--color-text-secondary)}
+.brow-val{font-weight:500;color:var(--color-text-primary)}
+.brow-val.green{color:var(--color-text-success)}
+.brow-val.blue{color:var(--color-text-info)}
+.note{font-size:10px;color:var(--color-text-secondary);margin-top:8px;line-height:1.5}
+.pill{display:inline-block;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:500;margin-left:6px}
+.pill-lock{background:#DBEAFE;color:#1D4ED8}
+.pill-nlock{background:#FEF3C7;color:#92400E}
+.pill-fix{background:#E0E7FF;color:#3730A3}
+
+/* Budget Matcher Styles */
+.tab.active-match{background:#111;color:#fff;border-color:#111}
+.ph-match{background:#111;border:0.5px solid #333}
+.ph-match .ph-title{color:#fff}
+.match-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.match-card.best{border-color:#B8860B;background:#FFFaf0;}
+.mc-proj{font-size:10px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;margin-bottom:2px}
+.mc-unit{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.mc-area{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.mc-yield{font-size:14px;font-weight:600;color:var(--color-text-success)}
+</style>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active-match" onclick="showTab('match',this)">🎯 Budget Matcher</button>
+    <button class="tab" onclick="showTab('spj',this)">SPJ Vedatam</button>
+    <button class="tab" onclick="showTab('omaxe',this)">The Omaxe State</button>
+    <button class="tab" onclick="showTab('iris',this)">Iris Broadway</button>
+  </div>
+
+  <!-- ═══════════════ BUDGET MATCHER ═══════════════ -->
+  <div id="panel-match" class="panel active">
+    <div class="proj-header ph-match">
+      <div class="ph-title" style="color:#fff">Budget Matcher</div>
+      <div class="ph-sub" style="color:#ccc">Find the best investment options based on your budget</div>
+    </div>
+    <div class="section">
+      <div class="sec-label">YOUR INVESTMENT BUDGET</div>
+      <div class="field" style="display:flex;gap:10px;align-items:center">
+        <select id="match-budget" style="font-size:14px;padding:8px" onchange="calcMatch()">
+          <option value="0">--- Select your budget ---</option>
+        </select>
+      </div>
+    </div>
+    <div id="match-results" class="results" style="display:none;background:var(--color-background-primary);border:none">
+    </div>
+  </div>
+
+  <!-- ═══════════════ SPJ VEDATAM ═══════════════ -->
+  <div id="panel-spj" class="panel">
+    <div class="proj-header ph-spj">
+      <div class="ph-title">SPJ Vedatam — Sector 14, Old Gurgaon</div>
+      <div class="ph-sub">Under construction · Launch: Mar 2025 · Possession: 2029 (3 Years) · HARERA registered · Mixed-use (Commercial + Residential)</div>
+    </div>
+    <div class="grid2">
+      <div class="section">
+        <div class="sec-label">SELECT UNIT</div>
+        <div class="field">
+          <label>Floor</label>
+          <select id="spj-floor" onchange="spjFloorChange()">
+            <option value="LG-L">Lower Ground (LG) — Lockable</option>
+            <option value="G-L">Ground (G) — Lockable</option>
+            <option value="1-L">1st Floor — Lockable</option>
+            <option value="2A-L">2nd Floor Unit A — Lockable</option>
+            <option value="2B-L">2nd Floor Unit B — Lockable</option>
+            <option value="LG-NL">Lower Ground (LG) — Non-Lockable</option>
+            <option value="F-NL">First Floor (F) — Non-Lockable</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Area (sq.ft) <span id="spj-area-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="spj-area" placeholder="Enter area" oninput="calcSPJ()">
+        </div>
+        <div class="field">
+          <label>Rate (₹/sq.ft) <span id="spj-rate-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="spj-rate" placeholder="Rate" oninput="calcSPJ()">
+        </div>
+      </div>
+      <div class="section">
+        <div class="sec-label">RETURN SETTINGS</div>
+        <div class="field"><label>Instalment 1 % (at booking)</label>
+          <input type="number" id="spj-i1" value="50" min="1" max="99" oninput="calcSPJ()"></div>
+        <div class="field"><label>AR % / year (till possession)</label>
+          <input type="number" id="spj-ar" value="12" oninput="calcSPJ()"></div>
+        <div class="field"><label>Years till possession</label>
+          <input type="number" id="spj-yp" value="3" oninput="calcSPJ()"></div>
+        <div class="field"><label>Lease guarantee % / year (3 yrs post possession)</label>
+          <input type="number" id="spj-lr" value="7" oninput="calcSPJ()"></div>
+        <div class="field"><label>Lease guarantee years</label>
+          <input type="number" id="spj-yl" value="3" oninput="calcSPJ()"></div>
+      </div>
+    </div>
+    <div class="results">
+      <div class="res-header rh-spj">SPJ Vedatam — ROI Summary</div>
+      <div class="res-body">
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-label">Total investment</div><div class="stat-val" id="spj-s-inv">—</div></div>
+          <div class="stat"><div class="stat-label">Inst. 1 (at booking)</div><div class="stat-val blue" id="spj-s-i1">—</div></div>
+          <div class="stat"><div class="stat-label">Inst. 2 (at possession)</div><div class="stat-val" id="spj-s-i2">—</div></div>
+          <div class="stat"><div class="stat-label">Total AR income</div><div class="stat-val blue" id="spj-s-ar">—</div></div>
+          <div class="stat"><div class="stat-label">Total lease income (3 yrs)</div><div class="stat-val green" id="spj-s-lr">—</div></div>
+          <div class="stat"><div class="stat-label">Net profit</div><div class="stat-val gold" id="spj-s-pl">—</div></div>
+        </div>
+        <div class="breakdown">
+          <div class="brow"><span class="brow-label">AR / month (on Inst. 1)</span><span class="brow-val blue" id="spj-b-arm">—</span></div>
+          <div class="brow"><span class="brow-label">AR / year (on Inst. 1)</span><span class="brow-val blue" id="spj-b-ary">—</span></div>
+          <div class="brow"><span class="brow-label">Lease / month (post possession, on full inv.)</span><span class="brow-val green" id="spj-b-lrm">—</span></div>
+          <div class="brow"><span class="brow-label">Lease / year</span><span class="brow-val green" id="spj-b-lry">—</span></div>
+          <div class="brow"><span class="brow-label">Grand total returns (AR + 3yr Lease)</span><span class="brow-val" id="spj-b-grand">—</span></div>
+          <div class="brow"><span class="brow-label">Effective yield on total investment</span><span class="brow-val gold" id="spj-b-yield">—</span></div>
+        </div>
+        <div class="note">* AR calculated on Instalment 1 only (paid at booking). Lease guarantee on full investment for 3 years post-possession. Min. investment ₹62,00,000. HARERA: RC/REP/HARERA/GGM/9/27/659/2025/30</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ OMAXE STATE ═══════════════ -->
+  <div id="panel-omaxe" class="panel">
+    <div class="proj-header ph-omaxe">
+      <div class="ph-title">The Omaxe State — Sector 19B, Dwarka, New Delhi</div>
+      <div class="ph-sub">Under construction · Started 2024 · Possession in 3 Years · RERA: DLRERA2024P0003 · PPP with DDA · 50.4 acres</div>
+    </div>
+    <div class="grid2">
+      <div class="section">
+        <div class="sec-label">SELECT UNIT</div>
+        <div class="field">
+          <label>Floor & Unit Type</label>
+          <select id="omaxe-floor" onchange="omaxeFloorChange()">
+            <option value="GF-L1">Ground Floor — Lockable Retail (0–398 sq.ft) · ₹1,52,500/sqft</option>
+            <option value="GF-L2">Ground Floor — Lockable Retail (399+ sq.ft) · ₹1,50,000/sqft</option>
+            <option value="GF-FR">Ground Floor — Fractional Retail (50 sq.ft fixed) · ₹1,55,000/sqft</option>
+            <option value="GF-KI">Ground Floor — Kiosk (145 sq.ft fixed) · ₹2,00,000/sqft</option>
+            <option value="GF-NA">Ground Floor — North Avenue (60 sq.ft fixed) · ₹1,62,500/sqft</option>
+            <option value="FF-L1">First Floor — Lockable Retail (0–398 sq.ft) · ₹1,27,000/sqft</option>
+            <option value="FF-L2">First Floor — Lockable Retail (399+ sq.ft) · ₹1,25,000/sqft</option>
+            <option value="FF-FC">First Floor — Lockable Food Court · ₹1,30,000/sqft</option>
+            <option value="FF-FR">First Floor — Fractional Retail (40 sq.ft fixed) · ₹1,27,000/sqft</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Area (sq.ft) <span id="omaxe-area-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="omaxe-area" placeholder="Enter area" oninput="calcOmaxe()">
+        </div>
+        <div class="field">
+          <label>Rate (₹/sq.ft) <span id="omaxe-rate-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="omaxe-rate" placeholder="Rate" oninput="calcOmaxe()">
+        </div>
+      </div>
+      <div class="section">
+        <div class="sec-label">RETURN SETTINGS</div>
+        <div class="field"><label>Instalment 1 % (at booking)</label>
+          <input type="number" id="omaxe-i1" value="50" min="1" max="99" oninput="calcOmaxe()"></div>
+        <div class="field"><label>AR % / year (till possession)</label>
+          <input type="number" id="omaxe-ar" value="12" oninput="calcOmaxe()"></div>
+        <div class="field"><label>Years till possession (3 yrs)</label>
+          <input type="number" id="omaxe-yp" value="3" oninput="calcOmaxe()"></div>
+        <div class="field"><label>Lease guarantee % / year</label>
+          <input type="number" id="omaxe-lr" value="7" oninput="calcOmaxe()"></div>
+        <div class="field"><label>Lease guarantee years</label>
+          <input type="number" id="omaxe-yl" value="3" oninput="calcOmaxe()"></div>
+      </div>
+    </div>
+    <div class="results">
+      <div class="res-header rh-omaxe">The Omaxe State — ROI Summary</div>
+      <div class="res-body">
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-label">Total investment</div><div class="stat-val" id="omaxe-s-inv">—</div></div>
+          <div class="stat"><div class="stat-label">Inst. 1 (at booking)</div><div class="stat-val blue" id="omaxe-s-i1">—</div></div>
+          <div class="stat"><div class="stat-label">Inst. 2 (at possession)</div><div class="stat-val" id="omaxe-s-i2">—</div></div>
+          <div class="stat"><div class="stat-label">Total AR income</div><div class="stat-val blue" id="omaxe-s-ar">—</div></div>
+          <div class="stat"><div class="stat-label">Total lease income (3 yrs)</div><div class="stat-val green" id="omaxe-s-lr">—</div></div>
+          <div class="stat"><div class="stat-label">Net profit</div><div class="stat-val gold" id="omaxe-s-pl">—</div></div>
+        </div>
+        <div class="breakdown">
+          <div class="brow"><span class="brow-label">AR / month (on Inst. 1)</span><span class="brow-val blue" id="omaxe-b-arm">—</span></div>
+          <div class="brow"><span class="brow-label">AR / year (on Inst. 1)</span><span class="brow-val blue" id="omaxe-b-ary">—</span></div>
+          <div class="brow"><span class="brow-label">Lease / month (post possession, on full inv.)</span><span class="brow-val green" id="omaxe-b-lrm">—</span></div>
+          <div class="brow"><span class="brow-label">Lease / year</span><span class="brow-val green" id="omaxe-b-lry">—</span></div>
+          <div class="brow"><span class="brow-label">Grand total returns (AR + 3yr Lease)</span><span class="brow-val" id="omaxe-b-grand">—</span></div>
+          <div class="brow"><span class="brow-label">Effective yield on total investment</span><span class="brow-val gold" id="omaxe-b-yield">—</span></div>
+        </div>
+        <div class="note">* AR on Instalment 1 only. Lease guarantee on full investment post-possession. Min. investment ₹50,80,000 (40 sq.ft fractional). RERA: DLRERA2024P0003</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ IRIS BROADWAY ═══════════════ -->
+  <div id="panel-iris" class="panel">
+    <div class="proj-header ph-iris">
+      <div class="ph-title">Iris Broadway — Sector 85 & 86, Gurugram</div>
+      <div class="ph-sub">Ready to move in · Tenants active · HRERA No. 168 of 2017 · 2.8 acres · Lease income starts immediately</div>
+    </div>
+    <div class="grid2">
+      <div class="section">
+        <div class="sec-label">SELECT UNIT</div>
+        <div class="field">
+          <label>Floor & Unit</label>
+          <select id="iris-floor" onchange="irisFloorChange()">
+            <option value="3SC">Third Floor — Social Club (100/125/154 sq.ft) · ₹44,000/sqft</option>
+            <option value="SF">SF — Light House (100 sq.ft fixed) · ₹42,000/sqft</option>
+            <option value="GF">Ground Floor H&D (118–192 sq.ft) · ₹63,600/sqft</option>
+            <option value="LG">LG — Hamleys (65 sq.ft fixed) · ₹48,900/sqft</option>
+            <option value="UG">UG — Croma (600 sq.ft fixed) · ₹69,000/sqft</option>
+            <option value="FF">First Floor — Croma (600 sq.ft fixed) · ₹57,500/sqft</option>
+            <option value="GFD">Ground Floor — Dominos (2,006 sq.ft fixed) · ₹65,000/sqft</option>
+            <option value="SS">Studio Sarovar (804 sq.ft fixed) · ₹22,500/sqft</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Area (sq.ft) <span id="iris-area-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="iris-area" placeholder="Enter area" oninput="calcIris()">
+        </div>
+        <div class="field">
+          <label>Rate (₹/sq.ft) <span id="iris-rate-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="iris-rate" placeholder="Rate" oninput="calcIris()">
+        </div>
+        <div class="field">
+          <label>Monthly rental income (₹) <span id="iris-rent-note" style="font-size:10px;color:var(--color-text-secondary)"></span></label>
+          <input type="number" id="iris-rent" placeholder="From data or enter" oninput="calcIris()">
+        </div>
+      </div>
+      <div class="section">
+        <div class="sec-label">RETURN SETTINGS</div>
+        <div class="field"><label>Lease return % / year (approx. 5.2%)</label>
+          <input type="number" id="iris-lr" value="5.2" step="0.1" oninput="calcIris()"></div>
+        <div class="field"><label>Lease projection (years)</label>
+          <input type="number" id="iris-yl" value="10" oninput="calcIris()"></div>
+        <div class="note" style="margin-top:8px;padding:8px;background:var(--color-background-primary);border-radius:6px;border:0.5px solid var(--color-border-tertiary)">
+          Iris Broadway is ready-to-move-in with active tenants. No AR phase. Rental income starts immediately on purchase. Monthly rental shown is actual current lease rent.
+        </div>
+      </div>
+    </div>
+    <div class="results">
+      <div class="res-header rh-iris">Iris Broadway — ROI Summary</div>
+      <div class="res-body">
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-label">Total investment</div><div class="stat-val" id="iris-s-inv">—</div></div>
+          <div class="stat"><div class="stat-label">Monthly rental income</div><div class="stat-val green" id="iris-s-mo">—</div></div>
+          <div class="stat"><div class="stat-label">Annual rental income</div><div class="stat-val green" id="iris-s-yr">—</div></div>
+          <div class="stat"><div class="stat-label">Total rental (<span id="iris-yrs-label">10</span> yrs)</div><div class="stat-val green" id="iris-s-tot">—</div></div>
+          <div class="stat"><div class="stat-label">Gross yield % / year</div><div class="stat-val gold" id="iris-s-yield">—</div></div>
+          <div class="stat"><div class="stat-label">Payback period</div><div class="stat-val" id="iris-s-pb">—</div></div>
+        </div>
+        <div class="breakdown">
+          <div class="brow"><span class="brow-label">Investment recovered in</span><span class="brow-val" id="iris-b-rec">—</span></div>
+          <div class="brow"><span class="brow-label">Net profit over <span id="iris-b-yrlabel">10</span> years</span><span class="brow-val gold" id="iris-b-pl">—</span></div>
+          <div class="brow"><span class="brow-label">Total return on investment (ROI %)</span><span class="brow-val gold" id="iris-b-roi">—</span></div>
+          <div class="brow"><span class="brow-label">Effective annual yield (based on actual rent)</span><span class="brow-val green" id="iris-b-apy">—</span></div>
+        </div>
+        <div class="note">* Rental yield is approx. 5.2% per year on investment. Actual monthly rent varies by unit as shown above. Min. investment ₹32,00,000. HRERA: 168 of 2017.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───
+var SPJ_UNITS = {
+  'LG-L':  {label:'LG Lockable',     rate:60000, area:674,  fixedArea:false, type:'Lockable'},
+  'G-L':   {label:'G Lockable',      rate:60000, area:1200, fixedArea:false, type:'Lockable'},
+  '1-L':   {label:'1st Lockable',    rate:40000, area:512,  fixedArea:false, type:'Lockable'},
+  '2A-L':  {label:'2nd (A) Lockable',rate:30000, area:1093, fixedArea:false, type:'Lockable'},
+  '2B-L':  {label:'2nd (B) Lockable',rate:30000, area:608,  fixedArea:false, type:'Lockable'},
+  'LG-NL': {label:'LG Non-Lock',     rate:60000, area:182,  fixedArea:false, type:'Non-Lockable'},
+  'F-NL':  {label:'F Non-Lock',      rate:40000, area:157,  fixedArea:false, type:'Non-Lockable'},
+};
+var OMAXE_UNITS = {
+  'GF-L1': {rate:152500, area:null,  fixedArea:false, note:'0–398 sq.ft'},
+  'GF-L2': {rate:150000, area:null,  fixedArea:false, note:'399+ sq.ft'},
+  'GF-FR': {rate:155000, area:50,    fixedArea:true,  note:'Fixed 50 sq.ft'},
+  'GF-KI': {rate:200000, area:145,   fixedArea:true,  note:'Fixed 145 sq.ft'},
+  'GF-NA': {rate:162500, area:60,    fixedArea:true,  note:'Fixed 60 sq.ft'},
+  'FF-L1': {rate:127000, area:null,  fixedArea:false, note:'0–398 sq.ft'},
+  'FF-L2': {rate:125000, area:null,  fixedArea:false, note:'399+ sq.ft'},
+  'FF-FC': {rate:130000, area:null,  fixedArea:false, note:'Custom area'},
+  'FF-FR': {rate:127000, area:40,    fixedArea:true,  note:'Fixed 40 sq.ft'},
+};
+var IRIS_UNITS = {
+  '3SC': {rate:44000, area:null,  fixedArea:false, rent:null,    note:'100/125/154 sq.ft options', rentNote:'19,500/24,375/30,030'},
+  'SF':  {rate:42000, area:100,   fixedArea:true,  rent:19000,   note:'Fixed 100 sq.ft', rentNote:'₹19,000/mo'},
+  'GF':  {rate:63600, area:null,  fixedArea:false, rent:null,    note:'118–192 sq.ft', rentNote:'31,270/39,220/42,665'},
+  'LG':  {rate:48900, area:65,    fixedArea:true,  rent:13950,   note:'Fixed 65 sq.ft', rentNote:'₹13,950/mo'},
+  'UG':  {rate:69000, area:600,   fixedArea:true,  rent:135000,  note:'Fixed 600 sq.ft', rentNote:'₹1,35,000/mo'},
+  'FF':  {rate:57500, area:600,   fixedArea:true,  rent:110000,  note:'Fixed 600 sq.ft', rentNote:'₹1,10,000/mo (approx)'},
+  'GFD': {rate:65000, area:2006,  fixedArea:true,  rent:531590,  note:'Fixed 2,006 sq.ft', rentNote:'₹5,31,590/mo'},
+  'SS':  {rate:22500, area:804,   fixedArea:true,  rent:80400,   note:'Fixed 804 sq.ft', rentNote:'₹80,400/mo'},
+};
+
+// ─── FORMAT ───
+function fmt(n) {
+  if(!n && n!==0) return '—';
+  n = Math.round(n);
+  if(n>=10000000) return '₹'+(n/10000000).toFixed(2)+' Cr';
+  if(n>=100000)   return '₹'+(n/100000).toFixed(2)+' L';
+  return '₹'+n.toLocaleString('en-IN');
+}
+function set(id, val) { var el=document.getElementById(id); if(el) el.textContent=val; }
+
+// ─── TABS ───
+function showTab(proj, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active-match','active-spj','active-omaxe','active-iris');});
+  document.getElementById('panel-'+proj).classList.add('active');
+  btn.classList.add('active-'+proj);
+}
+
+// ─── SPJ ───
+function spjFloorChange() {
+  var key = document.getElementById('spj-floor').value;
+  var u = SPJ_UNITS[key];
+  document.getElementById('spj-rate').value = u.rate;
+  document.getElementById('spj-area').value = u.area || '';
+  document.getElementById('spj-rate-note').textContent = '₹'+u.rate.toLocaleString('en-IN')+'/sqft';
+  document.getElementById('spj-area-note').textContent = u.area ? 'Standard: '+u.area+' sq.ft' : 'Enter custom area';
+  calcSPJ();
+}
+function calcSPJ() {
+  var area = parseFloat(document.getElementById('spj-area').value)||0;
+  var rate = parseFloat(document.getElementById('spj-rate').value)||0;
+  var i1p  = parseFloat(document.getElementById('spj-i1').value)/100||0.5;
+  var ar   = parseFloat(document.getElementById('spj-ar').value)/100||0;
+  var yp   = parseFloat(document.getElementById('spj-yp').value)||0;
+  var lr   = parseFloat(document.getElementById('spj-lr').value)/100||0;
+  var yl   = parseFloat(document.getElementById('spj-yl').value)||0;
+  var inv  = area*rate;
+  var i1   = inv*i1p; var i2 = inv*(1-i1p);
+  var arTot= i1*ar*yp;
+  var lrTot= inv*lr*yl;
+  var grand= arTot+lrTot;
+  var pl   = grand-inv;
+  set('spj-s-inv', fmt(inv)); set('spj-s-i1', fmt(i1)); set('spj-s-i2', fmt(i2));
+  set('spj-s-ar', fmt(arTot)); set('spj-s-lr', fmt(lrTot));
+  set('spj-s-pl', inv?(pl>=0?'+':'')+fmt(pl):'—');
+  set('spj-b-arm', fmt(i1*ar/12)); set('spj-b-ary', fmt(i1*ar));
+  set('spj-b-lrm', fmt(inv*lr/12)); set('spj-b-lry', fmt(inv*lr));
+  set('spj-b-grand', fmt(grand));
+  set('spj-b-yield', inv?((grand/inv)*100).toFixed(1)+'% over '+(yp+yl)+' yrs':'—');
+}
+
+// ─── OMAXE ───
+function omaxeFloorChange() {
+  var key = document.getElementById('omaxe-floor').value;
+  var u = OMAXE_UNITS[key];
+  document.getElementById('omaxe-rate').value = u.rate;
+  if(u.fixedArea) { document.getElementById('omaxe-area').value = u.area; document.getElementById('omaxe-area').readOnly = true; }
+  else { document.getElementById('omaxe-area').value = ''; document.getElementById('omaxe-area').readOnly = false; }
+  document.getElementById('omaxe-rate-note').textContent = '₹'+u.rate.toLocaleString('en-IN')+'/sqft';
+  document.getElementById('omaxe-area-note').textContent = u.note;
+  calcOmaxe();
+}
+function calcOmaxe() {
+  var area = parseFloat(document.getElementById('omaxe-area').value)||0;
+  var rate = parseFloat(document.getElementById('omaxe-rate').value)||0;
+  var i1p  = parseFloat(document.getElementById('omaxe-i1').value)/100||0.5;
+  var ar   = parseFloat(document.getElementById('omaxe-ar').value)/100||0;
+  var yp   = parseFloat(document.getElementById('omaxe-yp').value)||0;
+  var lr   = parseFloat(document.getElementById('omaxe-lr').value)/100||0;
+  var yl   = parseFloat(document.getElementById('omaxe-yl').value)||0;
+  var inv  = area*rate;
+  var i1   = inv*i1p; var i2 = inv*(1-i1p);
+  var arTot= i1*ar*yp;
+  var lrTot= inv*lr*yl;
+  var grand= arTot+lrTot; var pl = grand-inv;
+  set('omaxe-s-inv', fmt(inv)); set('omaxe-s-i1', fmt(i1)); set('omaxe-s-i2', fmt(i2));
+  set('omaxe-s-ar', fmt(arTot)); set('omaxe-s-lr', fmt(lrTot));
+  set('omaxe-s-pl', inv?(pl>=0?'+':'')+fmt(pl):'—');
+  set('omaxe-b-arm', fmt(i1*ar/12)); set('omaxe-b-ary', fmt(i1*ar));
+  set('omaxe-b-lrm', fmt(inv*lr/12)); set('omaxe-b-lry', fmt(inv*lr));
+  set('omaxe-b-grand', fmt(grand));
+  set('omaxe-b-yield', inv?((grand/inv)*100).toFixed(1)+'% over '+(yp+yl)+' yrs':'—');
+}
+
+// ─── IRIS ───
+function irisFloorChange() {
+  var key = document.getElementById('iris-floor').value;
+  var u = IRIS_UNITS[key];
+  document.getElementById('iris-rate').value = u.rate;
+  if(u.fixedArea){ document.getElementById('iris-area').value=u.area; document.getElementById('iris-area').readOnly=true; }
+  else { document.getElementById('iris-area').value=''; document.getElementById('iris-area').readOnly=false; }
+  if(u.rent){ document.getElementById('iris-rent').value=u.rent; }
+  else { document.getElementById('iris-rent').value=''; }
+  document.getElementById('iris-rate-note').textContent='₹'+u.rate.toLocaleString('en-IN')+'/sqft · '+u.note;
+  document.getElementById('iris-rent-note').textContent=u.rentNote||'';
+  calcIris();
+}
+function calcIris() {
+  var area  = parseFloat(document.getElementById('iris-area').value)||0;
+  var rate  = parseFloat(document.getElementById('iris-rate').value)||0;
+  var rent  = parseFloat(document.getElementById('iris-rent').value)||0;
+  var lrPct = parseFloat(document.getElementById('iris-lr').value)/100||0;
+  var yl    = parseFloat(document.getElementById('iris-yl').value)||0;
+  var inv   = area*rate;
+  var annRent = rent*12;
+  var totRent = rent*12*yl;
+  var pl    = totRent-inv;
+  var yld   = inv ? (annRent/inv*100).toFixed(2) : 0;
+  var pb    = (rent&&inv) ? (inv/rent/12).toFixed(1) : null;
+  var roiPct= inv ? ((totRent/inv)*100).toFixed(1) : 0;
+  document.getElementById('iris-yrs-label').textContent = yl;
+  document.getElementById('iris-b-yrlabel').textContent = yl;
+  set('iris-s-inv', fmt(inv));
+  set('iris-s-mo', rent?fmt(rent):'—');
+  set('iris-s-yr', annRent?fmt(annRent):'—');
+  set('iris-s-tot', totRent?fmt(totRent):'—');
+  set('iris-s-yield', yld?yld+'% p.a.':'—');
+  set('iris-s-pb', pb?pb+' yrs':'—');
+  set('iris-b-rec', pb?pb+' years':'—');
+  set('iris-b-pl', inv?(pl>=0?'+':'')+fmt(pl):'—');
+  set('iris-b-roi', roiPct?roiPct+'% over '+yl+' yrs':'—');
+  set('iris-b-apy', yld?yld+'% p.a.':'—');
+}
+
+// ─── BUDGET MATCHER ───
+function initMatch() {
+  var bSel = document.getElementById('match-budget');
+  for(var b=20; b<=500; b+=5) {
+    var opt = document.createElement('option');
+    opt.value = b*100000;
+    opt.textContent = '₹' + b + ' Lakhs' + (b>=100 ? ' (₹'+(b/100).toFixed(2)+' Cr)' : '');
+    bSel.appendChild(opt);
+  }
+}
+
+function calcMatch() {
+  var budget = parseInt(document.getElementById('match-budget').value);
+  var resDiv = document.getElementById('match-results');
+  if(!budget) { resDiv.style.display='none'; return; }
+  
+  var opts = [];
+  
+  // SPJ Min 62L
+  if(budget >= 6200000) {
+    for(var k in SPJ_UNITS) {
+      var u = SPJ_UNITS[k];
+      var inv = budget;
+      var area = budget/u.rate;
+      var arTot = (inv*0.5)*0.12*3;
+      var lrTot = inv*0.07*3;
+      var grand = arTot+lrTot;
+      var yld = ((grand/inv)*100)/6;
+      opts.push({proj:'SPJ Vedatam', unit:u.label, area:Math.floor(area)+' sq.ft', inv:inv, yld:yld, yldStr:yld.toFixed(1)+'% p.a.', det:'Total Return: '+fmt(grand)+' over 6 yrs'});
+    }
+  }
+  
+  // Omaxe Min 50.8L (approx)
+  for(var k in OMAXE_UNITS) {
+    var u = OMAXE_UNITS[k];
+    var inv = 0, area = 0;
+    if(u.fixedArea) {
+      inv = u.area * u.rate;
+      if(inv > budget) continue;
+      area = u.area;
+    } else {
+      if(budget >= 5080000) {
+        inv = budget;
+        area = budget/u.rate;
+      } else {
+        continue;
+      }
+    }
+    var arTot = (inv*0.5)*0.12*3;
+    var lrTot = inv*0.07*3;
+    var grand = arTot+lrTot;
+    var yld = ((grand/inv)*100)/6;
+    var lbl = (k.indexOf('GF')!==-1 ? 'Ground Floor' : 'First Floor') + ' - ' + u.note;
+    opts.push({proj:'The Omaxe State', unit:lbl, area:Math.floor(area)+' sq.ft', inv:inv, yld:yld, yldStr:yld.toFixed(1)+'% p.a.', det:'Total Return: '+fmt(grand)+' over 6 yrs'});
+  }
+  
+  // Iris min 32L
+  for(var k in IRIS_UNITS) {
+    var u = IRIS_UNITS[k];
+    var inv = 0, area = 0;
+    
+    var floorStr = "Unknown";
+    if(k==='3SC') floorStr = "Third Floor (Social Club)";
+    else if(k==='SF') floorStr = "Second Floor (Light House)";
+    else if(k==='GF') floorStr = "Ground Floor (H&D)";
+    else if(k==='LG') floorStr = "Lower Ground (Hamleys)";
+    else if(k==='UG') floorStr = "Upper Ground (Croma)";
+    else if(k==='FF') floorStr = "First Floor (Croma)";
+    else if(k==='GFD') floorStr = "Ground Floor (Dominos)";
+    else if(k==='SS') floorStr = "Studio Sarovar";
+
+    if(u.fixedArea) {
+      inv = u.area * u.rate;
+      if(inv > budget) continue;
+      area = u.area;
+      var annRent = u.rent ? (u.rent*12) : (inv*0.052);
+      var yld = (annRent/inv)*100;
+      opts.push({proj:'Iris Broadway', unit:floorStr, area:area+' sq.ft', inv:inv, yld:yld, yldStr:yld.toFixed(1)+'% p.a.', det:'Rent: '+fmt(u.rent||(inv*0.052/12))+'/mo'});
+    } else {
+      if(budget >= 3200000) {
+        inv = budget;
+        area = budget/u.rate;
+        var yld = 5.2;
+        opts.push({proj:'Iris Broadway', unit:floorStr + ' (Variable/Fractional)', area:Math.floor(area)+' sq.ft', inv:inv, yld:yld, yldStr:'~5.2% p.a.', det:'Expected monthly income on inv'});
+      }
+    }
+  }
+  
+  opts.sort(function(a,b){ return b.yld - a.yld; });
+  
+  var html = '';
+  if(opts.length===0) {
+    html = '<div style="padding:15px;text-align:center;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md)">No options available in this budget. Options start around ₹32 Lakhs.</div>';
+  } else {
+    html += '<div style="margin-bottom:10px;font-size:12px;color:var(--color-text-secondary);font-weight:500;">Top '+opts.length+' options matching your budget:</div>';
+    opts.forEach(function(o, i) {
+      var isBest = i===0;
+      html += '<div class="match-card '+(isBest?'best':'')+'">';
+      html += '<div>';
+      if(isBest) html += '<div style="font-size:10px;font-weight:700;color:#B8860B;margin-bottom:4px;letter-spacing:0.05em">🌟 BEST VALUE & YIELD</div>';
+      html += '<div class="mc-proj">'+o.proj+'</div>';
+      html += '<div class="mc-unit">'+o.unit+'</div>';
+      html += '<div class="mc-area">'+o.area+' &nbsp;&bull;&nbsp; Investment: <strong style="color:var(--color-text-primary)">'+fmt(o.inv)+'</strong></div>';
+      html += '<div class="mc-area" style="margin-top:2px;font-size:11px">'+o.det+'</div>';
+      html += '</div>';
+      html += '<div style="text-align:right">';
+      html += '<div class="mc-yield">'+o.yldStr+'</div>';
+      if(isBest) html += '<div style="font-size:10px;color:#B8860B;margin-top:4px">Yield / Year</div>';
+      else html += '<div style="font-size:10px;color:var(--color-text-secondary);margin-top:4px">Yield / Year</div>';
+      html += '</div>';
+      html += '</div>';
+    });
+  }
+  resDiv.innerHTML = html;
+  resDiv.style.display = 'block';
+}
+
+// init defaults
+initMatch();
+spjFloorChange();
+omaxeFloorChange();
+irisFloorChange();
+</script>
+</body></html>

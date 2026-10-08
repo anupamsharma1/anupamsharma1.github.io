@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anupam Sharma</title>
+<meta name="description" content="Anupam Sharma: student at Great Lakes Gurgaon, President of the Self Interest Club. Open to marketing, sales and brand roles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..900,0..100,0..1;1,9..144,400..900,0..100,0..1&family=Karla:ital,wght@0,400..700;1,400..700&family=Courier+Prime:wght@400;700&family=Gochi+Hand&display=swap">
+<style>
+/* Layout: a campaign wall. Paper ground, cobalt and SIC-orange color blocks, sticker details; hero first, then the club, then work, then projects in a clean grid. */
+:root{
+  --paper:#f3f2ee; --card:#ffffff; --ink:#16141a; --muted:#625e68; --faint:#9a96a0; --line:#dfddd7;
+  --cobalt:#2a37f0; --cobalt-ink:#ffffff; --orange:#ff6a14; --orange-ink:#1a0b02; --soft:#e9e8ff; --good:#16824a;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --hand:"Gochi Hand","Comic Sans MS",cursive;
+  --r:24px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#111016; --card:#1b1a21; --ink:#f1efeb; --muted:#a7a3ad; --faint:#6f6b76; --line:#2c2a33;
+  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --soft:#22223a; --good:#4cc883; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#111016; --card:#1b1a21; --ink:#f1efeb; --muted:#a7a3ad; --faint:#6f6b76; --line:#2c2a33;
+  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --soft:#22223a; --good:#4cc883; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{background:var(--paper);color:var(--ink);font:16px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:0 40px;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2.5px solid var(--cobalt);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1240px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;margin:0;text-wrap:balance;line-height:1}
+p{margin:0}
+.muted{color:var(--muted)}
+.kicker{font:700 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:99px;border:1.5px solid var(--ink);text-decoration:none;font-weight:600;font-size:14.5px;background:transparent;cursor:pointer;transition:transform .15s,background .15s,color .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.orange{background:var(--orange);color:var(--orange-ink);border-color:var(--orange)}
+.btn.light{border-color:currentColor}
+.tag{display:inline-flex;align-items:center;font:500 11.5px/1 var(--mono);padding:6px 10px;border-radius:99px;background:var(--soft);color:var(--cobalt);white-space:nowrap}
+:root[data-theme="dark"] .tag{color:#aab1ff}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tag{color:#aab1ff} }
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+
+/* nav */
+.nav{display:flex;align-items:center;gap:18px;padding-block:18px;flex-wrap:wrap}
+.logo{font:800 20px/1 var(--display);letter-spacing:-.02em;text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:8px}
+.logo b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--orange);color:var(--orange-ink);font-size:15px;transform:rotate(-6deg)}
+.nav a.l{font-size:14px;text-decoration:none;color:var(--muted)}
+.nav a.l:hover{color:var(--ink)}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:stretch;padding-block:18px 10px}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;gap:22px;min-width:0}
+.hi{font-family:var(--hand);font-size:34px;color:var(--orange);transform:rotate(-3deg);transform-origin:left;line-height:1}
+.hero h1{font-size:clamp(46px,7.4vw,104px);font-weight:800;letter-spacing:-.045em}
+.hero h1 .o{color:var(--orange);font-style:italic}
+.hero h1 .c{color:var(--cobalt)}
+.whoami{display:flex;flex-direction:column;gap:6px;font-size:clamp(17px,1.6vw,20px);max-width:36ch}
+.whoami b{font-weight:600}
+.open{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:var(--card);border:1.5px dashed var(--line);font-size:14.5px;width:fit-content;max-width:100%}
+.open i{width:9px;height:9px;border-radius:50%;background:var(--good);flex:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--good) 22%,transparent)}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+
+.hero-art{position:relative;background:var(--cobalt);border-radius:32px;min-height:520px;overflow:hidden;display:grid;place-items:center;padding:36px 20px}
+.hero-art::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.22) 1.2px,transparent 1.6px) 0 0/18px 18px}
+.polaroid{position:relative;z-index:1;background:#fff;padding:12px 12px 58px;border-radius:6px;transform:rotate(3deg);box-shadow:0 30px 60px -20px rgba(0,0,30,.55);width:min(330px,78%)}
+.polaroid img{height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 10%;width:100%;border-radius:2px}
+.polaroid figcaption{position:absolute;left:8px;right:8px;bottom:9px;text-align:center;font:600 19px/1.05 var(--hand);color:#1d1a22}
+.tape{position:absolute;top:-14px;left:50%;width:110px;height:30px;transform:translateX(-50%) rotate(-4deg);background:rgba(255,214,170,.85)}
+.seal{position:absolute;width:150px;height:150px;right:18px;top:18px;z-index:2}
+.seal svg{width:100%;height:100%;animation:spin 22s linear infinite}
+.seal-core{position:absolute;inset:38px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font:800 22px/1 var(--display);color:var(--orange-ink);text-align:center}
+.note{position:absolute;left:24px;bottom:24px;color:#fff;font:600 24px/1.05 var(--hand);transform:rotate(-5deg);max-width:150px}
+.postcard{position:absolute;left:-10px;top:26px;margin:0;width:min(210px,40%);background:#fff;padding:7px 7px 26px;border-radius:4px;transform:rotate(-7deg);box-shadow:0 18px 30px -14px rgba(0,0,30,.6);z-index:2}
+.postcard img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:2px}
+.postcard figcaption{position:absolute;left:0;right:0;bottom:6px;text-align:center;font:600 15px/1 var(--hand);color:#1d1a22}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ticker */
+.ticker{margin:44px -16px 0;background:var(--orange);color:var(--orange-ink);transform:rotate(-1.6deg);overflow:hidden;padding-block:14px;border-block:2px solid var(--ink)}
+.ticker-in{display:flex;gap:28px;width:max-content;animation:tick 34s linear infinite;font:800 clamp(20px,2.6vw,30px)/1 var(--display);letter-spacing:-.02em;white-space:nowrap}
+.ticker-in span::after{content:"✺";margin-left:28px;color:var(--cobalt)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+section.blk{padding-block:80px 10px}
+.blk-head{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:28px}
+.blk-head h2{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-.02em;margin-top:10px}
+.blk-head h2 em{font-style:italic;color:var(--orange)}
+.blk-head p{max-width:46ch;color:var(--muted)}
+
+/* SIC */
+.sic{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+.stage{position:relative;border-radius:var(--r);overflow:hidden;background:#0d0c10;aspect-ratio:1/1}
+.slides{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;height:100%;scroll-snap-align:start;position:relative;margin:0;overflow:hidden}
+.slide .bg{position:absolute;inset:-30px;width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;filter:blur(26px) brightness(.55);max-width:none}
+.slide .fg{position:relative;width:100%;height:100%;object-fit:contain}
+.slide figcaption{position:absolute;left:14px;bottom:14px;right:110px;background:rgba(12,11,15,.75);backdrop-filter:blur(6px);color:#f3f1ee;padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.3}
+.st-ctrl{position:absolute;right:14px;bottom:14px;display:flex;gap:6px}
+.st-ctrl button{width:38px;height:38px;border-radius:50%;border:0;background:#fff;color:#16141a;cursor:pointer;display:grid;place-items:center}
+.st-count{position:absolute;top:14px;right:14px;font:500 12px/1 var(--mono);background:rgba(12,11,15,.7);color:#fff;padding:7px 10px;border-radius:99px}
+.sic-copy{display:flex;flex-direction:column;gap:18px;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:28px}
+.sic-copy h3{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.stamp{display:inline-block;width:fit-content;font:800 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;background:var(--orange);color:var(--orange-ink);padding:9px 12px;border-radius:6px;transform:rotate(-2deg)}
+.bigstats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bigstats div{background:var(--paper);border-radius:16px;padding:14px 16px}
+.n{font:800 40px/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.n small{font-size:18px;color:var(--orange)}
+.bigstats p{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.35}
+.reels-row{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;margin-top:22px;background:var(--ink);color:var(--paper);border-radius:var(--r);padding:22px}
+.reels-row h3{font-size:28px;font-weight:800;letter-spacing:-.02em;max-width:11ch}
+.reels-row p{opacity:.7;font-size:14px;margin-top:10px;max-width:24ch}
+.reels{display:grid;grid-template-columns:repeat(3,minmax(0,170px));gap:12px;justify-content:end}
+.reel{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:9/16;border:0;padding:0;cursor:pointer}
+.reel video{width:100%;height:100%;object-fit:cover;display:block}
+.reel span{position:absolute;left:8px;right:8px;bottom:8px;font:500 11px/1.25 var(--mono);color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.85);text-align:left}
+.reel .snd{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.55);display:grid;place-items:center}
+.reel .snd svg{width:14px;height:14px;color:#fff}
+
+/* work */
+.work{display:grid;grid-template-columns:1.2fr 1fr;gap:22px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:16px;text-align:left;min-width:0}
+button.card{cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+button.card:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:6px 6px 0 var(--ink)}
+.card h3{font-size:28px;font-weight:800;letter-spacing:-.02em}
+.card .when{font:500 12px/1 var(--mono);color:var(--faint)}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.minis div{border-top:2px solid var(--ink);padding-top:10px}
+.minis .n{font-size:30px}
+.minis p{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.35}
+.lock{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--muted)}
+.lock svg{width:17px;height:17px;flex:none;color:var(--orange)}
+.go{font:600 14px/1 var(--body);color:var(--cobalt);margin-top:auto;display:inline-flex;gap:6px;align-items:center}
+.go::after{content:"→";transition:transform .2s}
+button.card:hover .go::after{transform:translateX(4px)}
+.stacked{display:flex;flex-direction:column;gap:22px}
+.stacked > .card{flex:1}
+.card.cob{background:var(--cobalt);color:var(--cobalt-ink);border-color:var(--cobalt)}
+.card.cob .when,.card.cob .muted{color:rgba(255,255,255,.75)}
+.card.cob .go{color:#fff}
+.card.cob .tag{background:rgba(255,255,255,.16);color:#fff}
+
+/* projects */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;grid-auto-flow:dense}
+.proj{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:0;overflow:hidden;text-align:left;cursor:pointer;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s;min-width:0}
+.proj:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:6px 6px 0 var(--ink)}
+.proj.wide{grid-column:span 2}
+.band{padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px;font:500 11.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.band.m{background:var(--orange);color:var(--orange-ink)}
+.band.s{background:var(--cobalt);color:#fff}
+.band.a{background:var(--ink);color:var(--paper)}
+.proj-b{padding:20px 22px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.proj h3{font-size:24px;font-weight:800;letter-spacing:-.025em}
+.proj .who{font:500 12px/1 var(--mono);color:var(--faint);margin-top:auto;padding-top:8px}
+.big-q{font:700 20px/1.25 var(--display);letter-spacing:-.01em;border-left:4px solid var(--orange);padding-left:14px}
+.rank{font:800 78px/.8 var(--display);letter-spacing:-.02em;color:var(--orange)}
+.thumb{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:left top}
+
+/* the ad */
+.ad{display:grid;grid-template-columns:1fr auto;gap:28px;background:var(--orange);color:var(--orange-ink);border-radius:32px;padding:clamp(26px,5vw,56px);position:relative;overflow:hidden;border:2px solid var(--ink)}
+.ad .k{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.ad h2{font-size:clamp(38px,6vw,78px);font-weight:800;letter-spacing:-.02em;margin-top:14px;max-width:13ch}
+.ad ul{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;max-width:58ch;font-size:clamp(16px,1.6vw,19px)}
+.ad li{display:flex;gap:12px}
+.ad li::before{content:"✓";font-weight:800;flex:none;width:24px;height:24px;border-radius:50%;background:var(--orange-ink);color:var(--orange);display:grid;place-items:center;font-size:13px;margin-top:2px}
+.fine{margin-top:28px;font:400 12px/1.5 var(--mono);opacity:.75;max-width:80ch}
+.tagcard{align-self:start;background:#fffdf8;color:#16141a;border-radius:10px;padding:18px 18px 16px;width:200px;transform:rotate(5deg);box-shadow:0 18px 34px -16px rgba(0,0,0,.45);position:relative}
+.tagcard::before{content:"";position:absolute;top:12px;left:50%;width:14px;height:14px;border-radius:50%;background:var(--orange);transform:translateX(-50%);box-shadow:inset 0 0 0 3px #fffdf8,0 0 0 2px #16141a}
+.tagcard .t1{font:500 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-top:22px;color:#625e68}
+.tagcard .t2{font:800 30px/1 var(--display);letter-spacing:-.02em;margin-top:6px}
+.tagcard .bars{height:44px;margin-top:14px;background:repeating-linear-gradient(90deg,#16141a 0 2px,transparent 2px 4px,#16141a 4px 5px,transparent 5px 9px,#16141a 9px 12px,transparent 12px 14px)}
+.tagcard .t3{font:400 10.5px/1 var(--mono);margin-top:6px;letter-spacing:.2em}
+
+/* toolkit + contact */
+.kit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.kit .card{gap:12px}
+.kit h3{font-size:20px}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:88px 1fr;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.tl li:first-child{border-top:0}
+.tl .y{font:500 11.5px/1.5 var(--mono);color:var(--faint)}
+.tl b{font-weight:600;display:block}
+.contact{margin-top:80px;background:var(--ink);color:var(--paper);border-radius:32px;padding:clamp(28px,6vw,72px);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;position:relative;overflow:hidden}
+.contact h2{font-size:clamp(40px,6.6vw,92px);font-weight:800;letter-spacing:-.02em;max-width:12ch}
+.contact h2 span{color:var(--orange);font-style:italic}
+.contact .cta .btn{border-color:var(--paper);color:var(--paper)}
+.contact .cta .btn.orange{color:var(--orange-ink);border-color:var(--orange)}
+.handle{font:500 13px/1.6 var(--mono);opacity:.7}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--faint);font:400 12px/1.4 var(--mono);padding-top:22px}
+
+/* sheet */
+dialog.sheet{width:min(860px,100%);max-height:min(92vh,100%);margin:auto;border:2px solid var(--ink);border-radius:26px;background:var(--card);color:var(--ink);padding:0;overflow:hidden}
+dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
+.sheet-in{max-height:min(92vh,100dvh);overflow-y:auto;padding:28px clamp(18px,4vw,40px) 36px}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.sheet h2{font-size:clamp(28px,4.4vw,44px);font-weight:800;letter-spacing:-.035em;margin-top:10px}
+.sheet .lede{font-size:17px;color:var(--muted);margin-top:12px;max-width:62ch}
+.sheet h4{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin:28px 0 10px}
+.sheet ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;max-width:68ch}
+.sheet .bigstats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:22px}
+.sheet .n{font-size:30px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal img{border-radius:12px;border:1px solid var(--line);width:100%}
+.embed{border:1.5px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.embed iframe{width:100%;height:min(70vh,640px);border:0;display:block}
+.embed-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:var(--paper);font:500 12px/1.2 var(--mono);color:var(--muted);flex-wrap:wrap}
+.embed-bar a{color:var(--cobalt)}
+.sheet .fineprint{margin-top:24px;font-size:13px;color:var(--faint)}
+
+@media (max-width:900px){
+  .hero,.sic,.work,.ad,.contact{grid-template-columns:1fr}
+  .hero-art{min-height:440px}
+  .grid,.kit{grid-template-columns:1fr 1fr}
+  .reels-row{grid-template-columns:1fr}
+  .reels{justify-content:stretch;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tagcard{justify-self:start;transform:rotate(-3deg)}
+}
+@media (max-width:620px){
+  .grid,.kit{grid-template-columns:1fr}
+  .proj.wide{grid-column:auto}
+  .nav a.l{display:none}
+  .seal{width:112px;height:112px;right:10px;top:10px}
+  .seal-core{inset:28px;font-size:17px}
+  .bigstats{grid-template-columns:1fr 1fr}
+  .n{font-size:32px}
+  section.blk{padding-block:60px 6px}
+}
+@media (prefers-reduced-motion: reduce){
+  .ticker-in,.seal svg{animation:none}
+  .btn,button.card,.proj{transition:none}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="logo" href="#top" id="top"><b>A</b>Anupam Sharma</a>
+    <a class="l" href="#club">The club</a>
+    <a class="l" href="#work">Work</a>
+    <a class="l" href="#projects">Projects</a>
+    <a class="l" href="#contact">Contact</a>
+    <button class="icon-btn" id="theme" aria-label="Switch light or dark theme">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-copy">
+      <span class="hi">Hi, I'm</span>
+      <h1>Anupam <span class="o">Sharma.</span></h1>
+      <div class="whoami">
+        <span><b>Student at Great Lakes Institute of Management, Gurgaon.</b> PGDM 2025-27, marketing major, analytics minor.</span>
+        <span><b>President of the Self Interest Club,</b> the campus creative club. 1,240+ people came to our events last year.</span>
+      </div>
+      <span class="open"><i></i>Open to marketing, sales & marketing, and brand roles</span>
+      <div class="cta">
+        <a class="btn solid" href="https://www.linkedin.com/in/anupam-sharma-52b181278/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg>LinkedIn</a>
+        <a class="btn" href="https://www.instagram.com/anupam_sharmatic/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@anupam_sharmatic</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 150 150"><defs><path id="circ" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs>
+          <circle cx="75" cy="75" r="74" fill="#ffffff"/>
+          <text font-family="Karla, sans-serif" font-size="11" font-weight="700" letter-spacing="1.6" fill="#16141a"><textPath href="#circ">PRESIDENT · SELF INTEREST CLUB · GREAT LAKES ·</textPath></text></svg>
+        <div class="seal-core">SIC</div>
+      </div>
+      <figure class="polaroid" style="margin:0">
+        <span class="tape"></span>
+        <img src="assets/me-portrait.jpg" alt="Anupam Sharma in a dark suit outside the campus building" width="740" height="1012">
+        <figcaption>Great Lakes Institute of Management,<br>Gurgaon · 2026</figcaption>
+      </figure>
+      <span class="note">that's me ↗</span>
+      <figure class="postcard"><img src="assets/glim-campus.jpg" alt="Great Lakes Institute of Management, Gurgaon campus" width="900" height="506" loading="lazy"><figcaption>Campus, Great Lakes Gurgaon</figcaption></figure>
+    </div>
+  </header>
+
+  <div class="ticker" aria-label="What I do: influencer marketing, event marketing, brand positioning, sales, go-to-market, reels and content, consumer insight">
+    <div class="ticker-in" aria-hidden="true">
+      <span>Influencer marketing</span><span>Event marketing</span><span>Brand positioning</span><span>Sales</span><span>Go-to-market</span><span>Reels & content</span><span>Consumer insight</span>
+      <span>Influencer marketing</span><span>Event marketing</span><span>Brand positioning</span><span>Sales</span><span>Go-to-market</span><span>Reels & content</span><span>Consumer insight</span>
+    </div>
+  </div>
+
+  <!-- THE CLUB -->
+  <section class="blk" id="club">
+    <div class="blk-head">
+      <div><span class="kicker">Leadership · 2025-26</span><h2>The club <em>I lead.</em></h2></div>
+      <p>Self Interest Club is the creative club at Great Lakes Gurgaon. As President I repositioned it, pitched it to a new batch, and ran its biggest year yet.</p>
+    </div>
+    <div class="sic">
+      <div class="stage" id="stage">
+        <div class="slides" id="slides">
+          <figure class="slide"><img class="bg" src="assets/sic-team.jpg" alt=""><img class="fg" src="assets/sic-team.jpg" alt="The Self Interest Club team in formals outside the academic block"><figcaption>The Self Interest Club team</figcaption></figure>
+          <figure class="slide"><img class="bg" src="assets/sic-president.jpg" alt=""><img class="fg" src="assets/sic-president.jpg" alt="Club announcement poster naming Anupam Sharma as President" loading="lazy"><figcaption>The President announcement post</figcaption></figure>
+          <figure class="slide"><img class="bg" src="assets/sic-elysium-poster.jpg" alt=""><img class="fg" src="assets/sic-elysium-poster.jpg" alt="Elysium Vogue poster for Crest 14.0" loading="lazy"><figcaption>Elysium Vogue, the first fashion show at Crest</figcaption></figure>
+          <figure class="slide"><img class="bg" src="assets/sic-deck-1.jpg" alt=""><img class="fg" src="assets/sic-deck-1.jpg" alt="Pitch deck cover: Self Interest Club, because your interests matter" loading="lazy"><figcaption>The pitch deck I presented to the new batch</figcaption></figure>
+          <figure class="slide"><img class="bg" src="assets/sic-deck-3.jpg" alt=""><img class="fg" src="assets/sic-deck-3.jpg" alt="Slide: how we are different from other clubs" loading="lazy"><figcaption>Positioning: what other clubs do vs. what we do</figcaption></figure>
+          <figure class="slide"><img class="bg" src="assets/sic-clueless-post.jpg" alt=""><img class="fg" src="assets/sic-clueless-post.jpg" alt="Results post for the Clueless induction event" loading="lazy"><figcaption>Induction event results post</figcaption></figure>
+        </div>
+        <span class="st-count" id="stCount">1 / 6</span>
+        <div class="st-ctrl">
+          <button id="stPrev" aria-label="Previous photo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button id="stNext" aria-label="Next photo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="sic-copy">
+        <span class="stamp">Because your interests matter</span>
+        <h3>A club with no subject, sold as the point.</h3>
+        <p class="muted">Other clubs are tied to finance or marketing. I made that gap our pitch: the one club where your interests decide what happens. Then we built a calendar people actually came for.</p>
+        <div class="bigstats">
+          <div><div class="n">1,240<small>+</small></div><p>participants in AY 2025-26</p></div>
+          <div><div class="n">11</div><p>events in nine months</p></div>
+          <div><div class="n">75</div><p>on the first fashion-show ramp in Crest's history</p></div>
+          <div><div class="n">617</div><p>external entrants from colleges across India</p></div>
+        </div>
+        <div class="cta">
+          <button class="btn solid" data-case="sic">Read the full story</button>
+          <a class="btn" href="https://www.instagram.com/selfinterest_greatlakes/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>SIC on Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="reels-row">
+      <div><h3>Reels I shot and edited</h3><p>Promos and recaps for Crest 14 and our events. Tap one for sound.</p></div>
+      <div class="reels">
+        <button class="reel" aria-label="Crest 14 teaser, tap for sound"><video src="assets/reel-crest-teaser.mp4" poster="assets/reel-crest-teaser.jpg" muted loop playsinline preload="none"></video><i class="snd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4zM23 9l-6 6M17 9l6 6"/></svg></i><span>Crest teaser</span></button>
+        <button class="reel" aria-label="Elysium Vogue reveal, tap for sound"><video src="assets/reel-elysium-reveal.mp4" poster="assets/reel-elysium-reveal.jpg" muted loop playsinline preload="none"></video><i class="snd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4zM23 9l-6 6M17 9l6 6"/></svg></i><span>Elysium Vogue reveal</span></button>
+        <button class="reel" aria-label="Traitors event recap, tap for sound"><video src="assets/reel-traitors-recap.mp4" poster="assets/reel-traitors-recap.jpg" muted loop playsinline preload="none"></video><i class="snd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4zM23 9l-6 6M17 9l6 6"/></svg></i><span>Traitors recap</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="blk" id="work">
+    <div class="blk-head">
+      <div><span class="kicker">Internships · 2026</span><h2>Where I've <em>worked.</em></h2></div>
+      <p>One summer in PR and influencer marketing, one month on a real estate sales floor.</p>
+    </div>
+    <div class="work">
+      <button class="card" data-case="fp">
+        <div class="row"><span class="kicker">PR & Marketing Intern</span><span class="when">Apr-Jun 2026</span></div>
+        <h3>First Partners, Noida</h3>
+        <p class="muted">Influencer marketing and experiential events at a corporate communications and public affairs consultancy.</p>
+        <div class="minis">
+          <div><div class="n">500+</div><p>influencers identified</p></div>
+          <div><div class="n">65%</div><p>outreach response rate</p></div>
+          <div><div class="n">40%</div><p>below first quotes, at best</p></div>
+          <div><div class="n">~30</div><p>influencers onboarded</p></div>
+        </div>
+        <span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Client names and creatives stay private under NDA.</span>
+        <span class="go">See what I did</span>
+      </button>
+      <div class="stacked">
+        <button class="card cob" data-case="ba">
+          <div class="row"><span class="kicker" style="color:inherit;opacity:.8">Sales Intern</span><span class="when">Apr 2026</span></div>
+          <h3>Big Assets Infra, Gurugram</h3>
+          <p class="muted">Sold units in three commercial real estate projects, and built two tools to sell faster: an ROI calculator and a cold-call dashboard.</p>
+          <div class="tags"><span class="tag">Live demo inside</span><span class="tag">SPJ Vedatam</span><span class="tag">The Omaxe State</span><span class="tag">Iris Broadway</span></div>
+          <span class="go">Try the tools</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="blk" id="projects">
+    <div class="blk-head">
+      <div><span class="kicker">Coursework · Great Lakes</span><h2>Selected <em>projects.</em></h2></div>
+      <p>Orange is marketing, blue is sales and distribution, black is analytics and strategy. Group work is marked as group work.</p>
+    </div>
+    <div class="grid">
+      <button class="proj wide" data-case="lg">
+        <div class="band s"><span>Sales & distribution · Go-to-market</span><span>Individual</span></div>
+        <div class="proj-b">
+          <h3>Opening an LG brand shop on Sohna Road</h3>
+          <p class="muted">Market sizing, two buyer archetypes, a 12-month sales forecast and the channel plan for washing machines.</p>
+          <div class="minis">
+            <div><div class="n">342</div><p>machines in year 1</p></div>
+            <div><div class="n">₹1.15cr</div><p>year 1 sales target</p></div>
+            <div><div class="n">Q3</div><p>peak quarter: Diwali</p></div>
+          </div>
+          <p class="big-q">"India's most trusted washing machine brand, thereby making the customer ask for it before your salesman speaks."</p>
+          <span class="who">SDM end-term exam</span>
+        </div>
+      </button>
+      <button class="proj" data-case="levis">
+        <div class="band m"><span>Brand & retail launch</span><span>Group</span></div>
+        <div class="proj-b">
+          <h3>Launching a Levi's store on Golf Course Road</h3>
+          <p class="muted">Archetype "The Heritage Seeker", a launch invite with free in-store personalisation for the first 50 buyers, and the floor pitch.</p>
+          <span class="who">SDM · Group of 8</span>
+        </div>
+      </button>
+      <button class="proj" data-case="kia">
+        <div class="band s"><span>Dealer planning</span><span>Group</span></div>
+        <div class="proj-b">
+          <h3>A new Kia dealership in Mandi, Himachal</h3>
+          <p class="muted">2,83,500 Kia cars a year across 580 dealers comes to about 41 a month each. We planned a highway site 22 km from the nearest one.</p>
+          <span class="who">SDM · Group of 8</span>
+        </div>
+      </button>
+      <button class="proj" data-case="ev">
+        <div class="band a"><span>Project management</span><span>Group</span></div>
+        <div class="proj-b">
+          <h3>ChargeNCR: 25 EV chargers in 52 weeks?</h3>
+          <p class="muted">I wrote the charter, mapped stakeholders and built the RACI. The team's PERT run gave the promised date a 1% chance.</p>
+          <span class="who">Final project · Group of 8</span>
+        </div>
+      </button>
+      <button class="proj" data-case="cesim">
+        <div class="band a"><span>Strategy simulation</span><span>Team</span></div>
+        <div class="proj-b">
+          <div style="display:flex;gap:14px;align-items:end"><span class="rank">#1</span><p class="muted" style="font-size:14px">in Universe 1, Cesim Global Challenge</p></div>
+          <p class="muted">From a bad Round 2 and 3 to first place by Round 6.</p>
+          <span class="who">Strategic Management · Team</span>
+        </div>
+      </button>
+      <button class="proj wide" data-case="hm">
+        <div class="band m"><span>Marketing & retail analytics · Live tool</span><span>Course project</span></div>
+        <div class="proj-b">
+          <h3>H&amp;M India DecisionHub</h3>
+          <p class="muted">A decision support system with one screen per decision maker: leadership ("Are we winning?"), marketing ("Where is the waste?"), store ops, customer and category. Click to use it live.</p>
+          <div class="tags"><span class="tag">8 brands</span><span class="tag">4 regions</span><span class="tag">18 stores</span><span class="tag">Sample data</span></div>
+          <span class="who">Marketing & Retail Analytics</span>
+        </div>
+      </button>
+      <button class="proj" data-case="ff">
+        <div class="band a"><span>ERP & process design</span><span>Individual</span></div>
+        <div class="proj-b">
+          <div class="thumb"><img src="assets/bpmn-background-check.jpg" alt="BPMN model of a background check process" loading="lazy"></div>
+          <h3>FreshFarm Organics: ERP blueprint and BPMN model</h3>
+          <span class="who">Bizagi Modeler</span>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- THE AD -->
+  <section class="blk" aria-label="My pitch">
+    <div class="ad">
+      <div>
+        <span class="k">Advertisement</span>
+        <h2>Now hiring? Meet a marketer who can also sell.</h2>
+        <ul>
+          <li>Turned a club with no subject into the one 1,240+ people showed up for.</li>
+          <li>Turned a cold list of 500+ influencers into a 65% response rate and about 30 onboarded.</li>
+          <li>Turned a sales brochure into an ROI calculator the floor could use.</li>
+          <li>Shoots, edits and posts the reels himself.</li>
+          <li>In class: sizes markets, writes buyer archetypes, forecasts sales from footfall to revenue, and designs channels for brands like LG, Levi's and Kia.</li>
+          <li>Reads the numbers too: dashboards in Power BI and Tableau, PERT and RACI for projects, and a #1 finish in a strategy simulation.</li>
+        </ul>
+        <p class="fine">*Results from academic year 2025-26 and 2026 internships. Plays volleyball and chess, sings when nobody asks, cooks mostly paneer. Personal record: ten chapatis with shahi paneer. Available for marketing, sales & marketing and brand roles.</p>
+      </div>
+      <div class="tagcard" aria-label="Price tag: available 2027">
+        <div class="t1">PGDM · GLIM Gurgaon</div>
+        <div class="t2">Available 2027</div>
+        <div class="bars"></div>
+        <div class="t3">MKTG · SALES · BRAND</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLKIT -->
+  <section class="blk" style="padding-top:60px">
+    <div class="kit">
+      <div class="card">
+        <span class="kicker">Toolkit</span>
+        <div class="tags"><span class="tag">Canva</span><span class="tag">Power BI</span><span class="tag">Tableau</span><span class="tag">Excel</span><span class="tag">Unstop</span><span class="tag">MS Project</span><span class="tag">Bizagi</span><span class="tag">HTML & JS</span></div>
+      </div>
+      <div class="card">
+        <span class="kicker">Certificates</span>
+        <ul class="tl">
+          <li><span class="y">Google</span><div><b>Foundations of Digital Marketing & E-commerce</b></div></li>
+          <li><span class="y">Finlatics</span><div><b>Market Research Analyst</b></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="kicker">Timeline</span>
+        <ul class="tl">
+          <li><span class="y">Apr-Jun 2026</span><div><b>First Partners</b></div></li>
+          <li><span class="y">Apr 2026</span><div><b>Big Assets Infra</b></div></li>
+          <li><span class="y">2025-26</span><div><b>President, SIC</b></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div>
+      <span class="kicker" style="color:inherit;opacity:.6">Contact</span>
+      <h2 style="margin-top:14px">Let's make something people <span>show up for.</span></h2>
+    </div>
+    <div class="stack" style="display:flex;flex-direction:column;gap:14px">
+      <div class="cta">
+        <a class="btn orange" href="https://www.linkedin.com/in/anupam-sharma-52b181278/" target="_blank" rel="noopener">Message me on LinkedIn ↗</a>
+        <a class="btn" href="https://www.instagram.com/anupam_sharmatic/" target="_blank" rel="noopener">Instagram ↗</a>
+      </div>
+      <span class="handle">linkedin.com/in/anupam-sharma-52b181278<br>instagram.com/anupam_sharmatic</span>
+    </div>
+  </section>
+  <footer><span>Anupam Sharma · 2026</span><span>Group projects are marked as group work. Client work is anonymised.</span></footer>
+</div>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheetTitle"><div class="sheet-in" id="sheetIn"></div></dialog>
+
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const root=document.documentElement;
+try{const t=localStorage.getItem('as-theme'); if(t) root.dataset.theme=t;}catch(e){}
+$('#theme').addEventListener('click',()=>{const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  const next=cur==='dark'?'light':'dark';root.dataset.theme=next;try{localStorage.setItem('as-theme',next)}catch(e){}});
+
+/* club slideshow */
+const sl=$('#slides'),n=$$('.slide',sl).length;
+const idx=()=>Math.round(sl.scrollLeft/sl.clientWidth);
+const go=i=>sl.scrollTo({left:((i+n)%n)*sl.clientWidth,behavior:reduce?'auto':'smooth'});
+sl.addEventListener('scroll',()=>requestAnimationFrame(()=>{$('#stCount').textContent=(idx()+1)+' / '+n;}),{passive:true});
+$('#stPrev').addEventListener('click',()=>go(idx()-1));$('#stNext').addEventListener('click',()=>go(idx()+1));
+if(!reduce){setInterval(()=>{if(document.hidden||$('#stage').matches(':hover'))return;go(idx()+1);},4500);}
+
+/* reels */
+const reels=$$('.reel');
+const io=new IntersectionObserver(es=>es.forEach(e=>{const v=$('video',e.target);if(e.isIntersecting&&!reduce){v.preload='auto';v.play().catch(()=>{});}else v.pause();}),{threshold:.4});
+const ON='<path d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',OFF='<path d="M11 5 6 9H2v6h4l5 4zM23 9l-6 6M17 9l6 6"/>';
+reels.forEach(r=>{io.observe(r);r.addEventListener('click',()=>{const v=$('video',r),unmute=v.muted;
+  reels.forEach(x=>{$('video',x).muted=true;$('.snd svg',x).innerHTML=OFF;});v.muted=!unmute;$('.snd svg',r).innerHTML=v.muted?OFF:ON;v.play().catch(()=>{});});});
+
+/* case studies */
+const CASES={
+sic:{eye:'Leadership · President · 2025-26',title:'Self Interest Club',lede:'Great Lakes Gurgaon\'s creative club had no subject to anchor it, so it lost members to the finance and marketing clubs. I turned that gap into the pitch.',
+ stats:[['1,240+','participants in AY 2025-26'],['11','events in nine months'],['617','external entrants on Unstop'],['₹75,000','budget, fully used']],
+ sec:[['The position',['Wrote the tagline <b>"Because your interests matter"</b>: the one club where your interests, not a syllabus, decide what happens.','Built the pitch deck and pitch script for the incoming PGDM and PGPM batches, framed as "what other clubs do vs. what we do".','Standardised our posters and ran promotion on Instagram, including the reels on this page.']],
+  ['What we ran',['<b>Mind Over Matter</b>, a national business strategy case competition: 291 participants in 138 teams.','<b>Elysium Vogue</b> at Crest 14.0: the first fashion show in the festival\'s history. 75 participants in 29 teams, a ₹50,000 prize pool, and an external winner from Motilal Nehru College, University of Delhi.','<b>Section Wars</b> with the Cultural Committee: 100 participants.','Six more on-campus events, from Bollywood Baazigar (224 participants) to Traitors and Squid Games.']],
+  ['What I learned',['A club with no subject is a weak position until you say out loud that it is the point.','Outside teams raise the standard. The best result of the year came from a college we had never hosted.']]],
+ gal:['assets/sic-team.jpg','assets/sic-president.jpg','assets/sic-elysium-poster.jpg','assets/sic-deck-2.jpg','assets/sic-deck-4.jpg','assets/sic-deck-5.jpg'],
+ links:[['Self Interest Club on Instagram','https://www.instagram.com/selfinterest_greatlakes/']]},
+fp:{eye:'Internship · PR & Marketing · Apr to Jun 2026',title:'First Partners, Noida',lede:'A corporate communications and public affairs consultancy. My summer project: next-gen marketing, experiential engagement and influencer ecosystem research.',
+ stats:[['500+','influencers identified'],['65%','outreach response rate'],['~30','influencers onboarded'],['up to 40%','below initial quotes']],
+ sec:[['Influencer marketing, end to end',['Identified 500+ influencers using discovery platforms, got a 65% response to outreach, and onboarded around 30 of them.','Negotiated fees and deliverables, closing some partnerships up to 40% below the first quote.','Coordinated influencers before, during and after events. Seven micro-influencers attended one campaign event in person.']],
+  ['Events and content',['Supported an advocacy campaign event with about 120 attendees and national media coverage.','Supported a policy summit and a seminar for a second client.','Designed event creatives and passes in Canva, wrote invitation copy, and wrote post-event closure reports.','Built an HTML email mailer and an outreach tracker for the team, and researched global awards entries for a manager\'s presentation.']]],
+ note:'Client names, creatives and figures beyond these are covered by an NDA, so this case is text only.'},
+ba:{eye:'Sales internship · Big Assets Infra, Gurugram · April 2026',title:'Tools for selling commercial real estate',lede:'I sold units in three Gurugram commercial projects: SPJ Vedatam, The Omaxe State and Iris Broadway. Alongside the sales decks, I built two tools to make the calls and the conversations faster.',
+ sec:[['Budget Matcher and ROI calculator',['Enter a budget, pick a unit, and see instalments, assured return till possession, three years of lease guarantee, and the effective yield on the whole investment, for all three projects.']],
+  ['Cold Call Automator',['Paste the day\'s leads from a sheet, dial in one click through Windows Phone Link, log the outcome with a single key, and export the feedback back to the sheet.']]],
+ embed:['tools/roi-calculator.html','Budget Matcher and ROI calculator'],embed2:['tools/cold-call-automator.html','Cold Call Automator'],
+ note:'Rates and terms are as of April 2026 and for illustration only.'},
+lg:{eye:'Go-to-market · Individual · Sales & Distribution Management end-term',title:'Opening an LG brand shop on Sohna Road',lede:'The brief: open a new LG brand shop and plan how washing machines reach the buyer. I chose Airia Mall, Sector 68, because the nearest LG shops sit 8 to 12 km north and the Sohna Road corridor is unserved.',
+ stats:[['₹35,000 cr','washing machine market, 2026'],['27%','LG share, the category leader'],['342','machines in year 1'],['₹1.15 cr','year 1 sales']],
+ sec:[['Two buyers, not one',['<b>The Supervised Household</b> (semi-automatic): the wash is delegated to domestic help, so the family wants a machine it can watch, that runs on stored water.','<b>The Hour Buyer</b> (fully automatic): both partners work and nobody is home mid-cycle. The fear is not the power bill, it is a ₹12,000 sari coming out ruined.']],
+  ['The forecast',['45 walk-ins a day, 14 machine enquiries, 10% conversion: a full capacity of 42 machines a month.','Year 1 at 68% average utilisation: 342 machines worth ₹114.66 lakh, about 29 machines a month.','Q3 is the peak because Diwali is the appliance quarter. The shop exits March at 90% of capacity.']],
+  ['The channel plan',['Intermediary empowerment as the primary channel, because a washing machine has to be seen, installed and serviced. Infomediaries and LG\'s own site support it.','Distributor selection criteria and 11 success KPIs, from 85% effective coverage to same-day installation.','A floor pitch that turns a borewell household\'s grey whites into a 60°C hard-water wash.']]],
+ quote:'"India\'s most trusted washing machine brand, thereby making the customer ask for it before your salesman speaks."'},
+levis:{eye:'Retail launch · Group of 8 · Sales & Distribution Management',title:'A new Levi\'s store on Golf Course Road',lede:'India\'s denim market is about ₹23,100 crore (FY2025) and growing at 8.1% a year. Levi\'s holds about 30 to 35% of the premium tier above ₹3,000. Our task was to open its newest store and win both the customer and the channel.',
+ sec:[['Who we built it for',['Archetype <b>"The Heritage Seeker"</b>: 30+, household income ₹3 lakh a month and up, Tier 1 and 2 cities. Wants trusted heritage and a reliable fit that works at the office and after it.']],
+  ['The launch',['Store at South Point Mall, DLF Phase 5, Gurugram, opening 29 September 2026.','Early bird: the first 50 buyers get a free personalisation session at the in-store tailor shop, custom embroidery or distressing.','A floor pitch built on fit and how long the pair lasts, with the newer relaxed and wide-leg fits as the second option.']],
+  ['The channel',['Keep the hybrid model: own stores and levi.in, plus Myntra, Ajio and Tata CLiQ Luxury, plus franchise and large-format retail.','Channel positioning: "Powering Sustainable Growth with the World\'s No. 1 Denim Brand".']]],
+ note:'Group project, Section 2, Group 8.'},
+kia:{eye:'Dealer planning · Group of 8 · Sales & Distribution Management',title:'A new Kia dealership in Mandi, Himachal Pradesh',lede:'Where should Kia\'s next dealer go, how much will it sell, and how do you stop dealers undercutting each other?',
+ stats:[['45 lakh','passenger cars sold a year in India'],['6.3%','Kia share: 2,83,500 cars'],['≈ 41','cars a month per mature dealer'],['12-13','a month by Q4 for a new one']],
+ sec:[['Location',['NH-154, Kanaid-Sundernagar Road, Mandi: highway visibility, an established automotive corridor, and about 22 km from the nearest Kia dealer.','6,000 to 7,000 sq ft showroom, a separate workshop, a 15 to 20 seat lounge, and a dedicated EV zone with charging.']],
+  ['Ramp-up',['5 to 7 cars a month in Q1, rising to 12 to 13 by Q4 as awareness and the lead base build.']],
+  ['Keeping dealers in harmony',['One ex-factory price for every dealer. Discounts only through Kia-approved accessories.','A standard value cap on freebies across the network.','Compete on service instead: doorstep test drives, pick-up and drop, personalised handovers.']]],
+ note:'Group project, Section 2, Group 8.'},
+ev:{eye:'Project Management · Group 5 of 8 · Final project',title:'ChargeNCR',lede:'Commission 25 DC fast-charging stations across Delhi-NCR on a single app, within 52 weeks, at a budget of ₹51.5 crore, for a hypothetical charge-point operator.',
+ stats:[['25','stations, 2 × 60 kW each'],['52 wk','promised in the charter'],['60 wk','the critical path'],['1%','chance of hitting week 52']],
+ sec:[['My part',['<b>Project charter</b>: sponsor, PM authority, scope and the boundaries the project had to fit inside.','<b>Stakeholder analysis</b> on a power-interest grid, with a different engagement plan for each quadrant, from the state EV policy department to residents.','<b>RACI matrix</b> over the work breakdown: 7 deliverables, 21 work packages, one accountable owner each.']],
+  ['What the team found',['Sequenced properly, the plan needed 60 weeks. The DISCOM sanction was a 13-week bottleneck.','PERT gave the charter date a 1% chance. 90% confidence meant quoting 64.4 weeks.','We crashed the cheapest activities week by week, levelled resources, built a risk register and ran earned value analysis at week 26.']]],
+ note:'Group project with seven classmates. "My part" lists only the slides I owned.'},
+hm:{eye:'Marketing & Retail Analytics · Course project',title:'H&M India DecisionHub',lede:'A marketing and retail decision support system for H&M India. Each screen is built for one decision maker and one recurring decision, such as a quarterly budget reallocation across brands and regions.',
+ sec:[['How it is organised',['<b>Leadership:</b> "Are we winning?" Investment vs. return, brand scorecard, regional performance against target.','<b>Marketing:</b> "Where is the waste?" Campaign and channel effectiveness for every rupee of spend.','Store ops, customer, category and a KPI tracker, all reading from one data model, with filters by brand, region, channel and period.']]],
+ embed:['tools/hm-decisionhub.html','H&M India DecisionHub'],note:'Runs on sample data built for the course, not H&M figures.'},
+cesim:{eye:'Strategic Management · Team · Cesim Global Challenge',title:'From a bad start to #1',lede:'Six rounds running a global tech company against other teams, as Team Lakshmi Chit Fund.',
+ stats:[['#1','final rank, Universe 1'],['53.57%','ROCE in Round 6'],['+12.52%','TSR in Round 6'],['$11.5B','market capitalisation']],
+ sec:[['How it went',['A strong Round 1, then a sharp financial setback in Rounds 2 and 3.','Stabilised operations, then reset strategy in Round 4: fewer markets and technologies, chosen more carefully.','A clear recovery in Rounds 5 and 6 to finish first.']],['The lesson',['Cumulative earnings stayed negative. Finishing first did not erase the early mistakes, it only stopped them compounding.']]],
+ note:'Team project.'},
+ff:{eye:'ERP & process design · Individual',title:'FreshFarm Organics',lede:'A hypothetical omni-channel organic grocer with stores, a central distribution centre and a quick-commerce storefront. Two individual assignments on the same company.',
+ sec:[['ERP system design',['Selected modules, defined master data, mapped the key transactions, and designed workflows and integrations for a business where shelf life and organic certification change the rules.']],
+  ['BPMN 2.0 process model',['Modelled the Background Check sub-process of Hiring in Bizagi Modeler, with the business rules documented alongside.']]],
+ gal:['assets/bpmn-background-check.jpg'],gal1:true}
+};
+const sheet=$('#sheet'),inn=$('#sheetIn');
+function open(id){const c=CASES[id];if(!c)return;
+  let h=`<div class="sheet-head"><div><span class="kicker">${c.eye}</span><h2 id="sheetTitle">${c.title}</h2></div>
+    <button class="icon-btn" id="sheetClose" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="lede">${c.lede}</p>`;
+  if(c.stats)h+=`<div class="bigstats">${c.stats.map(s=>`<div><div class="n">${s[0]}</div><p>${s[1]}</p></div>`).join('')}</div>`;
+  (c.sec||[]).forEach(([t,items])=>{h+=`<h4>${t}</h4><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;});
+  if(c.quote)h+=`<h4>Channel positioning</h4><p class="big-q">${c.quote}</p>`;
+  [c.embed,c.embed2].filter(Boolean).forEach(([src,name])=>{h+=`<h4>${name}, live</h4><div class="embed"><div class="embed-bar"><span>${name}</span><a href="${src}" target="_blank" rel="noopener">Open full screen ↗</a></div><iframe src="${src}" title="${name}" loading="lazy"></iframe></div>`;});
+  if(c.gal)h+=`<h4>${c.gal1?'The model':'From the club'}</h4><div class="gal" ${c.gal1?'style="grid-template-columns:1fr"':''}>${c.gal.map(g=>`<img src="${g}" alt="" loading="lazy">`).join('')}</div>`;
+  if(c.links)h+=`<h4>More</h4><div class="cta">${c.links.map(([t,u])=>`<a class="btn" href="${u}" target="_blank" rel="noopener">${t} ↗</a>`).join('')}</div>`;
+  if(c.note)h+=`<p class="fineprint">${c.note}</p>`;
+  inn.innerHTML=h;inn.scrollTop=0;$('#sheetClose').addEventListener('click',()=>sheet.close());sheet.showModal();}
+$$('[data-case]').forEach(el=>el.addEventListener('click',()=>open(el.dataset.case)));
+sheet.addEventListener('click',e=>{if(e.target===sheet)sheet.close();});
+sheet.addEventListener('close',()=>{inn.innerHTML='';});
+})();
+</script>
+
+</body>
+</html>

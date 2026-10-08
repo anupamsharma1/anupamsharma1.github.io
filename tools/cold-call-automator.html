@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cold Call Automation Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-hover: #334155;
+            --border-color: #334155;
+            --primary-accent: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --neutral: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            background-color: var(--primary-accent);
+            color: white;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 1rem;
+            font-size: 0.95rem;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-accent);
+        }
+
+        button.primary {
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button.primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button.primary:active {
+            transform: scale(0.98);
+        }
+
+        /* Stats Dashboard */
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        #duplicate-banner {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            color: #fcd34d;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 3fr;
+            gap: 1rem;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            align-items: start;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .contact-row .research-panel {
+            grid-column: 1 / -1;
+            margin-top: 0.5rem;
+        }
+
+        .contact-row.completed {
+            border-color: var(--success);
+            opacity: 0.8;
+        }
+
+        .contact-row.active-call {
+            box-shadow: 0 0 14px rgba(59, 130, 246, 0.6) !important;
+            border-color: var(--primary-accent) !important;
+            z-index: 10;
+        }
+
+        .contact-row.duplicate-row {
+            border-color: var(--warning);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .contact-data {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .call-btn {
+            background-color: var(--success);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .call-btn:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .call-btn:active {
+            transform: scale(0.95);
+        }
+
+        .feedback-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .fb-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .fb-btn:hover {
+            background: var(--surface-hover);
+            color: var(--text-main);
+        }
+
+        .fb-btn.active.status-not-interested {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+            color: #fca5a5;
+        }
+
+        .fb-btn.active.status-busy {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--warning);
+            color: #fcd34d;
+        }
+
+        .fb-btn.active.status-callback {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--primary-accent);
+            color: #93c5fd;
+        }
+
+        .fb-btn.active.status-not-in-service {
+            background: rgba(100, 116, 139, 0.2);
+            border-color: var(--neutral);
+            color: #cbd5e1;
+        }
+
+        .fb-btn.active.status-bought-prop {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--success);
+            color: #6ee7b7;
+        }
+
+        .fb-btn.active.status-ringing {
+            background: rgba(100, 116, 139, 0.2);
+            border-color: var(--neutral);
+            color: #cbd5e1;
+        }
+
+        .fb-custom {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            width: 120px;
+            outline: none;
+        }
+
+        .fb-custom.visible {
+            display: block;
+        }
+
+        .fb-custom:focus {
+            border-color: var(--primary-accent);
+        }
+
+        .followup-datetime {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid var(--primary-accent);
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-top: 8px;
+            display: none;
+            width: 100%;
+            outline: none;
+            color-scheme: dark;
+        }
+
+        .export-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-summary {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Floating Call Next Button */
+        .call-next-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            padding: 1rem 1.75rem;
+            border-radius: 999px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.5);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .call-next-btn:hover {
+            transform: translateY(-3px);
+            background-color: var(--primary-hover);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .call-next-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Keyboard Legend */
+        .keyboard-legend {
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .keyboard-legend h4 {
+            margin-bottom: 12px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .shortcut-item kbd {
+            background: #334155;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            color: var(--text-main);
+            font-weight: 600;
+            box-shadow: 0 2px 0 #0f172a;
+        }
+
+        /* Research Panel Styles */
+        .research-panel {
+            margin-top: 1rem;
+            padding: 1.25rem;
+            background-color: rgba(15, 23, 42, 0.4);
+            border-top: 1px dashed var(--border-color);
+            border-radius: 0 0 8px 8px;
+            display: none;
+        }
+        .research-header {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            margin-bottom: 0.75rem;
+        }
+        .research-field {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .research-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 90px;
+        }
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .toggle-btn.active.yes { background-color: rgba(16, 185, 129, 0.2); border-color: var(--success); color: #6ee7b7; }
+        .toggle-btn.active.no { background-color: rgba(239, 68, 68, 0.2); border-color: var(--danger); color: #fca5a5; }
+        .objection-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .objection-btn.active {
+            background-color: var(--surface-hover);
+            color: var(--text-main);
+            border-color: var(--text-secondary);
+        }
+        .locality-input {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            outline: none;
+            width: 200px;
+        }
+        .locality-input:focus {
+            border-color: var(--primary-accent);
+        }
+        .wa-btn {
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<datalist id="localities-list"></datalist>
+
+    <div class="container">
+        <header>
+            <h1>Cold Call Automator</h1>
+            <p class="subtitle">Paste from Excel &rarr; Click to Dial via Phone Link &rarr; Export Feedback</p>
+        </header>
+
+        <div class="card">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Paste Excel Rows
+            </div>
+            <p style="color:var(--text-secondary);margin-bottom:12px;font-size:0.9rem;">
+                Copy the rows you want to call today from your Google Sheet and paste them below. <br>
+                <i>The app will automatically find the phone numbers.</i>
+            </p>
+            <textarea id="paste-input"
+                placeholder="Name	Phone Number	Other details...&#10;John Doe	9876543210	Lead&#10;Jane Smith	+91 9988776655	Prospect"></textarea>
+            <br>
+            <button class="primary" onclick="processData()">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path
+                        d="M14 2H6c-1.11 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" />
+                </svg>
+                Process & Load Contacts
+            </button>
+        </div>
+
+        <div class="card" id="dialer-section" style="display: none;">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Dial & Feedbacks
+            </div>
+            <p style="color:var(--text-secondary);margin-bottom:16px;font-size:0.9rem;">
+                Click the green button to instantly dial from your PC (requires Windows Phone Link). Then select a
+                feedback.
+            </p>
+
+            <!-- Dashboard Stats Grid -->
+            <div class="stats-dashboard">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-label">Total Leads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-called">0</div>
+                    <div class="stat-label">Called</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-interested">0</div>
+                    <div class="stat-label">Int. / Followup</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-notpicked">0</div>
+                    <div class="stat-label">Not Picked</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-notinterested">0</div>
+                    <div class="stat-label">Not Interested</div>
+                </div>
+            </div>
+
+            <!-- Duplicates Banner -->
+            <div id="duplicate-banner">
+                <strong style="display: flex; align-items: center; gap: 6px;">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z" />
+                    </svg>
+                    Duplicate Phone Numbers Found:
+                </strong>
+                <ul id="duplicate-list" style="margin-top: 10px; margin-left: 28px;"></ul>
+            </div>
+
+            <div class="list-container" id="contact-list">
+                <!-- Rows injected here -->
+            </div>
+
+            <!-- Keyboard Legend -->
+            <div class="keyboard-legend">
+                <h4>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z" />
+                    </svg>
+                    Keyboard Shortcuts (Active Call)
+                </h4>
+                <div class="shortcut-grid">
+                    <div class="shortcut-item"><kbd>1</kbd> Not Picked</div>
+                    <div class="shortcut-item"><kbd>2</kbd> Not Connected</div>
+                    <div class="shortcut-item"><kbd>3</kbd> Not Interested</div>
+                    <div class="shortcut-item"><kbd>4</kbd> Followup</div>
+                    <div class="shortcut-item"><kbd>5</kbd> Not in Service</div>
+                    <div class="shortcut-item"><kbd>6</kbd> Bought Property</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="export-section" style="display: none;">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Export to Excel
+            </div>
+            <div class="export-section">
+                <div class="status-summary" id="status-summary">0/0 Completed</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
+                    <button class="primary" onclick="exportResearchData()" style="background-color: var(--primary-accent); margin-top:0;">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        Export My Research Data
+                    </button>
+                    <button class="primary" onclick="exportFeedbacks()" 
+                    style="background-color: var(--success); margin-top:0;">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                    </svg>
+                    Copy Status Column to Clipboard
+                </button>
+            </div>
+            <p style="color:var(--text-secondary);margin-top:12px;font-size:0.85rem;">
+                Once copied, go back to your Google Sheet, select the top cell in your "Feedback" column, and press <kbd
+                    style="background:#334155;padding:2px 4px;border-radius:4px;color:white">Ctrl+V</kbd>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Floating Call Next -->
+    <button class="call-next-btn" id="call-next-btn" onclick="callNext()">
+        <svg class="icon" viewBox="0 0 24 24" style="width:22px; height:22px; fill: white;">
+            <path
+                d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" />
+        </svg>
+        Call Next
+    </button>
+
+    <script>
+        let appData = [];
+        let activeRowIndex = -1;
+        let savedLocalities = JSON.parse(localStorage.getItem('savedLocalities') || '[]');
+
+        function initLocalities() {
+            const dl = document.getElementById('localities-list');
+            if(dl) {
+                dl.innerHTML = '';
+                savedLocalities.forEach(loc => {
+                    let opt = document.createElement('option');
+                    opt.value = loc;
+                    dl.appendChild(opt);
+                });
+            }
+        }
+        document.addEventListener('DOMContentLoaded', initLocalities);
+
+        // Helper: Find phone number strictly (looking for digits >= 10 logic)
+        function extractPhoneNumberAndName(rowCells) {
+            let phoneIdx = -1;
+            let phoneVal = null;
+
+            // Strip non-digits and look for reasonable length
+            for (let i = 0; i < rowCells.length; i++) {
+                const stripped = rowCells[i].replace(/\D/g, '');
+                if (stripped.length >= 10 && stripped.length <= 15) {
+                    phoneIdx = i;
+                    phoneVal = rowCells[i];
+                    break;
+                }
+            }
+
+            // If a phone is found, pick another column as "Name"
+            let nameVal = "Unknown";
+            if (phoneIdx !== -1) {
+                // usually name is before phone
+                for (let i = 0; i < rowCells.length; i++) {
+                    if (i !== phoneIdx && rowCells[i].trim().length > 1) {
+                        nameVal = rowCells[i].trim();
+                        break;
+                    }
+                }
+            } else {
+                // No recognizable phone
+                nameVal = rowCells[0] || "Unknown Row";
+            }
+
+            const otherData = rowCells.filter((_, idx) => idx !== phoneIdx && rowCells[idx].trim() !== nameVal).join(' | ');
+
+            return {
+                phone: phoneVal,
+                name: nameVal,
+                rawRow: rowCells.join('\t'),
+                other: otherData
+            };
+        }
+
+        function processData() {
+            const text = document.getElementById('paste-input').value;
+            if (!text.trim()) return;
+
+            const rows = text.split(/\n/);
+            appData = [];
+
+            let validIdx = 0;
+            let phoneMap = {};
+            let duplicatesMsg = {};
+
+            for (let i = 0; i < rows.length; i++) {
+                const rowStr = rows[i].trim();
+                if (!rowStr) continue;
+
+                const cells = rowStr.split(/\t/);
+                const extracted = extractPhoneNumberAndName(cells);
+
+                // Duplicate detection
+                let isDuplicate = false;
+                let strippedPhone = extracted.phone ? extracted.phone.replace(/\D/g, '') : null;
+                if (strippedPhone) {
+                    if (phoneMap[strippedPhone] !== undefined) {
+                        isDuplicate = true;
+                        // Mark the original mapped entry as duplicate too
+                        if (appData[phoneMap[strippedPhone]]) {
+                            appData[phoneMap[strippedPhone]].isDuplicate = true;
+                        }
+
+                        if (!duplicatesMsg[strippedPhone]) {
+                            duplicatesMsg[strippedPhone] = [phoneMap[strippedPhone] + 1];
+                        }
+                        duplicatesMsg[strippedPhone].push(validIdx + 1);
+                    } else {
+                        phoneMap[strippedPhone] = validIdx;
+                    }
+                }
+
+                appData.push({
+                index: validIdx,
+                name: extracted.name,
+                phone: extracted.phone,
+                originalText: rowStr,
+                otherInfo: extracted.other,
+                status: '',
+                followupTime: '',
+                isDuplicate: isDuplicate,
+                timeOfCall: '',
+                pickedUp: '',
+                objection: '',
+                locality: ''
+            });
+                validIdx++;
+            }
+
+            // Show duplicate banner if any
+            const banner = document.getElementById('duplicate-banner');
+            const list = document.getElementById('duplicate-list');
+            list.innerHTML = '';
+            if (Object.keys(duplicatesMsg).length > 0) {
+                banner.style.display = 'block';
+                for (let ph in duplicatesMsg) {
+                    let li = document.createElement('li');
+                    let rowNos = duplicatesMsg[ph].join(', ');
+                    li.textContent = `${ph} (Found in input rows: ${rowNos})`;
+                    list.appendChild(li);
+                }
+            } else {
+                banner.style.display = 'none';
+            }
+
+            activeRowIndex = -1;
+            document.getElementById('call-next-btn').style.display = 'flex';
+            renderList();
+            document.getElementById('dialer-section').style.display = 'block';
+            document.getElementById('export-section').style.display = 'block';
+            updateSummary();
+        }
+
+        function renderList() {
+            const container = document.getElementById('contact-list');
+            container.innerHTML = '';
+
+            appData.forEach((item, idx) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'contact-row';
+                if (item.isDuplicate) {
+                    rowDiv.classList.add('duplicate-row');
+                }
+                rowDiv.id = `row-${idx}`;
+
+                // Left Col: Info
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'contact-info';
+                infoDiv.innerHTML = `<div class="contact-name">${item.name}</div>
+                                 <div class="contact-data">${item.otherInfo}</div>`;
+
+                // Middle Col: Call Btn
+                const callDiv = document.createElement('div');
+                if (item.phone) {
+                    // Strip everything except + and digits for tel scheme
+                    const cleanPhone = item.phone.replace(/[^\d+]/g, '');
+                    callDiv.innerHTML = `<a href="tel:${cleanPhone}" class="call-btn" target="_blank" onclick="setActiveCall(${idx})">
+                    <svg class="icon" viewBox="0 0 24 24" style="fill:white"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                    Dial ${item.phone}
+                </a>`;
+                } else {
+                    callDiv.innerHTML = `<div style="color:var(--danger);font-size:0.85rem">No phone found</div>`;
+                }
+
+                // Right Col: Feedback
+                const fDiv = document.createElement('div');
+                fDiv.className = 'feedback-buttons';
+
+                const buttonsConfig = [
+                    { label: 'Not Picked', class: 'status-ringing', val: 'Not Picked' },
+                    { label: 'Not Connected', class: 'status-busy', val: 'Not able to connect' },
+                    { label: 'Not Int.', class: 'status-not-interested', val: 'Not Interested' },
+                    { label: 'Followup', class: 'status-callback', val: 'Followup' },
+                    { label: 'Not in Service', class: 'status-not-in-service', val: 'not in service' },
+                    { label: 'Bought Prop.', class: 'status-bought-prop', val: 'bought a property some time ago' }
+                ];
+
+                buttonsConfig.forEach(btn => {
+                    const b = document.createElement('button');
+                    b.className = `fb-btn ${btn.class}`;
+                    b.dataset.val = btn.val;
+                    b.textContent = btn.label;
+                    b.onclick = () => setStatus(idx, btn.val, rowDiv);
+                    fDiv.appendChild(b);
+                });
+
+                const customBtn = document.createElement('button');
+                customBtn.className = `fb-btn`;
+                customBtn.textContent = 'Other...';
+
+                const customInput = document.createElement('input');
+                customInput.type = 'text';
+                customInput.className = 'fb-custom';
+                customInput.placeholder = 'Type status...';
+
+                customBtn.onclick = () => {
+                    customInput.classList.add('visible');
+                    customInput.focus();
+                    customBtn.style.display = 'none';
+                };
+
+                customInput.addEventListener('blur', () => {
+                    if (customInput.value.trim() !== '') {
+                        setStatus(idx, customInput.value.trim(), rowDiv);
+                    } else {
+                        customInput.classList.remove('visible');
+                        customBtn.style.display = 'inline-block';
+                    }
+                });
+
+                customInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        customInput.blur();
+                    }
+                });
+
+                fDiv.appendChild(customBtn);
+                fDiv.appendChild(customInput);
+
+                // Add hidden datetime input for Followup
+                const dtInput = document.createElement('input');
+                dtInput.type = 'datetime-local';
+                dtInput.className = 'followup-datetime';
+                dtInput.placeholder = 'Call back when?';
+                dtInput.onchange = (e) => {
+                    appData[idx].followupTime = e.target.value;
+                };
+                fDiv.appendChild(dtInput);
+
+                rowDiv.appendChild(infoDiv);
+                rowDiv.appendChild(callDiv);
+                rowDiv.appendChild(fDiv);
+
+                // Personal Research Tracking Panel
+                const researchDiv = document.createElement('div');
+                researchDiv.className = 'research-panel';
+                researchDiv.id = `research-panel-${idx}`;
+                researchDiv.style.display = 'none';
+                
+                researchDiv.innerHTML = `
+                    <div class="research-header">📊 My Research</div>
+                    <div class="research-field">
+                        <span class="research-label">Time of Call:</span>
+                        <input type="text" id="time-display-${idx}" readonly style="background:transparent; border:none; color:var(--text-main); font-size:0.85rem;" value="" />
+                    </div>
+                    <div class="research-field">
+                        <span class="research-label">Picked Up?</span>
+                        <button class="toggle-btn yes" onclick="setPickedUp(${idx}, 'Yes', this)">Yes</button>
+                        <button class="toggle-btn no" onclick="setPickedUp(${idx}, 'No', this)">No</button>
+                    </div>
+                    <div class="research-field" id="objections-div-${idx}" style="display:none;">
+                        <span class="research-label">Objection:</span>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1;">
+                            ${['Not Interested', 'Already Bought', 'Want to Resale', 'Where Did You Get My Number', 'Hung Up After Intro', 'Send Info on WhatsApp', 'Call Later / Busy', 'Budget Issue', 'Location Not Suitable', 'Wrong Number'].map(obj => 
+                                `<button class="objection-btn" onclick="setObjection(${idx}, '${obj}', this)">${obj}</button>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="research-field" id="wa-div-${idx}" style="display:none;">
+                        <a href="#" id="wa-link-${idx}" target="_blank" class="wa-btn">Open WhatsApp</a>
+                    </div>
+                    <div class="research-field">
+                        <span class="research-label">Locality:</span>
+                        <input type="text" id="locality-input-${idx}" list="localities-list" class="locality-input" placeholder="Type locality..." onblur="saveLocality(this.value, ${idx})">
+                    </div>
+                `;
+                rowDiv.appendChild(researchDiv);
+
+                container.appendChild(rowDiv);
+            });
+        }
+
+        function getFormattedCurrentTime() {
+            const d = new Date();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = monthNames[d.getMonth()];
+            const year = d.getFullYear();
+            let hours = d.getHours();
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            return `${day} ${month} ${year} ${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
+        }
+
+        function setActiveCall(idx) {
+            activeRowIndex = idx;
+            document.querySelectorAll('.contact-row').forEach(row => row.classList.remove('active-call'));
+            const activeRow = document.getElementById(`row-${idx}`);
+            if(activeRow) {
+                activeRow.classList.add('active-call');
+
+                const panel = document.getElementById('research-panel-' + idx);
+                if (panel) panel.style.display = 'block';
+
+                if (!appData[idx].timeOfCall) {
+                    appData[idx].timeOfCall = getFormattedCurrentTime();
+                    const tocEl = document.getElementById('time-display-' + idx);
+                    if (tocEl) tocEl.value = appData[idx].timeOfCall;
+                }
+            }
+        }
+
+        function setStatus(rowIdx, value, rowElement) {
+            appData[rowIdx].status = value;
+            rowElement.classList.add('completed');
+            rowElement.classList.remove('active-call');
+
+            if (activeRowIndex === rowIdx) {
+                activeRowIndex = -1;
+            }
+
+            // Highlight active button
+            const buttons = rowElement.querySelectorAll('.fb-btn');
+            const customInput = rowElement.querySelector('.fb-custom');
+            const customBtn = rowElement.querySelectorAll('.fb-btn')[buttons.length - 1]; // Last button is "Other"
+            const dtInput = rowElement.querySelector('.followup-datetime');
+
+            buttons.forEach(b => b.classList.remove('active'));
+
+            let matchedStandard = false;
+            buttons.forEach((b, i) => {
+                if (i < buttons.length - 1 && (b.dataset.val === value || b.textContent === value || (b.textContent === 'Not Int.' && value === 'Not Interested'))) {
+                    b.classList.add('active');
+                    matchedStandard = true;
+                }
+            });
+
+            if (!matchedStandard) {
+                customBtn.style.display = 'none';
+                customInput.classList.add('visible');
+                customInput.value = value;
+                customInput.style.borderColor = 'var(--primary-accent)';
+                customInput.style.color = 'var(--primary-accent)';
+            } else {
+                customInput.classList.remove('visible');
+                customInput.value = '';
+                customBtn.style.display = 'inline-block';
+            }
+
+            if (dtInput) {
+                if (value === 'Followup') {
+                    dtInput.style.display = 'block';
+                } else {
+                    dtInput.style.display = 'none';
+                    dtInput.value = '';
+                    appData[rowIdx].followupTime = '';
+                }
+            }
+
+            updateSummary();
+
+            // Auto-scroll to next uncalled contact
+            setTimeout(() => {
+                scrollToNextUncalled(rowIdx);
+            }, 150);
+        }
+
+        function scrollToNextUncalled(currentIndex) {
+            for (let i = currentIndex + 1; i < appData.length; i++) {
+                if (appData[i].status === '') {
+                    const row = document.getElementById(`row-${i}`);
+                    if (row) {
+                        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    break;
+                }
+            }
+        }
+
+        function callNext() {
+            for (let i = 0; i < appData.length; i++) {
+                if (appData[i].status === '') {
+                    const row = document.getElementById(`row-${i}`);
+                    if (row) {
+                        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        const callBtn = row.querySelector('.call-btn');
+                        if (callBtn) callBtn.click();
+                    }
+                    break;
+                }
+            }
+        }
+
+        function updateSummary() {
+            const completed = appData.filter(d => d.status !== '').length;
+            document.getElementById('status-summary').textContent = `${completed} / ${appData.length} Calls Logged`;
+
+            // Update Live Dashboard
+            const statTotal = document.getElementById('stat-total');
+            if (statTotal) statTotal.textContent = appData.length;
+
+            const statCalled = document.getElementById('stat-called');
+            if (statCalled) statCalled.textContent = completed;
+
+            let intFollowupCount = appData.filter(d => d.status === 'Followup' || d.status.toLowerCase().includes('interested')).length; // Groups Followup with custom "interested" strings
+            const statInt = document.getElementById('stat-interested');
+            if (statInt) statInt.textContent = intFollowupCount;
+
+            let notPickedCount = appData.filter(d => d.status === 'Not Picked').length;
+            const statNp = document.getElementById('stat-notpicked');
+            if (statNp) statNp.textContent = notPickedCount;
+
+            let notInterestedCount = appData.filter(d => d.status === 'Not Interested').length;
+            const statNi = document.getElementById('stat-notinterested');
+            if (statNi) statNi.textContent = notInterestedCount;
+        }
+
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        function formatFollowupTime(dtString) {
+            if (!dtString) return '';
+            const d = new Date(dtString);
+            if (isNaN(d.getTime())) return dtString;
+
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = monthNames[d.getMonth()];
+            let hours = d.getHours();
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            return `${day} ${month} ${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
+        }
+
+        function exportFeedbacks() {
+            if (appData.length === 0) return;
+
+            // Create a newline-separated string
+            const out = appData.map(d => {
+                if (d.status === 'Followup' && d.followupTime) {
+                    return `Followup - ${formatFollowupTime(d.followupTime)}`;
+                }
+                return d.status;
+            }).join('\n');
+
+            navigator.clipboard.writeText(out).then(() => {
+                alert('Statuses copied to clipboard!\n\nYou can now return to Excel, click the first feedback cell, and Paste (Ctrl+V).');
+            }).catch(err => {
+                console.error('Failed to copy', err);
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = out;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                alert('Statuses copied to clipboard!');
+            });
+        }
+
+
+        function saveLocality(val, idx) {
+            val = val.trim();
+            appData[idx].locality = val;
+            if(val && !savedLocalities.includes(val)) {
+                savedLocalities.push(val);
+                localStorage.setItem('savedLocalities', JSON.stringify(savedLocalities));
+                initLocalities();
+            }
+        }
+
+        function setPickedUp(idx, val, btnElem) {
+            appData[idx].pickedUp = val;
+            const panel = btnElem.closest('.research-panel');
+            panel.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btnElem.classList.add('active');
+
+            const objDiv = document.getElementById(`objections-div-${idx}`);
+            const waDiv = document.getElementById(`wa-div-${idx}`);
+            
+            if (val === 'Yes') {
+                objDiv.style.display = 'flex';
+            } else {
+                objDiv.style.display = 'none';
+                waDiv.style.display = 'none';
+                appData[idx].objection = ''; 
+                panel.querySelectorAll('.objection-btn').forEach(b => b.classList.remove('active'));
+            }
+        }
+
+        function setObjection(idx, val, btnElem) {
+            appData[idx].objection = val;
+            const panel = btnElem.closest('.research-panel');
+            panel.querySelectorAll('.objection-btn').forEach(b => b.classList.remove('active'));
+            btnElem.classList.add('active');
+
+            const waDiv = document.getElementById(`wa-div-${idx}`);
+            if(val === 'Send Info on WhatsApp') {
+                waDiv.style.display = 'flex';
+                const link = document.getElementById(`wa-link-${idx}`);
+                let ph = appData[idx].phone ? appData[idx].phone.replace(/\D/g, '') : '';
+                if (ph.length === 10) ph = '91' + ph;
+                link.href = `https://wa.me/${ph}`;
+            } else {
+                waDiv.style.display = 'none';
+            }
+        }
+
+        function exportResearchData() {
+            if(appData.length === 0) return;
+            
+            let outRows = ["Name\tPhone\tLocality\tTime of Call\tPicked Up\tObjection\tExisting Status"];
+            appData.forEach(d => {
+                const rowStr = [
+                    d.name || '',
+                    d.phone || '',
+                    d.locality || '',
+                    d.timeOfCall || '',
+                    d.pickedUp || '',
+                    d.objection || '',
+                    d.status || ''
+                ].join('\t');
+                outRows.push(rowStr);
+            });
+
+            const out = outRows.join('\n');
+            
+            navigator.clipboard.writeText(out).then(() => {
+                alert('Research data copied to clipboard!\n\nPaste directly into Excel.');
+            }).catch(err => {
+                console.error('Failed to copy', err);
+                const ta = document.createElement('textarea');
+                ta.value = out;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                alert('Research data copied to clipboard!');
+            });
+        }
+
+        // Keyboard Shortcuts Listener
+
+        document.addEventListener('keydown', (e) => {
+            // Ignore if focus is in an input or textarea
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            if (activeRowIndex !== -1) {
+                const keyMap = {
+                    '1': 'Not Picked',
+                    '2': 'Not able to connect',
+                    '3': 'Not Interested',
+                    '4': 'Followup',
+                    '5': 'not in service',
+                    '6': 'bought a property some time ago'
+                };
+
+                if (keyMap[e.key]) {
+                    const rowElement = document.getElementById(`row-${activeRowIndex}`);
+                    if (rowElement) {
+                        setStatus(activeRowIndex, keyMap[e.key], rowElement);
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H&M India DecisionHub — Marketing &amp; Retail Decision Support System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --red:#E20015; --ink:#141519; --ink2:#3F414A; --muted:#878A95;
+  --bg:#F5F5F7; --card:#FFF; --line:#E6E6EB;
+  --green:#0E9F6E; --amber:#D97706; --danger:#DC2626; --blue:#2563EB;
+  --sh:0 1px 2px rgba(20,21,25,.04),0 10px 28px -14px rgba(20,21,25,.13);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.mono,.kv,.big{font-family:'Space Grotesk',sans-serif}
+
+header.top{background:var(--ink);color:#fff;padding:12px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:60}
+.bm{display:flex;align-items:center;gap:10px}
+.bm .sq{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px}
+.bm .t{font-family:'Space Grotesk';font-size:15.5px;font-weight:700}
+.bm .t span{color:#A9ACB8;font-weight:500;font-size:13px}
+.tr{display:flex;align-items:center;gap:16px;font-size:12.5px;color:#B7BAC5}
+.who{display:flex;flex-direction:column;line-height:1.25;text-align:right}
+.who b{color:#fff;font-size:12.5px}
+.av{width:30px;height:30px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11.5px}
+
+nav.tabs{background:#fff;border-bottom:1px solid var(--line);padding:0 26px;display:flex;gap:2px;position:sticky;top:54px;z-index:55;overflow-x:auto}
+nav.tabs button{border:0;background:none;padding:13px 15px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;font-family:'Inter'}
+nav.tabs button.on{color:var(--ink);border-bottom-color:var(--red)}
+nav.tabs button:hover{color:var(--ink)}
+
+.filters{background:#fff;border-bottom:1px solid var(--line);padding:10px 26px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:99px;z-index:50}
+.filters label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
+.filters select{font-family:'Inter';font-size:12.5px;padding:6px 10px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink);font-weight:500;cursor:pointer}
+.filters select:focus{outline:2px solid var(--red);outline-offset:1px}
+.chip{font-size:11.5px;background:#F0F0F4;color:var(--ink2);padding:5px 10px;border-radius:20px;font-weight:600}
+
+main{max-width:1340px;margin:0 auto;padding:24px 26px 10px}
+.page{display:none}.page.on{display:block;animation:f .22s ease}
+@keyframes f{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.ph{margin-bottom:20px}
+.ph .eb{font-size:11.5px;font-weight:700;letter-spacing:.07em;color:var(--red);text-transform:uppercase;margin-bottom:5px}
+.ph h1{font-size:25px;margin:0 0 5px;font-weight:700}
+.ph p{margin:0;color:var(--ink2);font-size:14px;max-width:720px}
+.ph .who-for{margin-top:8px;font-size:12px;color:var(--muted)}
+.ph .who-for b{color:var(--ink2)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.kpis.five{grid-template-columns:repeat(5,1fr)}
+.k{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 17px;box-shadow:var(--sh)}
+.k .l{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:7px}
+.k .v{font-size:23px;font-weight:700;font-family:'Space Grotesk'}
+.k .s{font-size:11.5px;color:var(--ink2);margin-top:3px}
+.b{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:7px}
+.b.g{background:#E4F7EF;color:var(--green)}.b.a{background:#FDF1DE;color:var(--amber)}
+.b.r{background:#FCE9E9;color:var(--danger)}.b.n{background:#EDF1FC;color:var(--blue)}
+
+.g2{display:grid;grid-template-columns:1.35fr 1fr;gap:15px;margin-bottom:15px}
+.g2e{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:15px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:17px 19px;box-shadow:var(--sh);margin-bottom:15px}
+.c h3{font-size:14px;margin:0 0 2px;font-weight:700}
+.c .cs{font-size:12px;color:var(--muted);margin-bottom:13px}
+canvas{max-width:100%}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 9px;font-weight:700;white-space:nowrap}
+tbody td{padding:9px;border-bottom:1px solid #F1F1F4;color:var(--ink2)}
+tbody tr:hover{background:#FAFAFC}
+td.s{color:var(--ink);font-weight:600}
+.num{font-family:'Space Grotesk';font-weight:600}
+.pos{color:var(--green);font-weight:700}.neg{color:var(--danger);font-weight:700}
+.pill{padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700}
+.pill.Active{background:#E4F7EF;color:var(--green)}
+.pill.Completed{background:#EFEFF3;color:var(--ink2)}
+.pill.High{background:#FCE9E9;color:var(--danger)}
+.pill.Medium{background:#FDF1DE;color:var(--amber)}
+.pill.Low{background:#EFEFF3;color:var(--ink2)}
+
+.dec{border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:9px;display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
+.dec .l{flex:1}
+.dec h4{margin:0 0 4px;font-size:13.5px}
+.tg{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap}
+.tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;background:#F1F1F5;color:var(--ink2)}
+.tag.u-Act{background:#FCE9E9;color:var(--danger)}
+.tag.u-On{background:#E4F7EF;color:var(--green)}
+.tag.u-Opportunity{background:#EDF1FC;color:var(--blue)}
+.dec .d{font-size:12px;color:var(--ink2);margin-bottom:5px}
+.dec .a{font-size:12px;color:var(--ink)}
+.dec .a b{color:var(--red)}
+.dec .meta{font-size:11px;color:var(--muted);margin-top:5px}
+.dec .m{font-size:14.5px;font-weight:700;white-space:nowrap;font-family:'Space Grotesk'}
+
+.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.scd{border:1px solid var(--line);border-radius:10px;padding:13px 14px;position:relative}
+.scd .dot{width:8px;height:8px;border-radius:50%;position:absolute;top:14px;right:14px}
+.dot.green{background:var(--green)}.dot.amber{background:var(--amber)}.dot.red{background:var(--danger)}
+.scd .bn{font-size:13.5px;font-weight:700;margin-bottom:7px;font-family:'Space Grotesk'}
+.ml{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink2);padding:1.5px 0}
+.ml b{color:var(--ink)}
+.trk{height:5px;background:#EFEFF3;border-radius:3px;margin-top:8px;overflow:hidden}
+.fil{height:100%;border-radius:3px}
+
+.tree{font-size:12.5px}
+.tn{padding:7px 0;border-bottom:1px solid #F1F1F4}
+.tn.root{font-weight:700;color:var(--ink);font-size:13px;padding-top:12px}
+.tn.leaf{padding-left:20px;color:var(--ink2);display:flex;justify-content:space-between}
+.tn .id{font-family:'Space Grotesk';font-size:10.5px;color:var(--muted);font-weight:600}
+
+.rfmg{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.rc{border:1px solid var(--line);border-radius:10px;padding:13px}
+.rc .sg{font-weight:700;font-size:13px;margin-bottom:3px}
+.rc .n{font-family:'Space Grotesk';font-size:19px;font-weight:700}
+.rc .sh{font-size:11.5px;color:var(--ink2);margin-top:1px}
+.rc .ds{font-size:10.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+.rc .ac{font-size:10.5px;color:var(--red);margin-top:6px;font-weight:600;line-height:1.4}
+
+form.entry{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:11.5px;font-weight:700;color:var(--ink2)}
+.fg label .req{color:var(--red)}
+.fg input,.fg select,.fg textarea{font-family:'Inter';font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:2px solid var(--red);outline-offset:1px}
+.fg input:disabled{background:#F5F5F7;color:var(--muted)}
+.fg .hint{font-size:10.5px;color:var(--muted)}
+.fg .err{font-size:10.5px;color:var(--danger);font-weight:600;display:none}
+.fg.bad input,.fg.bad select{border-color:var(--danger)}
+.fg.bad .err{display:block}
+.btn{background:var(--red);color:#fff;border:0;padding:10px 20px;border-radius:7px;font-family:'Inter';font-size:13px;font-weight:700;cursor:pointer}
+.btn:hover{background:#C10012}
+.btn.gh{background:#fff;color:var(--ink2);border:1px solid var(--line)}
+.ok{background:#E4F7EF;border:1px solid #B6E8D3;color:#0B7355;padding:10px 13px;border-radius:8px;font-size:12.5px;margin-top:12px;display:none}
+.ok.show{display:block}
+.spec{font-size:11.5px}
+.spec td{padding:6px 8px}
+
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px}
+.fs{background:#F5F5F7;border:1px solid var(--line);border-radius:8px;padding:9px 12px;flex:1;min-width:130px}
+.fs .fl{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.fs .fv{font-weight:700;color:var(--ink);font-family:'Space Grotesk';font-size:12.5px}
+.ar{color:var(--red);font-weight:700;font-size:15px}
+
+footer{text-align:center;color:var(--muted);font-size:11.5px;padding:26px 0 36px}
+@media(max-width:1000px){
+  .kpis,.kpis.five{grid-template-columns:repeat(2,1fr)}
+  .g2,.g2e,.g3{grid-template-columns:1fr}
+  .sc,.rfmg{grid-template-columns:repeat(2,1fr)}
+  .dec{flex-direction:column}
+  form.entry{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="bm"><div class="sq">H&amp;M</div><div class="t">DecisionHub <span>· India</span></div></div>
+  <div class="tr">
+    <span id="today"></span>
+    <div class="who"><b>Ananya Rao</b><span>Country Marketing Head</span></div>
+    <div class="av">AR</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tb on" data-p="lead">Leadership</button>
+  <button class="tb" data-p="mkt">Marketing</button>
+  <button class="tb" data-p="retail">Store Ops</button>
+  <button class="tb" data-p="cust">Customer</button>
+  <button class="tb" data-p="prod">Category</button>
+  <button class="tb" data-p="kpi">KPI Tracker</button>
+  <button class="tb" data-p="input">Data Entry</button>
+  <button class="tb" data-p="model">Data Model</button>
+</nav>
+
+<div class="filters">
+  <label>Brand</label><select id="fBrand"><option>All brands</option></select>
+  <label>Region</label><select id="fRegion"><option>All India</option></select>
+  <label>Channel</label><select id="fChannel"><option>All channels</option></select>
+  <label>Period</label><select id="fPeriod"><option>Last 6 months</option><option>Last 3 months</option><option>This month</option></select>
+  <span class="chip" id="fNote">Filters apply to Leadership, Marketing &amp; Store Ops</span>
+</div>
+
+<main>
+
+<!-- ================= LEADERSHIP ================= -->
+<section class="page on" id="lead">
+  <div class="ph">
+    <div class="eb">Are we winning?</div>
+    <h1>Leadership Dashboard</h1>
+    <p>India-wide health check across 8 brands, 4 regions and 18 stores — investment, return and margin trajectory against target, best-so-far and prior period.</p>
+    <div class="who-for"><b>Used by:</b> Country Manager, CFO &nbsp;·&nbsp; <b>Decision:</b> quarterly budget reallocation across brands and regions &nbsp;·&nbsp; <b>Cadence:</b> Quarterly</div>
+  </div>
+  <div class="kpis five" id="kLead"></div>
+  <div class="g2">
+    <div class="c"><h3>Investment vs Return</h3><div class="cs">Monthly marketing investment, attributed revenue and slow brand return (₹ Cr)</div><canvas id="cTrend" height="125"></canvas></div>
+    <div class="c"><h3>Where the Money Goes</h3><div class="cs">Share of total investment by top-level category (₹ Cr)</div><canvas id="cInvSplit" height="125"></canvas></div>
+  </div>
+  <div class="c"><h3>Brand Scorecard</h3><div class="cs">Marketing efficiency ratio by brand — green ≥ 2.5x, amber ≥ 1.5x, red below. Every figure reads from the same fact tables as every other screen.</div><div class="sc" id="scBrand"></div></div>
+  <div class="g2e">
+    <div class="c"><h3>Regional Performance</h3><div class="cs">Revenue against target by region</div><table><thead><tr><th>Region</th><th>Stores</th><th>Revenue</th><th>Target</th><th>Ach.</th><th>Conv.</th></tr></thead><tbody id="tRegion"></tbody></table></div>
+    <div class="c"><h3>Leadership Decisions</h3><div class="cs">Reallocation calls this quarter</div><div id="dLead"></div></div>
+  </div>
+</section>
+
+<!-- ================= MARKETING ================= -->
+<section class="page" id="mkt">
+  <div class="ph">
+    <div class="eb">Where is the waste?</div>
+    <h1>Marketing Dashboard</h1>
+    <p>Campaign and channel effectiveness — where every rupee of marketing spend goes and what it returns.</p>
+    <div class="who-for"><b>Used by:</b> Country Marketing Head, Brand Managers &nbsp;·&nbsp; <b>Decision:</b> which campaigns to cut, scale or renegotiate &nbsp;·&nbsp; <b>Cadence:</b> Monthly</div>
+  </div>
+  <div class="kpis five" id="kMkt"></div>
+  <div class="g2e">
+    <div class="c"><h3>Channel Efficiency</h3><div class="cs">Spend against attributed revenue by channel (₹ Cr)</div><canvas id="cChan" height="150"></canvas></div>
+    <div class="c"><h3>ROAS by Channel</h3><div class="cs">Return on ad spend — bars below 2.00x are running under target</div><canvas id="cRoas" height="150"></canvas></div>
+  </div>
+  <div class="c"><h3>Campaign Performance</h3><div class="cs">22 campaigns sorted by ROAS ascending — the worst performers surface first, because that is where the decision is. Amounts in ₹ Lakh.</div>
+    <div style="overflow-x:auto"><table id="tCamp"><thead><tr><th>Campaign</th><th>Brand</th><th>Channel</th><th>Objective</th><th>Status</th><th>Budget</th><th>Spend</th><th>Used</th><th>Revenue</th><th>ROAS</th><th>ROI</th><th>CAC</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="c"><h3>Marketing Decisions</h3><div class="cs">Each alert names the metric, the owner and the action — not just the number</div><div id="dMkt"></div></div>
+</section>
+
+<!-- ================= STORE OPS ================= -->
+<section class="page" id="retail">
+  <div class="ph">
+    <div class="eb">Where is the waste?</div>
+    <h1>Store Operations Dashboard</h1>
+    <p>Store-level operating view across 18 stores in 4 regions — revenue against target, footfall, conversion and productivity per square foot.</p>
+    <div class="who-for"><b>Used by:</b> Regional Retail Heads, Store Managers &nbsp;·&nbsp; <b>Decision:</b> which stores need intervention and which format to replicate &nbsp;·&nbsp; <b>Cadence:</b> Monthly</div>
+  </div>
+  <div class="kpis" id="kRetail"></div>
+  <div class="g2e">
+    <div class="c"><h3>Revenue by Region</h3><div class="cs">Actual against target (₹ Cr)</div><canvas id="cRegion" height="150"></canvas></div>
+    <div class="c"><h3>Conversion vs Footfall</h3><div class="cs">Each point is a store — bottom-right means traffic that is not converting</div><canvas id="cScatter" height="150"></canvas></div>
+  </div>
+  <div class="c"><h3>Store Ranking</h3><div class="cs">All 18 stores ranked by target achievement — the bottom of this table is the intervention list</div>
+    <div style="overflow-x:auto"><table id="tStore"><thead><tr><th>Store</th><th>City</th><th>Region</th><th>Format</th><th>Revenue</th><th>Target</th><th>Ach.</th><th>Footfall</th><th>Conv.</th><th>ATV</th><th>₹/sq ft</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="c"><h3>Store Decisions</h3><div class="cs">Intervention and expansion calls</div><div id="dRetail"></div></div>
+</section>
+
+<!-- ================= CUSTOMER ================= -->
+<section class="page" id="cust">
+  <div class="ph">
+    <div class="eb">What just broke?</div>
+    <h1>Customer &amp; Diagnostic Dashboard</h1>
+    <p>RFM segmentation, churn risk and market-basket affinity across the H&amp;M Club loyalty base — the root-cause layer behind every drop on the screens above.</p>
+    <div class="who-for"><b>Used by:</b> CRM Manager, Category Managers &nbsp;·&nbsp; <b>Decision:</b> which segment to win back, suppress or upsell &nbsp;·&nbsp; <b>Cadence:</b> Ad hoc, triggered by anomaly</div>
+  </div>
+  <div class="kpis" id="kCust"></div>
+  <div class="c"><h3>RFM Segments — H&amp;M Club India</h3><div class="cs">Recency / Frequency / Monetary segmentation with the action attached to each segment. A segment with no action is just a label.</div><div class="rfmg" id="rfmG"></div></div>
+  <div class="g2e">
+    <div class="c"><h3>Churn Risk by Cohort</h3><div class="cs">Members with rising lapse probability, tagged by last-touched channel — revenue at risk in ₹ Cr</div><table><thead><tr><th>Cohort</th><th>Brand</th><th>Last channel</th><th>Lapsed</th><th>Members</th><th>Avg CLV</th><th>₹ at risk</th><th>Risk</th></tr></thead><tbody id="tChurn"></tbody></table></div>
+    <div class="c"><h3>Market-Basket Affinity</h3><div class="cs">Top product pairs by lift — the cross-sell and bundling decision list</div><table><thead><tr><th>Pair</th><th>Lift</th><th>Support</th><th>Conf.</th></tr></thead><tbody id="tBasket"></tbody></table></div>
+  </div>
+  <div class="c"><h3>Customer Decisions</h3><div class="cs">Retention and cross-sell actions</div><div id="dCust"></div></div>
+</section>
+
+<!-- ================= CATEGORY ================= -->
+<section class="page" id="prod">
+  <div class="ph">
+    <div class="eb">Where is the waste?</div>
+    <h1>Category Performance</h1>
+    <p>Product category view — revenue, margin, inventory turnover and full-price sell-through, so category decisions are made on profitability rather than top-line alone.</p>
+    <div class="who-for"><b>Used by:</b> Category &amp; Merchandising Managers &nbsp;·&nbsp; <b>Decision:</b> which categories to expand, mark down or reduce buy on &nbsp;·&nbsp; <b>Cadence:</b> Monthly</div>
+  </div>
+  <div class="g2e">
+    <div class="c"><h3>Revenue by Category</h3><div class="cs">₹ Cr, last 6 months</div><canvas id="cCatRev" height="150"></canvas></div>
+    <div class="c"><h3>Margin vs Sell-through</h3><div class="cs">Gross margin % against full-price sell-through % by category</div><canvas id="cCatMix" height="150"></canvas></div>
+  </div>
+  <div class="c"><h3>Category Detail</h3><div class="cs">Categories with high revenue but low sell-through are the markdown risk</div>
+    <table id="tCat"><thead><tr><th>Category</th><th>Revenue</th><th>Gross margin</th><th>Inventory turnover</th><th>Full-price sell-through</th><th>YoY growth</th></tr></thead><tbody></tbody></table>
+  </div>
+</section>
+
+<!-- ================= KPI TRACKER ================= -->
+<section class="page" id="kpi">
+  <div class="ph">
+    <div class="eb">What management watches</div>
+    <h1>KPI Tracker</h1>
+    <p>Every lag KPI carries all four comparisons — best-so-far, previous period, ideal and target — plus where the target came from. A number without a comparison is a fact, not a KPI.</p>
+  </div>
+  <div class="c"><h3>Lag KPIs — with full comparison set</h3><div class="cs">Macro KPIs are the four the business formally commits to; micro KPIs support them</div>
+    <div style="overflow-x:auto"><table id="tKpi"><thead><tr><th>KPI</th><th>Type</th><th>Actual</th><th>vs Prev</th><th>Best so far</th><th>Target</th><th>Ideal</th><th>Status</th><th>Target source</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="c"><h3>Lead KPIs — early indicators</h3><div class="cs">These move first and are still within a manager's control this week; they feed the lag KPIs above</div>
+    <div class="sc" id="leadK"></div>
+  </div>
+</section>
+
+<!-- ================= DATA ENTRY ================= -->
+<section class="page" id="input">
+  <div class="ph">
+    <div class="eb">How data gets in</div>
+    <h1>Data Entry Screens</h1>
+    <p>Working input forms with live validation. Dimensions are captured at the moment of entry — anything not tagged here can never be segmented later.</p>
+  </div>
+  <div class="g2e">
+    <div class="c">
+      <h3>Investment Entry</h3>
+      <div class="cs"><b>Owner:</b> Regional marketing finance analyst &nbsp;·&nbsp; <b>Frequency:</b> Weekly (ad spend), per-invoice (agency/trade) &nbsp;·&nbsp; <b>Route:</b> ERP bulk upload + direct entry</div>
+      <form class="entry" id="fInv" novalidate>
+        <div class="fg"><label>Investment category <span class="req">*</span></label><select id="iCat" required></select><div class="err">Select a leaf category</div></div>
+        <div class="fg"><label>Brand / SBU <span class="req">*</span></label><select id="iBrand" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Region <span class="req">*</span></label><select id="iRegion" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Store / Location <span class="req">*</span></label><select id="iStore" required></select><div class="hint">Cascades from region</div><div class="err">Required</div></div>
+        <div class="fg"><label>Channel <span class="req">*</span></label><select id="iChan" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Product category</label><select id="iProd"></select><div class="hint">Optional — leave as All</div></div>
+        <div class="fg"><label>Period (month) <span class="req">*</span></label><input type="month" id="iMonth" required><div class="err">Cannot be a future month</div></div>
+        <div class="fg"><label>Amount (₹) <span class="req">*</span></label><input type="number" id="iAmt" min="1" step="1" placeholder="e.g. 450000" required><div class="err">Must be greater than 0</div></div>
+        <div class="fg"><label>Source system <span class="req">*</span></label><select id="iSrc" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Entered by</label><input type="text" id="iBy" value="Ananya Rao (USR-001)" disabled><div class="hint">Auto-filled from login, not editable</div></div>
+        <div class="fg full"><label>Notes</label><textarea id="iNotes" rows="2" maxlength="250" placeholder="Max 250 characters"></textarea></div>
+        <div class="fg full" style="flex-direction:row;gap:9px"><button type="submit" class="btn">Save investment</button><button type="reset" class="btn gh">Clear</button></div>
+      </form>
+      <div class="ok" id="okInv"></div>
+    </div>
+
+    <div class="c">
+      <h3>Return Entry</h3>
+      <div class="cs"><b>Owner:</b> Analytics team (most rows system-fed) &nbsp;·&nbsp; <b>Frequency:</b> Daily (revenue), weekly (brand metrics) &nbsp;·&nbsp; <b>Route:</b> POS / GA / Club platform API, manual for offline events</div>
+      <form class="entry" id="fRet" novalidate>
+        <div class="fg"><label>Return category <span class="req">*</span></label><select id="rCat" required></select><div class="err">Select a leaf category</div></div>
+        <div class="fg"><label>Brand / SBU <span class="req">*</span></label><select id="rBrand" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Region <span class="req">*</span></label><select id="rRegion" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Store / Location <span class="req">*</span></label><select id="rStore" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Channel <span class="req">*</span></label><select id="rChan" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Product category</label><select id="rProd"></select></div>
+        <div class="fg"><label>Period (month) <span class="req">*</span></label><input type="month" id="rMonth" required><div class="err">Cannot be a future month</div></div>
+        <div class="fg"><label>Metric type <span class="req">*</span></label><select id="rType"><option value="currency">Currency (₹)</option><option value="count">Count</option></select><div class="hint">Sets the unit automatically</div></div>
+        <div class="fg"><label>Value <span class="req">*</span></label><input type="number" id="rVal" min="0" step="1" placeholder="e.g. 1250000" required><div class="err">Must be 0 or greater</div></div>
+        <div class="fg"><label>Unit</label><input type="text" id="rUnit" value="₹ (INR)" disabled><div class="hint">Derived from metric type</div></div>
+        <div class="fg"><label>Source system <span class="req">*</span></label><select id="rSrc" required></select><div class="err">Required</div></div>
+        <div class="fg"><label>Entered by</label><input type="text" value="SYSTEM-POS (USR-004)" disabled></div>
+        <div class="fg full" style="flex-direction:row;gap:9px"><button type="submit" class="btn">Save return</button><button type="reset" class="btn gh">Clear</button></div>
+      </form>
+      <div class="ok" id="okRet"></div>
+    </div>
+  </div>
+
+  <div class="c">
+    <h3>End-to-End Flow</h3>
+    <div class="cs">Saving a row above traces through the model to the dashboard — this is the demonstration that the system holds together</div>
+    <div class="flow" id="flowBox">
+      <div class="fs"><div class="fl">1 · Entry screen</div><div class="fv">Save a row to see the trace</div></div>
+      <span class="ar">→</span>
+      <div class="fs"><div class="fl">2 · Fact table</div><div class="fv">—</div></div>
+      <span class="ar">→</span>
+      <div class="fs"><div class="fl">3 · Dimension join</div><div class="fv">—</div></div>
+      <span class="ar">→</span>
+      <div class="fs"><div class="fl">4 · Appears on</div><div class="fv">—</div></div>
+    </div>
+  </div>
+
+  <div class="c">
+    <h3>Field Specification — Investment Entry</h3>
+    <div class="cs">The full column spec behind the form above</div>
+    <div style="overflow-x:auto"><table class="spec"><thead><tr><th>Field</th><th>Data type</th><th>Mandatory</th><th>Validation</th><th>Entered by</th><th>Route</th></tr></thead><tbody id="tSpec"></tbody></table></div>
+  </div>
+</section>
+
+<!-- ================= DATA MODEL ================= -->
+<section class="page" id="model">
+  <div class="ph">
+    <div class="eb">How this system is built</div>
+    <h1>Data Model</h1>
+    <p>The taxonomy, dimensions and tables every screen above reads from. Because all screens compute live from the same two fact tables, no two screens can disagree.</p>
+  </div>
+  <div class="g2e">
+    <div class="c"><h3>Investment Tree</h3><div class="cs">Every rupee lands on exactly one leaf — including team costs and offline spend</div><div class="tree" id="tInv"></div></div>
+    <div class="c"><h3>Return Tree</h3><div class="cs">Every outcome lands on exactly one leaf — including the slow returns</div><div class="tree" id="tRet"></div></div>
+  </div>
+  <div class="c"><h3>Shared Dimensions</h3><div class="cs">Investment and return carry the identical dimension set, captured at entry — this is what makes every comparison on every screen possible</div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:4px" id="dimChips"></div>
+  </div>
+  <div class="c"><h3>Tables &amp; Relationships</h3><div class="cs">Two fact tables, nine dimension tables, one audit log. Nothing is pre-aggregated and stored twice.</div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Table</th><th>Role</th><th>Primary key</th><th>Foreign keys</th></tr></thead><tbody id="tTables"></tbody></table></div>
+  </div>
+</section>
+
+</main>
+<footer>H&amp;M India DecisionHub · MRA Group Project · Built on synthetic data · Investment and return tagged on shared dimensions so no two screens can disagree</footer>
+
+<script>
+const D = {"brands":["H&M","H&M HOME","COS","Monki","Weekday","& Other Stories","ARKET","Afound"],"regions":["North India","West India","South India","East India"],"channels":["In-store","Owned App","Owned Web","Marketplace (Myntra/Ajio)","Social Commerce","Wholesale"],"products":["Womenswear","Menswear","Kidswear","H&M HOME","Beauty","H&M Move"],"months":["Feb '26","Mar '26","Apr '26","May '26","Jun '26","Jul '26"],"inv_tree":[{"id":"INV-MEDIA","name":"Media & Digital Spend","children":[{"id":"INV-MEDIA-PSEARCH","name":"Paid Search (Google)"},{"id":"INV-MEDIA-SOCIAL","name":"Paid Social (Meta/Insta)"},{"id":"INV-MEDIA-DISPLAY","name":"Display / Programmatic"},{"id":"INV-MEDIA-VIDEO","name":"Video / OTT (YouTube, JioHotstar)"},{"id":"INV-MEDIA-INFLU","name":"Influencer & Creator"},{"id":"INV-MEDIA-MKTPLC","name":"Marketplace Ads (Myntra/Ajio)"},{"id":"INV-MEDIA-OTH","name":"Others \u2014 Media"}]},{"id":"INV-OFFLINE","name":"Offline & Store Marketing","children":[{"id":"INV-OFFLINE-OOH","name":"Print / OOH / Metro"},{"id":"INV-OFFLINE-VM","name":"In-store Visual Merchandising"},{"id":"INV-OFFLINE-EVENT","name":"Store Launches & Events"},{"id":"INV-OFFLINE-SPONSOR","name":"Sponsorships / Collabs"},{"id":"INV-OFFLINE-OTH","name":"Others \u2014 Offline"}]},{"id":"INV-TEAM","name":"Team & People Costs","children":[{"id":"INV-TEAM-MKT","name":"Internal Marketing Salaries"},{"id":"INV-TEAM-AGENCY","name":"Agency & Freelancer Retainers"},{"id":"INV-TEAM-STORE","name":"Store Staff Incentives (promo-linked)"},{"id":"INV-TEAM-OTH","name":"Others \u2014 Team"}]},{"id":"INV-TRADE","name":"Trade & Channel Support","children":[{"id":"INV-TRADE-COMM","name":"Marketplace Commission & Fees"},{"id":"INV-TRADE-DISC","name":"Funded Discounts & Promotions"},{"id":"INV-TRADE-WHOLESALE","name":"Wholesale Partner Support"},{"id":"INV-TRADE-OTH","name":"Others \u2014 Trade"}]},{"id":"INV-TECH","name":"Technology & Tools","children":[{"id":"INV-TECH-MARTECH","name":"MarTech & CDP Stack"},{"id":"INV-TECH-ECOM","name":"E-commerce Platform Dev"},{"id":"INV-TECH-ANALYTICS","name":"Analytics & BI Licences"},{"id":"INV-TECH-OTH","name":"Others \u2014 Tech"}]},{"id":"INV-CX","name":"Customer Experience","children":[{"id":"INV-CX-LOYALTY","name":"H&M Club Loyalty Programme"},{"id":"INV-CX-SUPPORT","name":"Customer Support & Returns"},{"id":"INV-CX-OTH","name":"Others \u2014 CX"}]},{"id":"INV-OTH","name":"Others \u2014 Unclassified","children":[]}],"ret_tree":[{"id":"RET-REV","name":"Direct / Attributed Revenue","children":[{"id":"RET-REV-STORE","name":"In-store Sales"},{"id":"RET-REV-ONLINE","name":"Owned E-commerce Sales"},{"id":"RET-REV-MKTPLC","name":"Marketplace Sales"},{"id":"RET-REV-OTH","name":"Others \u2014 Revenue"}]},{"id":"RET-BRAND","name":"Brand & Organic Pull (slow)","children":[{"id":"RET-BRAND-SEARCH","name":"Branded Search Volume"},{"id":"RET-BRAND-DIRECT","name":"Direct App/Web Traffic"},{"id":"RET-BRAND-SOCIAL","name":"Organic Social Engagement"},{"id":"RET-BRAND-PR","name":"Earned Media / PR Value"},{"id":"RET-BRAND-OTH","name":"Others \u2014 Brand"}]},{"id":"RET-RETN","name":"Repeat & Loyalty Behaviour","children":[{"id":"RET-RETN-REPEAT","name":"Repeat Purchase Revenue"},{"id":"RET-RETN-SIGNUP","name":"H&M Club Sign-ups"},{"id":"RET-RETN-CLV","name":"Incremental CLV"},{"id":"RET-RETN-OTH","name":"Others \u2014 Retention"}]},{"id":"RET-ACQ","name":"New Customer Acquisition","children":[{"id":"RET-ACQ-NEW","name":"New Customers Acquired"},{"id":"RET-ACQ-FOOT","name":"Store Footfall (launch/event)"},{"id":"RET-ACQ-OTH","name":"Others \u2014 Acquisition"}]},{"id":"RET-OPS","name":"Operational Returns","children":[{"id":"RET-OPS-TURN","name":"Inventory Turnover"},{"id":"RET-OPS-SELLTHRU","name":"Full-price Sell-through %"},{"id":"RET-OPS-OTH","name":"Others \u2014 Operational"}]},{"id":"RET-OTH","name":"Others \u2014 Unclassified","children":[]}],"trend":[{"month":"Feb '26","spend":9.2,"revenue":26.87,"brand_return":3.45,"mer":2.92},{"month":"Mar '26","spend":9.66,"revenue":28.32,"brand_return":3.49,"mer":2.93},{"month":"Apr '26","spend":9.8,"revenue":29.93,"brand_return":3.8,"mer":3.05},{"month":"May '26","spend":10.92,"revenue":30.36,"brand_return":3.85,"mer":2.78},{"month":"Jun '26","spend":10.6,"revenue":33.97,"brand_return":4.41,"mer":3.2},{"month":"Jul '26","spend":11.0,"revenue":36.05,"brand_return":4.88,"mer":3.28}],"brand_scores":[{"brand":"H&M","spend":4.74,"revenue":17.4,"mer":3.67,"repeat":31.0,"cac":430,"clv":1696,"aov":2061,"status":"green"},{"brand":"H&M HOME","spend":1.13,"revenue":2.6,"mer":2.3,"repeat":27.0,"cac":1032,"clv":3771,"aov":4175,"status":"amber"},{"brand":"COS","spend":1.05,"revenue":3.33,"mer":3.17,"repeat":42.0,"cac":1298,"clv":4815,"aov":2651,"status":"green"},{"brand":"Monki","spend":0.93,"revenue":1.15,"mer":1.24,"repeat":52.9,"cac":1358,"clv":4400,"aov":2520,"status":"red"},{"brand":"Weekday","spend":0.57,"revenue":0.69,"mer":1.21,"repeat":50.5,"cac":947,"clv":4729,"aov":2944,"status":"red"},{"brand":"& Other Stories","spend":1.04,"revenue":2.85,"mer":2.74,"repeat":26.0,"cac":691,"clv":3596,"aov":3169,"status":"green"},{"brand":"ARKET","spend":0.82,"revenue":0.84,"mer":1.03,"repeat":28.3,"cac":1253,"clv":5976,"aov":2628,"status":"red"},{"brand":"Afound","spend":0.46,"revenue":0.83,"mer":1.8,"repeat":56.9,"cac":1426,"clv":3692,"aov":2565,"status":"amber"}],"channel_eff":[{"channel":"In-store","spend":2.71,"roas":3.19,"revenue":8.64,"cac":1591},{"channel":"Owned App","spend":2.28,"roas":4.13,"revenue":9.42,"cac":1060},{"channel":"Owned Web","spend":1.52,"roas":2.68,"revenue":4.07,"cac":579},{"channel":"Marketplace (Myntra/Ajio)","spend":3.17,"roas":1.28,"revenue":4.06,"cac":1020},{"channel":"Social Commerce","spend":1.05,"roas":2.81,"revenue":2.95,"cac":1856},{"channel":"Wholesale","spend":0.52,"roas":2.14,"revenue":1.11,"cac":1725}],"inv_split":[{"cat":"Media & Digital","amt":4.85,"prev":4.42},{"cat":"Trade & Channel","amt":2.3,"prev":1.88},{"cat":"Offline & Store Mktg.","amt":1.55,"prev":1.61},{"cat":"Team & People","amt":1.28,"prev":1.22},{"cat":"Technology & Tools","amt":0.72,"prev":0.65},{"cat":"Customer Experience","amt":0.48,"prev":0.39},{"cat":"Others","amt":0.11,"prev":0.09}],"ret_split":[{"cat":"In-store Sales","amt":19.4},{"cat":"Owned E-commerce","amt":9.8},{"cat":"Marketplace Sales","amt":6.2},{"cat":"Repeat Purchase Revenue","amt":11.3},{"cat":"Brand & Organic Pull","amt":4.6},{"cat":"New Acquisition Value","amt":3.1}],"campaigns":[{"name":"ARKET Winter Wool","brand":"ARKET","channel":"Paid Search","status":"Completed","budget":298.6,"spend":339.3,"used":114,"revenue":283.9,"roas":0.84,"roi":-16,"cac":1316,"objective":"Sales Conversion"},{"name":"Monsoon Layering Push","brand":"Weekday","channel":"Paid Social","status":"Active","budget":279.7,"spend":184.5,"used":66,"revenue":174.1,"roas":0.94,"roi":-6,"cac":1776,"objective":"Brand Awareness"},{"name":"Summer Linen Edit","brand":"H&M","channel":"Paid Social","status":"Active","budget":152.6,"spend":89.5,"used":59,"revenue":92.1,"roas":1.03,"roi":3,"cac":1265,"objective":"Brand Awareness"},{"name":"Afound Clearance Boost","brand":"Afound","channel":"Marketplace Ads","status":"Active","budget":102.6,"spend":112.9,"used":110,"revenue":128.2,"roas":1.14,"roi":14,"cac":443,"objective":"Customer Retention"},{"name":"HOME Festive Refresh","brand":"H&M HOME","channel":"Marketplace Ads","status":"Completed","budget":90.0,"spend":87.5,"used":97,"revenue":117.2,"roas":1.34,"roi":34,"cac":842,"objective":"Brand Awareness"},{"name":"Ethnic Fusion Capsule","brand":"& Other Stories","channel":"Influencer","status":"Active","budget":174.6,"spend":149.9,"used":86,"revenue":231.5,"roas":1.54,"roi":54,"cac":1176,"objective":"Brand Awareness"},{"name":"Monki Campus Drop","brand":"Monki","channel":"Social Commerce","status":"Active","budget":284.4,"spend":259.4,"used":91,"revenue":511.7,"roas":1.97,"roi":97,"cac":514,"objective":"Lead Generation"},{"name":"Beauty Counter Launch","brand":"H&M","channel":"Influencer","status":"Active","budget":45.8,"spend":29.0,"used":63,"revenue":60.4,"roas":2.08,"roi":108,"cac":1489,"objective":"Brand Awareness"},{"name":"Kidswear Uniform Season","brand":"H&M","channel":"Paid Search","status":"Active","budget":196.1,"spend":216.5,"used":110,"revenue":471.5,"roas":2.18,"roi":118,"cac":1568,"objective":"Sales Conversion"},{"name":"Conscious Collection","brand":"H&M","channel":"Video / OTT","status":"Active","budget":24.4,"spend":22.7,"used":93,"revenue":50.1,"roas":2.21,"roi":121,"cac":888,"objective":"Sales Conversion"},{"name":"Back to Campus Basics","brand":"H&M","channel":"Paid Search","status":"Active","budget":40.2,"spend":24.3,"used":60,"revenue":63.0,"roas":2.59,"roi":159,"cac":348,"objective":"Lead Generation"},{"name":"Bengaluru Store Launch","brand":"H&M","channel":"Store Events","status":"Completed","budget":135.3,"spend":134.1,"used":99,"revenue":346.9,"roas":2.59,"roi":159,"cac":1143,"objective":"Sales Conversion"},{"name":"Weekday Upcycled Drop","brand":"Weekday","channel":"Social Commerce","status":"Active","budget":129.1,"spend":82.1,"used":64,"revenue":222.1,"roas":2.71,"roi":171,"cac":1662,"objective":"Lead Generation"},{"name":"Republic Day Flash Sale","brand":"Afound","channel":"Marketplace Ads","status":"Completed","budget":278.8,"spend":249.2,"used":89,"revenue":686.8,"roas":2.76,"roi":176,"cac":995,"objective":"Sales Conversion"},{"name":"COS Tailoring Capsule","brand":"COS","channel":"Display","status":"Active","budget":237.1,"spend":152.9,"used":64,"revenue":423.8,"roas":2.77,"roi":177,"cac":1543,"objective":"Customer Retention"},{"name":"Metro OOH Brand Push","brand":"H&M","channel":"Print / OOH","status":"Active","budget":201.9,"spend":120.8,"used":60,"revenue":339.7,"roas":2.81,"roi":181,"cac":1886,"objective":"Lead Generation"},{"name":"App Exclusive Early Access","brand":"H&M","channel":"Paid Social","status":"Active","budget":40.7,"spend":35.7,"used":88,"revenue":113.8,"roas":3.19,"roi":219,"cac":1732,"objective":"Lead Generation"},{"name":"Wedding Guest Edit","brand":"& Other Stories","channel":"Influencer","status":"Active","budget":82.4,"spend":58.1,"used":71,"revenue":193.2,"roas":3.33,"roi":233,"cac":1798,"objective":"Customer Retention"},{"name":"Denim Days","brand":"H&M","channel":"Display","status":"Completed","budget":307.1,"spend":189.7,"used":62,"revenue":636.0,"roas":3.35,"roi":235,"cac":775,"objective":"Sales Conversion"},{"name":"Diwali Festive Edit","brand":"H&M","channel":"Paid Social","status":"Active","budget":81.6,"spend":64.2,"used":79,"revenue":233.6,"roas":3.64,"roi":264,"cac":395,"objective":"Brand Awareness"},{"name":"Club Win-back Reactivation","brand":"H&M","channel":"Paid Search","status":"Completed","budget":124.3,"spend":119.5,"used":96,"revenue":456.3,"roas":3.82,"roi":282,"cac":2001,"objective":"Sales Conversion"},{"name":"H&M Move Launch India","brand":"H&M","channel":"Video / OTT","status":"Completed","budget":130.3,"spend":107.1,"used":82,"revenue":433.0,"roas":4.04,"roi":304,"cac":1802,"objective":"Brand Awareness"}],"stores":[{"id":"STR-BLR-01","name":"Phoenix Mall of Asia","city":"Bengaluru","region":"South India","format":"Flagship","opened":2017,"revenue":3.47,"target":2.92,"ach":119,"footfall":74845,"conv":19.9,"atv":3486,"sqft":24000,"rps":1446,"status":"green"},{"id":"STR-MUM-02","name":"Infiniti Malad","city":"Mumbai","region":"West India","format":"Standard","opened":2019,"revenue":2.32,"target":1.99,"ach":117,"footfall":19071,"conv":28.5,"atv":2191,"sqft":15000,"rps":1547,"status":"green"},{"id":"STR-HYD-01","name":"Inorbit Hyderabad","city":"Hyderabad","region":"South India","format":"Standard","opened":2018,"revenue":2.36,"target":2.14,"ach":110,"footfall":18366,"conv":20.4,"atv":3671,"sqft":15000,"rps":1573,"status":"green"},{"id":"STR-CHE-01","name":"Express Avenue","city":"Chennai","region":"South India","format":"Standard","opened":2019,"revenue":1.89,"target":1.8,"ach":105,"footfall":29755,"conv":24.9,"atv":3245,"sqft":15000,"rps":1260,"status":"green"},{"id":"STR-DEL-01","name":"Select Citywalk","city":"New Delhi","region":"North India","format":"Flagship","opened":2018,"revenue":5.05,"target":5.21,"ach":97,"footfall":91806,"conv":17.5,"atv":3565,"sqft":24000,"rps":2104,"status":"amber"},{"id":"STR-DEL-02","name":"DLF Promenade","city":"New Delhi","region":"North India","format":"Standard","opened":2019,"revenue":1.92,"target":1.97,"ach":97,"footfall":45404,"conv":29.3,"atv":4037,"sqft":15000,"rps":1280,"status":"amber"},{"id":"STR-CHD-01","name":"Elante Chandigarh","city":"Chandigarh","region":"North India","format":"Standard","opened":2021,"revenue":1.87,"target":1.94,"ach":96,"footfall":27356,"conv":15.3,"atv":3011,"sqft":15000,"rps":1247,"status":"amber"},{"id":"STR-AHM-01","name":"AlphaOne Ahmedabad","city":"Ahmedabad","region":"West India","format":"Compact","opened":2021,"revenue":1.0,"target":1.04,"ach":96,"footfall":10362,"conv":27.6,"atv":2622,"sqft":8000,"rps":1250,"status":"amber"},{"id":"STR-MUM-01","name":"Phoenix Palladium","city":"Mumbai","region":"West India","format":"Flagship","opened":2016,"revenue":4.94,"target":5.22,"ach":95,"footfall":54573,"conv":27.8,"atv":4260,"sqft":24000,"rps":2058,"status":"amber"},{"id":"STR-GUR-01","name":"Ambience Gurugram","city":"Gurugram","region":"North India","format":"Standard","opened":2020,"revenue":2.22,"target":2.44,"ach":91,"footfall":28761,"conv":13.7,"atv":3192,"sqft":15000,"rps":1480,"status":"amber"},{"id":"STR-PUN-01","name":"Phoenix Marketcity Pune","city":"Pune","region":"West India","format":"Standard","opened":2018,"revenue":2.73,"target":2.99,"ach":91,"footfall":28507,"conv":26.8,"atv":2142,"sqft":15000,"rps":1820,"status":"amber"},{"id":"STR-KOC-01","name":"Lulu Kochi","city":"Kochi","region":"South India","format":"Compact","opened":2022,"revenue":1.42,"target":1.68,"ach":85,"footfall":17259,"conv":26.8,"atv":4094,"sqft":8000,"rps":1775,"status":"red"},{"id":"STR-BLR-02","name":"Orion Mall","city":"Bengaluru","region":"South India","format":"Standard","opened":2020,"revenue":2.65,"target":3.2,"ach":83,"footfall":50588,"conv":24.7,"atv":2539,"sqft":15000,"rps":1767,"status":"red"},{"id":"STR-GUW-01","name":"Central Guwahati","city":"Guwahati","region":"East India","format":"Compact","opened":2023,"revenue":1.52,"target":1.84,"ach":83,"footfall":21898,"conv":25.4,"atv":2569,"sqft":8000,"rps":1900,"status":"red"},{"id":"STR-NOI-01","name":"DLF Mall of India","city":"Noida","region":"North India","format":"Flagship","opened":2017,"revenue":5.58,"target":6.85,"ach":81,"footfall":80145,"conv":30.0,"atv":2709,"sqft":24000,"rps":2325,"status":"red"},{"id":"STR-KOL-01","name":"Quest Mall","city":"Kolkata","region":"East India","format":"Standard","opened":2018,"revenue":1.74,"target":2.21,"ach":79,"footfall":42561,"conv":13.6,"atv":3098,"sqft":15000,"rps":1160,"status":"red"},{"id":"STR-KOL-02","name":"South City Mall","city":"Kolkata","region":"East India","format":"Compact","opened":2021,"revenue":1.43,"target":1.8,"ach":79,"footfall":16946,"conv":22.4,"atv":4035,"sqft":8000,"rps":1788,"status":"red"},{"id":"STR-BHU-01","name":"Esplanade Bhubaneswar","city":"Bhubaneswar","region":"East India","format":"Compact","opened":2022,"revenue":1.58,"target":2.01,"ach":79,"footfall":18571,"conv":24.0,"atv":2551,"sqft":8000,"rps":1975,"status":"red"}],"region_rollup":[{"region":"North India","stores":5,"revenue":16.64,"target":18.41,"ach":90,"footfall":273472,"conv":21.2},{"region":"West India","stores":4,"revenue":10.99,"target":11.24,"ach":98,"footfall":112513,"conv":27.7},{"region":"South India","stores":5,"revenue":11.79,"target":11.74,"ach":100,"footfall":190813,"conv":23.3},{"region":"East India","stores":4,"revenue":6.27,"target":7.86,"ach":80,"footfall":99976,"conv":21.3}],"rfm":[{"seg":"Champions","n":38420,"share":9.8,"clv":18400,"desc":"Bought recently, buy often, spend the most","action":"Early access to drops; referral asks"},{"seg":"Loyal Customers","n":61250,"share":15.6,"clv":11200,"desc":"Buy regularly, respond to promotions","action":"Upsell into H&M HOME and Move"},{"seg":"Potential Loyalists","n":54900,"share":14.0,"clv":6800,"desc":"Recent buyers, average frequency","action":"Second-purchase nudge within 30 days"},{"seg":"New Customers","n":42100,"share":10.7,"clv":3100,"desc":"Bought once, very recently","action":"Onboarding journey + Club sign-up"},{"seg":"At Risk","n":47600,"share":12.1,"clv":9700,"desc":"Used to buy often, recency gap growing","action":"Win-back offer before they hibernate"},{"seg":"Hibernating","n":73800,"share":18.8,"clv":4200,"desc":"Long recency gap, low past frequency","action":"Low-cost reactivation; suppress paid spend"},{"seg":"Lost","n":74530,"share":19.0,"clv":1500,"desc":"Lowest R, F and M scores","action":"Suppress from paid media entirely"}],"churn":[{"cohort":"H&M Club \u2014 North","brand":"H&M","chan":"Owned App","lapse":78,"risk":"High","members":8420,"clv":9700,"rev_at_risk":8.17},{"cohort":"H&M Club \u2014 West","brand":"H&M","chan":"In-store","lapse":71,"risk":"High","members":6910,"clv":10400,"rev_at_risk":7.19},{"cohort":"COS Insiders","brand":"COS","chan":"Owned Web","lapse":64,"risk":"Medium","members":1180,"clv":24500,"rev_at_risk":2.89},{"cohort":"HOME Buyers \u2014 South","brand":"H&M HOME","chan":"Marketplace (Myntra/Ajio)","lapse":59,"risk":"Medium","members":3240,"clv":7300,"rev_at_risk":2.37},{"cohort":"Monki Campus","brand":"Monki","chan":"Social Commerce","lapse":55,"risk":"Medium","members":2760,"clv":4100,"rev_at_risk":1.13},{"cohort":"Weekday Access","brand":"Weekday","chan":"Owned App","lapse":51,"risk":"Low","members":1490,"clv":6900,"rev_at_risk":1.03}],"basket":[{"pair":"Denim Jeans \u2192 Basic Tee","lift":3.42,"support":"6.4%","conf":"38%","action":"Bundle in-store + 'complete the look' in app"},{"pair":"Kurta Set \u2192 Ethnic Dupatta","lift":3.05,"support":"4.8%","conf":"33%","action":"Festive bundle pricing across North & West"},{"pair":"Move Leggings \u2192 Sports Bra","lift":2.88,"support":"5.1%","conf":"31%","action":"Cross-merchandise Move wall in flagships"},{"pair":"Cotton Kurti \u2192 Palazzo","lift":2.61,"support":"4.2%","conf":"29%","action":"Category adjacency on PLP"},{"pair":"HOME Candle \u2192 Throw Cushion","lift":2.44,"support":"3.6%","conf":"26%","action":"HOME gifting bundle for festive"},{"pair":"Kidswear Set \u2192 Rain Jacket","lift":2.1,"support":"2.7%","conf":"22%","action":"Monsoon kit for East & South"}],"cat_perf":[{"cat":"Womenswear","revenue":14.25,"margin":62.0,"turnover":6.3,"sellthru":87.3,"growth":10.3},{"cat":"Menswear","revenue":9.42,"margin":58.0,"turnover":4.0,"sellthru":85.3,"growth":21.8},{"cat":"Kidswear","revenue":4.71,"margin":51.0,"turnover":3.1,"sellthru":71.2,"growth":10.8},{"cat":"H&M HOME","revenue":3.3,"margin":44.0,"turnover":4.6,"sellthru":58.9,"growth":20.1},{"cat":"Beauty","revenue":1.33,"margin":66.0,"turnover":5.7,"sellthru":63.2,"growth":3.1},{"cat":"H&M Move","revenue":2.48,"margin":57.0,"turnover":3.3,"sellthru":62.5,"growth":9.6}],"kpi_table":[{"kpi":"Marketing Efficiency Ratio (MER)","unit":"x","actual":3.12,"best":3.48,"prev":2.94,"ideal":4.0,"target":3.25,"type":"Lag \u00b7 Macro","source":"India FY26 budget plan"},{"kpi":"Operating Margin","unit":"%","actual":8.4,"best":9.6,"prev":7.9,"ideal":12.0,"target":10.0,"type":"Lag \u00b7 Macro","source":"Board long-term goal"},{"kpi":"Repeat Purchase Rate (Club)","unit":"%","actual":34.2,"best":38.1,"prev":32.6,"ideal":50.0,"target":38.0,"type":"Lag \u00b7 Macro","source":"CRM team target"},{"kpi":"Customer Acquisition Cost","unit":"\u20b9","actual":842,"best":714,"prev":905,"ideal":600,"target":780,"type":"Lag \u00b7 Macro","source":"Marketing budget ceiling","lower_better":true},{"kpi":"Full-price Sell-through","unit":"%","actual":71.5,"best":78.2,"prev":69.8,"ideal":85.0,"target":75.0,"type":"Lag \u00b7 Micro","source":"Merchandising plan"},{"kpi":"Online Conversion Rate","unit":"%","actual":2.84,"best":3.31,"prev":2.71,"ideal":4.5,"target":3.2,"type":"Lag \u00b7 Micro","source":"E-comm benchmark"},{"kpi":"Average Transaction Value","unit":"\u20b9","actual":2940,"best":3210,"prev":2870,"ideal":3800,"target":3100,"type":"Lag \u00b7 Micro","source":"Merchandising plan"},{"kpi":"Inventory Turnover","unit":"x","actual":4.2,"best":4.9,"prev":4.0,"ideal":6.0,"target":4.6,"type":"Lag \u00b7 Micro","source":"Supply chain plan"}],"lead_kpis":[{"kpi":"Branded Search Volume Index","actual":118,"prev":109,"unit":"idx"},{"kpi":"App Installs (monthly)","actual":214000,"prev":198000,"unit":""},{"kpi":"Paid Traffic CTR","actual":1.94,"prev":1.81,"unit":"%"},{"kpi":"Club Sign-ups (weekly)","actual":18400,"prev":16900,"unit":""},{"kpi":"Store Footfall (weekly)","actual":312000,"prev":298000,"unit":""},{"kpi":"Stock Availability","actual":91.2,"prev":89.4,"unit":"%"},{"kpi":"Email/Push Open Rate","actual":22.6,"prev":21.3,"unit":"%"},{"kpi":"Cart Additions (weekly)","actual":146000,"prev":151000,"unit":""}],"decisions":[{"cat":"Marketing","urg":"Act now","metric":"ROAS 0.84x","title":"ARKET Winter Wool is below its ROAS target","detail":"Delivered 0.84x against a 3.00x target on \u20b9339.3 L of spend (Paid Search, ARKET).","action":"Pause or re-scope this campaign and shift budget to Owned App.","owner":"Regional Marketing Director","kpi":"ROAS, CAC"},{"cat":"Marketing","urg":"Act now","metric":"ROAS 0.94x","title":"Monsoon Layering Push is below its ROAS target","detail":"Delivered 0.94x on \u20b9184.5 L of spend (Paid Social, Weekday).","action":"Do not repeat this creative/channel combination next planning cycle.","owner":"Brand Marketing Manager","kpi":"ROAS, ROI"},{"cat":"Marketing","urg":"Opportunity","metric":"\u0394 2.85x","title":"Reallocate spend from Marketplace (Myntra/Ajio) to Owned App","detail":"Owned App returns 4.13x versus 1.28x on \u20b93.17 Cr of spend.","action":"Move ~20% of Marketplace (Myntra/Ajio) budget and re-measure after one cycle.","owner":"Group CMO","kpi":"ROAS, MER"},{"cat":"Marketing","urg":"On track","metric":"ROI 304%","title":"H&M Move Launch India is the strongest performer","detail":"4.04x ROAS and \u20b9433.0 L attributed revenue on \u20b9107.1 L spend.","action":"Scale budget on this channel/brand combination next month.","owner":"Brand Marketing Manager","kpi":"ROAS, Revenue"},{"cat":"Leadership","urg":"Opportunity","metric":"\u0394 2.64x","title":"Reallocate budget from ARKET to H&M","detail":"H&M returns 3.67x MER versus 1.03x for ARKET on \u20b90.82 Cr.","action":"Move ~10% of ARKET budget to H&M; re-measure next quarter.","owner":"Group CMO / CFO","kpi":"MER, Operating Margin"},{"cat":"Retail","urg":"Act now","metric":"79% of target","title":"Esplanade Bhubaneswar is furthest below revenue target","detail":"\u20b91.58 Cr against \u20b92.01 Cr target; conversion 24.0% on 18,571 footfall.","action":"Store-level intervention: VM reset, staffing review and a local catchment campaign.","owner":"Regional Retail Head","kpi":"Sales per Store, Conversion"},{"cat":"Retail","urg":"On track","metric":"119% of target","title":"Phoenix Mall of Asia leads the network","detail":"\u20b93.47 Cr revenue, 19.9% conversion, \u20b93,486 average transaction value.","action":"Use this Flagship format in Bengaluru as the template for next expansion.","owner":"Expansion Head","kpi":"Revenue/sq ft, Conversion"},{"cat":"Customer","urg":"Act now","metric":"37.8% of base","title":"Hibernating + Lost segments now exceed a third of the Club base","detail":"Combined Hibernating and Lost have grown across two consecutive quarters; \u20b922.8 Cr of CLV sits in At-Risk alone.","action":"Launch a win-back journey for At Risk before they hibernate; suppress Lost from paid media.","owner":"CRM Manager","kpi":"Retention Rate, CLV"},{"cat":"Customer","urg":"Opportunity","metric":"Lift 3.42x","title":"Denim Jeans \u2192 Basic Tee is the strongest cross-sell pair","detail":"Customers buying Denim Jeans are 3.42x more likely to add a Basic Tee in the same basket (6.4% support).","action":"Bundle in-store and add 'complete the look' prompts on the app PDP.","owner":"Category Manager","kpi":"ATV, Basket Size"},{"cat":"Customer","urg":"Opportunity","metric":"\u20b98.17 Cr at risk","title":"North India Club cohort has the largest revenue at risk","detail":"8,420 members at 78 days since last purchase, average CLV \u20b99,700, last touched via Owned App.","action":"Trigger app push + personalised offer at day 60, not day 90.","owner":"CRM Manager","kpi":"Churn Rate, CLV"}]};
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+const cr = v => '₹' + Number(v).toFixed(2) + ' Cr';
+const lk = v => '₹' + Number(v).toFixed(1) + ' L';
+const rs = v => '₹' + Number(v).toLocaleString('en-IN');
+const x = v => Number(v).toFixed(2) + 'x';
+const pc = v => Number(v).toFixed(1) + '%';
+const S = { red:'#E20015', ink:'#141519', muted:'#B9BBC4', green:'#0E9F6E', amber:'#D97706', danger:'#DC2626', blue:'#2563EB' };
+const PALETTE = [S.red, S.ink, '#8A8D98', S.amber, S.green, S.blue, '#C9CAD3'];
+
+$('today').textContent = new Date().toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+
+/* ================= TABS ================= */
+document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  b.classList.add('on'); $(b.dataset.p).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ================= FILTERS (populate) ================= */
+D.brands.forEach(b=>$('fBrand').add(new Option(b,b)));
+D.regions.forEach(r=>$('fRegion').add(new Option(r,r)));
+D.channels.forEach(c=>$('fChannel').add(new Option(c,c)));
+
+/* ================= KPI CARDS ================= */
+const kc=(l,v,s,b)=>`<div class="k"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div>${b?`<span class="b ${b.c}">${b.t}</span>`:''}</div>`;
+
+const totSpend = D.brand_scores.reduce((s,b)=>s+b.spend,0);
+const totRev   = D.brand_scores.reduce((s,b)=>s+b.revenue,0);
+const gMER     = totRev/totSpend;
+const totFoot  = D.stores.reduce((s,v)=>s+v.footfall,0);
+const clubBase = D.rfm.reduce((s,r)=>s+r.n,0);
+
+$('kLead').innerHTML = [
+  kc('Total Investment', cr(totSpend), 'All categories, 6 months'),
+  kc('Attributed Return', cr(totRev), 'Revenue + brand + retention'),
+  kc('Marketing Efficiency Ratio', x(gMER), 'Target 3.25x', {c: gMER>=3.25?'g':(gMER>=2.5?'a':'r'), t: gMER>=3.25?'On target':'Below target'}),
+  kc('Operating Margin', '8.4%', 'Target 10.0%', {c:'a', t:'Below target'}),
+  kc('H&M Club Base', (clubBase/100000).toFixed(2)+' L', 'Active members, India'),
+].join('');
+
+$('kMkt').innerHTML = [
+  kc('Campaign Spend', lk(D.campaigns.reduce((s,c)=>s+c.spend,0)), D.campaigns.length+' campaigns tracked'),
+  kc('Attributed Revenue', lk(D.campaigns.reduce((s,c)=>s+c.revenue,0)), 'From campaign table below'),
+  kc('Average ROAS', x(D.campaigns.reduce((s,c)=>s+c.roas,0)/D.campaigns.length), 'Target 2.00x'),
+  kc('Average CAC', rs(Math.round(D.campaigns.reduce((s,c)=>s+c.cac,0)/D.campaigns.length)), 'Target ₹780'),
+  kc('Budget Utilisation', Math.round(D.campaigns.reduce((s,c)=>s+c.spend,0)/D.campaigns.reduce((s,c)=>s+c.budget,0)*100)+'%', 'Spend against approved budget'),
+].join('');
+
+const onTarget = D.stores.filter(s=>s.ach>=100).length;
+$('kRetail').innerHTML = [
+  kc('Network Revenue', cr(D.stores.reduce((s,v)=>s+v.revenue,0)), '18 stores, 4 regions'),
+  kc('Stores On Target', onTarget+' of '+D.stores.length, Math.round(onTarget/D.stores.length*100)+'% of the network'),
+  kc('Total Footfall', (totFoot/100000).toFixed(2)+' L', 'Across all stores, 6 months'),
+  kc('Avg Conversion', pc(D.stores.reduce((s,v)=>s+v.conv,0)/D.stores.length), 'Footfall to transaction'),
+].join('');
+
+const atRisk = D.rfm.find(r=>r.seg==='At Risk');
+const lostShare = D.rfm.filter(r=>['Hibernating','Lost'].includes(r.seg)).reduce((s,r)=>s+r.share,0);
+$('kCust').innerHTML = [
+  kc('Club Members', (clubBase/100000).toFixed(2)+' L', 'Active loyalty base'),
+  kc('Repeat Purchase Rate', '34.2%', 'Target 38.0%', {c:'a',t:'Below target'}),
+  kc('Hibernating + Lost', pc(lostShare), 'Share of the Club base', {c:'r',t:'Growing'}),
+  kc('Revenue at Risk', cr(D.churn.reduce((s,c)=>s+c.rev_at_risk,0)), 'From churn-risk cohorts'),
+].join('');
+
+/* ================= CHARTS ================= */
+const noGrid={grid:{display:false}}, softGrid={grid:{color:'#F0F0F3'}};
+const legBot={legend:{position:'bottom',labels:{boxWidth:10,font:{size:10.5}}}};
+
+new Chart($('cTrend'),{type:'line',data:{labels:D.trend.map(t=>t.month),datasets:[
+  {label:'Investment',data:D.trend.map(t=>t.spend),borderColor:'#8A8D98',backgroundColor:'rgba(138,141,152,.07)',tension:.35,fill:true,pointRadius:3},
+  {label:'Revenue',data:D.trend.map(t=>t.revenue),borderColor:S.red,backgroundColor:'rgba(226,0,21,.07)',tension:.35,fill:true,pointRadius:3},
+  {label:'Brand return (slow)',data:D.trend.map(t=>t.brand_return),borderColor:S.blue,borderDash:[5,4],tension:.35,fill:false,pointRadius:3},
+]},options:{plugins:legBot,scales:{y:{beginAtZero:true,...softGrid,title:{display:true,text:'₹ Cr',font:{size:10}}},x:noGrid}}});
+
+new Chart($('cInvSplit'),{type:'doughnut',data:{labels:D.inv_split.map(i=>i.cat),datasets:[{data:D.inv_split.map(i=>i.amt),backgroundColor:PALETTE}]},options:{plugins:legBot}});
+
+new Chart($('cChan'),{type:'bar',data:{labels:D.channel_eff.map(c=>c.channel),datasets:[
+  {label:'Spend',data:D.channel_eff.map(c=>c.spend),backgroundColor:'#C9CAD3',borderRadius:3},
+  {label:'Revenue',data:D.channel_eff.map(c=>c.revenue),backgroundColor:S.red,borderRadius:3}]},
+  options:{plugins:legBot,scales:{y:{beginAtZero:true,...softGrid,title:{display:true,text:'₹ Cr',font:{size:10}}},x:noGrid}}});
+
+new Chart($('cRoas'),{type:'bar',data:{labels:D.channel_eff.map(c=>c.channel),datasets:[{data:D.channel_eff.map(c=>c.roas),
+  backgroundColor:D.channel_eff.map(c=>c.roas>=2.5?S.green:(c.roas>=2?S.amber:S.danger)),borderRadius:3}]},
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,...softGrid,title:{display:true,text:'ROAS (x)',font:{size:10}}},x:noGrid}}});
+
+new Chart($('cRegion'),{type:'bar',data:{labels:D.region_rollup.map(r=>r.region),datasets:[
+  {label:'Actual',data:D.region_rollup.map(r=>r.revenue),backgroundColor:S.red,borderRadius:3},
+  {label:'Target',data:D.region_rollup.map(r=>r.target),backgroundColor:'#C9CAD3',borderRadius:3}]},
+  options:{plugins:legBot,scales:{y:{beginAtZero:true,...softGrid,title:{display:true,text:'₹ Cr',font:{size:10}}},x:noGrid}}});
+
+new Chart($('cScatter'),{type:'scatter',data:{datasets:[{label:'Store',
+  data:D.stores.map(s=>({x:s.footfall,y:s.conv,label:s.name})),
+  backgroundColor:D.stores.map(s=>s.status==='green'?S.green:(s.status==='amber'?S.amber:S.danger)),pointRadius:6}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.label+' — '+c.raw.y+'% conv, '+c.raw.x.toLocaleString('en-IN')+' footfall'}}},
+  scales:{y:{...softGrid,title:{display:true,text:'Conversion %',font:{size:10}}},x:{...softGrid,title:{display:true,text:'Footfall',font:{size:10}}}}}});
+
+new Chart($('cCatRev'),{type:'bar',data:{labels:D.cat_perf.map(c=>c.cat),datasets:[{data:D.cat_perf.map(c=>c.revenue),backgroundColor:S.ink,borderRadius:3}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,...softGrid,title:{display:true,text:'₹ Cr',font:{size:10}}},y:noGrid}}});
+
+new Chart($('cCatMix'),{type:'bar',data:{labels:D.cat_perf.map(c=>c.cat),datasets:[
+  {label:'Gross margin %',data:D.cat_perf.map(c=>c.margin),backgroundColor:S.red,borderRadius:3},
+  {label:'Full-price sell-through %',data:D.cat_perf.map(c=>c.sellthru),backgroundColor:'#C9CAD3',borderRadius:3}]},
+  options:{plugins:legBot,scales:{y:{beginAtZero:true,...softGrid},x:noGrid}}});
+
+/* ================= BRAND SCORECARD ================= */
+$('scBrand').innerHTML = D.brand_scores.map(b=>{
+  const col = b.status==='green'?S.green:(b.status==='amber'?S.amber:S.danger);
+  return `<div class="scd"><div class="dot ${b.status}"></div><div class="bn">${b.brand}</div>
+  <div class="ml"><span>MER</span><b>${x(b.mer)}</b></div>
+  <div class="ml"><span>Investment</span><b>${cr(b.spend)}</b></div>
+  <div class="ml"><span>Return</span><b>${cr(b.revenue)}</b></div>
+  <div class="ml"><span>Repeat rate</span><b>${b.repeat}%</b></div>
+  <div class="ml"><span>CAC / CLV</span><b>${rs(b.cac)} / ${rs(b.clv)}</b></div>
+  <div class="trk"><div class="fil" style="width:${Math.min(100,b.mer/4*100)}%;background:${col}"></div></div></div>`;
+}).join('');
+
+/* ================= TABLES ================= */
+$('tRegion').innerHTML = D.region_rollup.map(r=>`<tr><td class="s">${r.region}</td><td>${r.stores}</td>
+  <td class="num">${cr(r.revenue)}</td><td class="num">${cr(r.target)}</td>
+  <td class="${r.ach>=100?'pos':'neg'}">${r.ach}%</td><td>${r.conv}%</td></tr>`).join('');
+
+document.querySelector('#tCamp tbody').innerHTML = D.campaigns.map(c=>`<tr>
+  <td class="s">${c.name}</td><td>${c.brand}</td><td>${c.channel}</td><td>${c.objective}</td>
+  <td><span class="pill ${c.status}">${c.status}</span></td>
+  <td class="num">${lk(c.budget)}</td><td class="num">${lk(c.spend)}</td><td>${c.used}%</td>
+  <td class="num">${lk(c.revenue)}</td>
+  <td class="${c.roas<1?'neg':'pos'}">${x(c.roas)}</td>
+  <td class="${c.roi<0?'neg':'pos'}">${c.roi>0?'+':''}${c.roi}%</td>
+  <td class="num">${rs(c.cac)}</td></tr>`).join('');
+
+document.querySelector('#tStore tbody').innerHTML = D.stores.map(s=>`<tr>
+  <td class="s">${s.name}</td><td>${s.city}</td><td>${s.region}</td><td>${s.format}</td>
+  <td class="num">${cr(s.revenue)}</td><td class="num">${cr(s.target)}</td>
+  <td class="${s.ach>=100?'pos':(s.ach>=88?'':'neg')}">${s.ach}%</td>
+  <td>${s.footfall.toLocaleString('en-IN')}</td><td>${s.conv}%</td>
+  <td class="num">${rs(s.atv)}</td><td class="num">${rs(s.rps)}</td></tr>`).join('');
+
+$('tChurn').innerHTML = D.churn.map(c=>`<tr><td class="s">${c.cohort}</td><td>${c.brand}</td><td>${c.chan}</td>
+  <td>${c.lapse}d</td><td>${c.members.toLocaleString('en-IN')}</td><td class="num">${rs(c.clv)}</td>
+  <td class="num">${cr(c.rev_at_risk)}</td><td><span class="pill ${c.risk}">${c.risk}</span></td></tr>`).join('');
+
+$('tBasket').innerHTML = D.basket.map(b=>`<tr><td class="s">${b.pair}</td><td class="pos">${b.lift}x</td>
+  <td>${b.support}</td><td>${b.conf}</td></tr>`).join('');
+
+document.querySelector('#tCat tbody').innerHTML = D.cat_perf.map(c=>`<tr><td class="s">${c.cat}</td>
+  <td class="num">${cr(c.revenue)}</td><td>${c.margin}%</td><td>${c.turnover}x</td>
+  <td class="${c.sellthru>=75?'pos':(c.sellthru>=65?'':'neg')}">${c.sellthru}%</td>
+  <td class="${c.growth>=0?'pos':'neg'}">${c.growth>0?'+':''}${c.growth}%</td></tr>`).join('');
+
+/* ================= KPI TRACKER ================= */
+document.querySelector('#tKpi tbody').innerHTML = D.kpi_table.map(k=>{
+  const lower = k.lower_better===true;
+  const hit = lower ? k.actual<=k.target : k.actual>=k.target;
+  const near = lower ? k.actual<=k.target*1.08 : k.actual>=k.target*0.92;
+  const delta = k.actual-k.prev;
+  const good = lower ? delta<0 : delta>0;
+  const f = v => k.unit==='₹' ? rs(v) : (k.unit==='x' ? v.toFixed(2)+'x' : v+ (k.unit==='%'?'%':''));
+  return `<tr><td class="s">${k.kpi}</td><td>${k.type}</td><td class="num">${f(k.actual)}</td>
+  <td class="${good?'pos':'neg'}">${delta>0?'+':''}${k.unit==='₹'?Math.round(delta):delta.toFixed(k.unit==='x'?2:1)}</td>
+  <td class="num">${f(k.best)}</td><td class="num">${f(k.target)}</td><td class="num">${f(k.ideal)}</td>
+  <td><span class="b ${hit?'g':(near?'a':'r')}">${hit?'On target':(near?'Near':'Off target')}</span></td>
+  <td style="font-size:11px;color:var(--muted)">${k.source}</td></tr>`;
+}).join('');
+
+$('leadK').innerHTML = D.lead_kpis.map(k=>{
+  const d = ((k.actual-k.prev)/k.prev*100);
+  const fv = k.unit==='%' ? k.actual+'%' : (k.unit==='idx' ? k.actual : k.actual.toLocaleString('en-IN'));
+  return `<div class="scd"><div class="bn" style="font-size:12px">${k.kpi}</div>
+  <div class="n" style="font-family:'Space Grotesk';font-size:20px;font-weight:700">${fv}</div>
+  <div class="ml" style="margin-top:5px"><span>vs prev period</span><b class="${d>=0?'pos':'neg'}">${d>0?'+':''}${d.toFixed(1)}%</b></div></div>`;
+}).join('');
+
+/* ================= DECISIONS ================= */
+const dcard = d => {
+  const u = d.urg==='Act now'?'u-Act':(d.urg==='On track'?'u-On':'u-Opportunity');
+  return `<div class="dec"><div class="l">
+    <div class="tg"><span class="tag">${d.cat}</span><span class="tag ${u}">${d.urg}</span></div>
+    <h4>${d.title}</h4><div class="d">${d.detail}</div>
+    <div class="a"><b>Recommended:</b> ${d.action}</div>
+    <div class="meta">Owner: ${d.owner} &nbsp;·&nbsp; KPIs: ${d.kpi}</div>
+  </div><div class="m">${d.metric}</div></div>`;
+};
+$('dLead').innerHTML   = D.decisions.filter(d=>d.cat==='Leadership').map(dcard).join('');
+$('dMkt').innerHTML    = D.decisions.filter(d=>d.cat==='Marketing').map(dcard).join('');
+$('dRetail').innerHTML = D.decisions.filter(d=>d.cat==='Retail').map(dcard).join('');
+$('dCust').innerHTML   = D.decisions.filter(d=>d.cat==='Customer').map(dcard).join('');
+
+/* ================= RFM ================= */
+$('rfmG').innerHTML = D.rfm.map(r=>`<div class="rc"><div class="sg">${r.seg}</div>
+  <div class="n">${r.n.toLocaleString('en-IN')}</div>
+  <div class="sh">${r.share}% of base · avg CLV ${rs(r.clv)}</div>
+  <div class="ds">${r.desc}</div><div class="ac">→ ${r.action}</div></div>`).join('');
+
+/* ================= DATA MODEL ================= */
+const renderTree = (tree, el) => {
+  el.innerHTML = tree.map(b=>{
+    const kids = (b.children||[]).map(c=>`<div class="tn leaf"><span>${c.name}</span><span class="id">${c.id}</span></div>`).join('');
+    return `<div class="tn root">${b.name} <span class="id">${b.id}</span></div>${kids}`;
+  }).join('');
+};
+renderTree(D.inv_tree, $('tInv'));
+renderTree(D.ret_tree, $('tRet'));
+
+const DIMS = ['Category ID','Brand / SBU','Region','Store / Location','Time period (month)','Channel','Product category','Source system','Entered by','Entered on'];
+$('dimChips').innerHTML = DIMS.map(d=>`<span class="tag">${d}</span>`).join('');
+
+const TABLES = [
+ ['fact_investment','Every investment row — source of truth for all spend','investment_id','category_id, brand_id, region_id, store_id, channel_id, product_id, entered_by'],
+ ['fact_return','Every return row — source of truth for all returns','return_id','Same dimension FKs, into dim_return_category'],
+ ['dim_investment_category','Investment tree (self-referencing)','category_id','parent_id → self'],
+ ['dim_return_category','Return tree (self-referencing)','category_id','parent_id → self'],
+ ['dim_brand','Brand / SBU master','brand_id','—'],
+ ['dim_region','Region master','region_id','—'],
+ ['dim_store','Store &amp; online market master','store_id','region_id'],
+ ['dim_channel','Channel master','channel_id','—'],
+ ['dim_product','Product category master','product_id','—'],
+ ['dim_user','Users who enter or own data','user_id','region_id'],
+ ['activity_log','Audit trail on every write','log_id','changed_by → dim_user'],
+];
+$('tTables').innerHTML = TABLES.map(t=>`<tr><td class="s" style="font-family:'Space Grotesk'">${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td><td style="font-size:11.5px">${t[3]}</td></tr>`).join('');
+
+/* ================= INPUT FORMS ================= */
+const SRC_INV = ['Finance ERP Export','Google Ads Manager','Meta Ads Manager','Agency Invoice','Manual Entry'];
+const SRC_RET = ['POS System','Google Analytics','Club Loyalty Platform','Marketplace Report','Manual Entry'];
+const STORES = D.stores.map(s=>({name:s.name, region:s.region}))
+  .concat([{name:'H&M India App (Online)',region:'Pan-India'},{name:'hm.com/in (Online)',region:'Pan-India'}]);
+
+const leafInv = D.inv_tree.flatMap(b=> b.children.length ? b.children : [{id:b.id,name:b.name}]);
+const leafRet = D.ret_tree.flatMap(b=> b.children.length ? b.children : [{id:b.id,name:b.name}]);
+
+function fill(sel, arr, ph, valFn, txtFn){
+  const el=$(sel); el.innerHTML='';
+  el.add(new Option(ph,''));
+  arr.forEach(a=>el.add(new Option(txtFn?txtFn(a):a, valFn?valFn(a):a)));
+}
+fill('iCat', leafInv, 'Select category…', a=>a.id, a=>`${a.name} (${a.id})`);
+fill('rCat', leafRet, 'Select category…', a=>a.id, a=>`${a.name} (${a.id})`);
+['iBrand','rBrand'].forEach(s=>fill(s, D.brands, 'Select brand…'));
+['iRegion','rRegion'].forEach(s=>fill(s, D.regions.concat(['Pan-India']), 'Select region…'));
+['iChan','rChan'].forEach(s=>fill(s, D.channels, 'Select channel…'));
+['iProd','rProd'].forEach(s=>fill(s, D.products, 'All categories'));
+fill('iSrc', SRC_INV, 'Select source…');
+fill('rSrc', SRC_RET, 'Select source…');
+
+function cascade(regionSel, storeSel){
+  const r = $(regionSel).value;
+  const opts = STORES.filter(s=> !r || s.region===r || s.region==='Pan-India');
+  fill(storeSel, opts.map(s=>s.name), 'Select store…');
+}
+$('iRegion').onchange = ()=>cascade('iRegion','iStore');
+$('rRegion').onchange = ()=>cascade('rRegion','rStore');
+cascade('iRegion','iStore'); cascade('rRegion','rStore');
+
+$('rType').onchange = ()=>{ $('rUnit').value = $('rType').value==='currency' ? '₹ (INR)' : 'count'; };
+
+const thisMonth = new Date().toISOString().slice(0,7);
+$('iMonth').max = thisMonth; $('rMonth').max = thisMonth;
+$('iMonth').value = thisMonth; $('rMonth').value = thisMonth;
+
+function validate(form){
+  let ok = true;
+  form.querySelectorAll('[required]').forEach(f=>{
+    const g = f.closest('.fg');
+    let bad = !f.value;
+    if(f.type==='number' && f.value!=='' ){
+      const min = Number(f.min);
+      if(Number(f.value) < min || (f.id==='iAmt' && Number(f.value)<=0)) bad = true;
+    }
+    if(f.type==='month' && f.value > thisMonth) bad = true;
+    g.classList.toggle('bad', bad);
+    if(bad) ok = false;
+  });
+  return ok;
+}
+
+let invSeq = 41, retSeq = 41;
+
+function trace(steps){
+  $('flowBox').innerHTML = steps.map((s,i)=>
+    `<div class="fs"><div class="fl">${i+1} · ${s.l}</div><div class="fv">${s.v}</div></div>` +
+    (i<steps.length-1?'<span class="ar">→</span>':'')
+  ).join('');
+}
+
+$('fInv').onsubmit = e => {
+  e.preventDefault();
+  if(!validate(e.target)) return;
+  const id = 'INV-' + String(invSeq++).padStart(4,'0');
+  const amt = Number($('iAmt').value);
+  const catTxt = $('iCat').selectedOptions[0].text;
+  $('okInv').className = 'ok show';
+  $('okInv').innerHTML = `<b>Saved as ${id}.</b> ${rs(amt)} tagged to ${catTxt} · ${$('iBrand').value} · ${$('iRegion').value} · ${$('iStore').value} · ${$('iChan').value} · ${$('iMonth').value}. Written to <b>fact_investment</b> and logged in <b>activity_log</b>.`;
+  trace([
+    {l:'Entry screen', v:`${id} — ${rs(amt)}`},
+    {l:'Fact table', v:`fact_investment · ${$('iCat').value}`},
+    {l:'Dimension join', v:`${$('iBrand').value} / ${$('iRegion').value} / ${$('iChan').value}`},
+    {l:'Appears on', v:'Leadership + Marketing + Store Ops'},
+  ]);
+  $('okInv').scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+$('fRet').onsubmit = e => {
+  e.preventDefault();
+  if(!validate(e.target)) return;
+  const id = 'RET-' + String(retSeq++).padStart(4,'0');
+  const val = Number($('rVal').value);
+  const isCur = $('rType').value==='currency';
+  const catTxt = $('rCat').selectedOptions[0].text;
+  $('okRet').className = 'ok show';
+  $('okRet').innerHTML = `<b>Saved as ${id}.</b> ${isCur?rs(val):val.toLocaleString('en-IN')+' (count)'} tagged to ${catTxt} · ${$('rBrand').value} · ${$('rRegion').value} · ${$('rChan').value} · ${$('rMonth').value}. Written to <b>fact_return</b> and logged in <b>activity_log</b>.`;
+  trace([
+    {l:'Entry screen', v:`${id} — ${isCur?rs(val):val.toLocaleString('en-IN')}`},
+    {l:'Fact table', v:`fact_return · ${$('rCat').value}`},
+    {l:'Dimension join', v:`${$('rBrand').value} / ${$('rRegion').value} / ${$('rChan').value}`},
+    {l:'Appears on', v:'Leadership + Customer + Category'},
+  ]);
+  $('okRet').scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+/* ================= FIELD SPEC TABLE ================= */
+const SPEC = [
+ ['Investment Category ID','Text (FK)','Yes','Must exist in dim_investment_category; leaf nodes only','Finance analyst','Dropdown'],
+ ['Brand / SBU','Text (FK)','Yes','Fixed list of 8 brands','Finance analyst','Dropdown'],
+ ['Region','Text (FK)','Yes','Fixed list of 4 regions + Pan-India','Finance analyst','Dropdown'],
+ ['Store / Location','Text (FK)','Yes','Must belong to the selected region (cascading)','Finance analyst','Cascading dropdown'],
+ ['Channel','Text (FK)','Yes','Fixed list of 6 channels','Finance analyst','Dropdown'],
+ ['Product category','Text (FK)','No','Fixed list of 6; defaults to All','Finance analyst','Dropdown'],
+ ['Period (month)','Date (YYYY-MM)','Yes','Cannot be a future month','Finance analyst','Date picker'],
+ ['Amount','Decimal (₹)','Yes','Must be &gt; 0','Finance analyst','Direct entry / ERP upload'],
+ ['Currency','Text','Yes','INR fixed for India entity','System','Auto'],
+ ['Source system','Text','Yes','Fixed list of 5 sources','Finance analyst','Dropdown'],
+ ['Notes','Text','No','Max 250 characters','Finance analyst','Free text'],
+ ['Entered by','Text (FK)','Yes','Auto-filled from login; not editable','System','Auto'],
+ ['Entered on','Timestamp','Yes','Auto-stamped at save','System','Auto'],
+];
+$('tSpec').innerHTML = SPEC.map(r=>`<tr><td class="s">${r[0]}</td><td>${r[1]}</td>
+  <td>${r[2]==='Yes'?'<b style="color:var(--red)">Yes</b>':'No'}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
+
+/* ================= FILTER NOTE ================= */
+['fBrand','fRegion','fChannel','fPeriod'].forEach(id=>{
+  $(id).onchange = () => {
+    const parts = [$('fBrand').value,$('fRegion').value,$('fChannel').value,$('fPeriod').value]
+      .filter(v=>!v.startsWith('All') && v!=='Last 6 months');
+    $('fNote').textContent = parts.length ? 'Filtered: ' + parts.join(' · ') : 'Filters apply to Leadership, Marketing & Store Ops';
+  };
+});
+
+</script>
+</body>
+</html>
