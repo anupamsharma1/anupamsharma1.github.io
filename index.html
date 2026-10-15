@@ -12,7 +12,7 @@
 /* Layout: a campaign wall. Paper ground, cobalt and SIC-orange color blocks, sticker details; hero first, then the club, then work, then projects in a clean grid. */
 :root{
   --paper:#f3f2ee; --card:#ffffff; --ink:#16141a; --muted:#625e68; --faint:#9a96a0; --line:#dfddd7;
-  --cobalt:#2a37f0; --cobalt-ink:#ffffff; --orange:#ff6a14; --orange-ink:#1a0b02; --ad:#d65c20; --soft:#e9e8ff; --good:#16824a;
+  --cobalt:#2a37f0; --cobalt-ink:#ffffff; --orange:#ff6a14; --orange-ink:#1a0b02; --ad:#ee661c; --soft:#e9e8ff; --good:#16824a;
   --display:"Fraunces",Georgia,"Times New Roman",serif;
   --body:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -21,10 +21,10 @@
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --paper:#111016; --card:#1b1a21; --ink:#f1efeb; --muted:#a7a3ad; --faint:#6f6b76; --line:#2c2a33;
-  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --ad:#c2551f; --soft:#22223a; --good:#4cc883; color-scheme:dark }}
+  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --ad:#e2621d; --soft:#22223a; --good:#4cc883; color-scheme:dark }}
 :root[data-theme="dark"]{
   --paper:#111016; --card:#1b1a21; --ink:#f1efeb; --muted:#a7a3ad; --faint:#6f6b76; --line:#2c2a33;
-  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --ad:#c2551f; --soft:#22223a; --good:#4cc883; color-scheme:dark }
+  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --ad:#e2621d; --soft:#22223a; --good:#4cc883; color-scheme:dark }
 
 *{box-sizing:border-box}
 html{overflow-x:clip}
@@ -380,9 +380,9 @@ dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
       </button>
       <div class="stacked">
         <button class="card cob" data-case="ba">
-          <div class="row"><span class="kicker" style="color:inherit;opacity:.8">Sales Intern</span><span class="when">Apr 2026 · 1 week</span></div>
+          <div class="row"><span class="kicker" style="color:inherit;opacity:.8">Sales Intern</span><span class="when">Apr 2026</span></div>
           <h3>Big Assets Infra, Gurugram</h3>
-          <p class="muted">One week on a commercial real estate sales floor. Too short to close anything, so I spent it learning the pitch and building two tools for the team: an ROI calculator and a cold-call dashboard.</p>
+          <p class="muted">On the sales floor for three Gurugram commercial projects, learning how the units are actually pitched, and building two tools for the team: an ROI calculator and a cold-call dashboard.</p>
           <div class="tags"><span class="tag">Live demo inside</span><span class="tag">SPJ Vedatam</span><span class="tag">The Omaxe State</span><span class="tag">Iris Broadway</span></div>
           <span class="go">Try the tools</span>
         </button>
@@ -575,12 +575,12 @@ fp:{eye:'Internship · PR & Marketing · Apr to Jun 2026',title:'First Partners,
   ['Events and content',['Supported an advocacy campaign event with about 120 attendees and national media coverage.','Supported a policy summit and a seminar for a second client.','Designed event creatives and passes in Canva, wrote invitation copy, and wrote post-event closure reports.','Built an HTML email mailer and an outreach tracker for the team, and researched global awards entries for a manager\'s presentation.']]],
  take:'A 65% response rate came from writing to people like people, one at a time. And a first quote is never the real price, which is the most useful thing I learned all summer.',
  note:'Client names, creatives and figures beyond these are covered by an NDA, so this case is text only.'},
-ba:{eye:'Sales internship · Big Assets Infra, Gurugram · April 2026 · one week',title:'Tools for selling commercial real estate',lede:'A one-week internship on the sales floor for three Gurugram commercial projects: SPJ Vedatam, The Omaxe State and Iris Broadway. A week is not long enough to close a deal, so I used it to learn how these units are actually sold, and left behind two tools to make the calls and the conversations faster.',
- stats:[['1 wk','on the sales floor'],['3','projects priced in the tool'],['2','tools built and handed over'],['1 click','from lead list to dialling']],
+ba:{eye:'Sales internship · Big Assets Infra, Gurugram · April 2026',title:'Tools for selling commercial real estate',lede:'A sales internship across three Gurugram commercial projects: SPJ Vedatam, The Omaxe State and Iris Broadway. I spent it learning how these units are actually sold, and left behind two tools to make the calls and the conversations faster.',
+ stats:[['3','projects priced in the tool'],['2','tools built and handed over'],['1 click','from lead list to dialling'],['3 yr','lease guarantee modelled']],
  sec:[['Budget Matcher and ROI calculator',['Enter a budget, pick a unit, and see instalments, assured return till possession, three years of lease guarantee, and the effective yield on the whole investment, for all three projects.']],
   ['Cold Call Automator',['Paste the day\'s leads from a sheet, dial in one click through Windows Phone Link, log the outcome with a single key, and export the feedback back to the sheet.']]],
  embed:['tools/roi-calculator.html','Budget Matcher and ROI calculator'],embed2:['tools/cold-call-automator.html','Cold Call Automator'],
- take:'A brochure answers the question the seller wants to ask. A calculator answers the one the buyer is actually doing in their head. Given a week and no sales record, building the second was worth more than faking the first.',
+ take:'A brochure answers the question the seller wants to ask. A calculator answers the one the buyer is already doing in their head. Building the second was the more useful thing to leave behind.',
  note:'Rates and terms are as of April 2026 and for illustration only.'},
 lg:{eye:'Go-to-market · Individual · Sales & Distribution Management end-term',title:'Opening an LG brand shop on Sohna Road',lede:'The brief: open a new LG brand shop and plan how washing machines reach the buyer. I chose Airia Mall, Sector 68, because the nearest LG shops sit 8 to 12 km north and the Sohna Road corridor is unserved.',
  stats:[['₹35,000 cr','washing machine market, 2026'],['27%','LG share, the category leader'],['342','machines in year 1'],['₹1.15 cr','year 1 sales']],
