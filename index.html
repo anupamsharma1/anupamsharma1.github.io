@@ -12,7 +12,7 @@
 /* Layout: a campaign wall. Paper ground, cobalt and SIC-orange color blocks, sticker details; hero first, then the club, then work, then projects in a clean grid. */
 :root{
   --paper:#f3f2ee; --card:#ffffff; --ink:#16141a; --muted:#625e68; --faint:#9a96a0; --line:#dfddd7;
-  --cobalt:#2a37f0; --cobalt-ink:#ffffff; --orange:#ff6a14; --orange-ink:#1a0b02; --soft:#e9e8ff; --good:#16824a;
+  --cobalt:#2a37f0; --cobalt-ink:#ffffff; --orange:#ff6a14; --orange-ink:#1a0b02; --ad:#d65c20; --soft:#e9e8ff; --good:#16824a;
   --display:"Fraunces",Georgia,"Times New Roman",serif;
   --body:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -21,10 +21,10 @@
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --paper:#111016; --card:#1b1a21; --ink:#f1efeb; --muted:#a7a3ad; --faint:#6f6b76; --line:#2c2a33;
-  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --soft:#22223a; --good:#4cc883; color-scheme:dark }}
+  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --ad:#c2551f; --soft:#22223a; --good:#4cc883; color-scheme:dark }}
 :root[data-theme="dark"]{
   --paper:#111016; --card:#1b1a21; --ink:#f1efeb; --muted:#a7a3ad; --faint:#6f6b76; --line:#2c2a33;
-  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --soft:#22223a; --good:#4cc883; color-scheme:dark }
+  --cobalt:#4652ff; --cobalt-ink:#ffffff; --orange:#ff7a2e; --orange-ink:#1a0b02; --ad:#c2551f; --soft:#22223a; --good:#4cc883; color-scheme:dark }
 
 *{box-sizing:border-box}
 html{overflow-x:clip}
@@ -170,12 +170,12 @@ button.card:hover .go::after{transform:translateX(4px)}
 .thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:left top}
 
 /* the ad */
-.ad{display:grid;grid-template-columns:1fr auto;gap:28px;background:var(--orange);color:var(--orange-ink);border-radius:32px;padding:clamp(26px,5vw,56px);position:relative;overflow:hidden;border:2px solid var(--ink)}
+.ad{display:grid;grid-template-columns:1fr auto;gap:28px;background:var(--ad);color:var(--orange-ink);border-radius:32px;padding:clamp(26px,5vw,56px);position:relative;overflow:hidden;border:2px solid var(--ink)}
 .ad .k{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;opacity:.75}
 .ad h2{font-size:clamp(38px,6vw,78px);font-weight:800;letter-spacing:-.02em;margin-top:14px;max-width:13ch}
 .ad ul{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;max-width:58ch;font-size:clamp(16px,1.6vw,19px)}
 .ad li{display:flex;gap:12px}
-.ad li::before{content:"✓";font-weight:800;flex:none;width:24px;height:24px;border-radius:50%;background:var(--orange-ink);color:var(--orange);display:grid;place-items:center;font-size:13px;margin-top:2px}
+.ad li::before{content:"✓";font-weight:800;flex:none;width:24px;height:24px;border-radius:50%;background:var(--orange-ink);color:var(--ad);display:grid;place-items:center;font-size:13px;margin-top:2px}
 .fine{margin-top:28px;font:400 12px/1.5 var(--mono);opacity:.75;max-width:80ch}
 .tagcard{align-self:start;background:#fffdf8;color:#16141a;border-radius:10px;padding:18px 18px 16px;width:200px;transform:rotate(5deg);box-shadow:0 18px 34px -16px rgba(0,0,0,.45);position:relative}
 .tagcard::before{content:"";position:absolute;top:12px;left:50%;width:14px;height:14px;border-radius:50%;background:var(--orange);transform:translateX(-50%);box-shadow:inset 0 0 0 3px #fffdf8,0 0 0 2px #16141a}
@@ -370,9 +370,9 @@ dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
       </button>
       <div class="stacked">
         <button class="card cob" data-case="ba">
-          <div class="row"><span class="kicker" style="color:inherit;opacity:.8">Sales Intern</span><span class="when">Apr 2026</span></div>
+          <div class="row"><span class="kicker" style="color:inherit;opacity:.8">Sales Intern</span><span class="when">Apr 2026 · 1 week</span></div>
           <h3>Big Assets Infra, Gurugram</h3>
-          <p class="muted">Sold units in three commercial real estate projects, and built two tools to sell faster: an ROI calculator and a cold-call dashboard.</p>
+          <p class="muted">One week on a commercial real estate sales floor. Too short to close anything, so I spent it learning the pitch and building two tools for the team: an ROI calculator and a cold-call dashboard.</p>
           <div class="tags"><span class="tag">Live demo inside</span><span class="tag">SPJ Vedatam</span><span class="tag">The Omaxe State</span><span class="tag">Iris Broadway</span></div>
           <span class="go">Try the tools</span>
         </button>
@@ -560,7 +560,7 @@ fp:{eye:'Internship · PR & Marketing · Apr to Jun 2026',title:'First Partners,
  sec:[['Influencer marketing, end to end',['Identified 500+ influencers using discovery platforms, got a 65% response to outreach, and onboarded around 30 of them.','Negotiated fees and deliverables, closing some partnerships up to 40% below the first quote.','Coordinated influencers before, during and after events. Seven micro-influencers attended one campaign event in person.']],
   ['Events and content',['Supported an advocacy campaign event with about 120 attendees and national media coverage.','Supported a policy summit and a seminar for a second client.','Designed event creatives and passes in Canva, wrote invitation copy, and wrote post-event closure reports.','Built an HTML email mailer and an outreach tracker for the team, and researched global awards entries for a manager\'s presentation.']]],
  note:'Client names, creatives and figures beyond these are covered by an NDA, so this case is text only.'},
-ba:{eye:'Sales internship · Big Assets Infra, Gurugram · April 2026',title:'Tools for selling commercial real estate',lede:'I sold units in three Gurugram commercial projects: SPJ Vedatam, The Omaxe State and Iris Broadway. Alongside the sales decks, I built two tools to make the calls and the conversations faster.',
+ba:{eye:'Sales internship · Big Assets Infra, Gurugram · April 2026 · one week',title:'Tools for selling commercial real estate',lede:'A one-week internship on the sales floor for three Gurugram commercial projects: SPJ Vedatam, The Omaxe State and Iris Broadway. A week is not long enough to close a deal, so I used it to learn how these units are actually sold, and left behind two tools to make the calls and the conversations faster.',
  sec:[['Budget Matcher and ROI calculator',['Enter a budget, pick a unit, and see instalments, assured return till possession, three years of lease guarantee, and the effective yield on the whole investment, for all three projects.']],
   ['Cold Call Automator',['Paste the day\'s leads from a sheet, dial in one click through Windows Phone Link, log the outcome with a single key, and export the feedback back to the sheet.']]],
  embed:['tools/roi-calculator.html','Budget Matcher and ROI calculator'],embed2:['tools/cold-call-automator.html','Cold Call Automator'],
