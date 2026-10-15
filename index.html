@@ -153,7 +153,7 @@ button.card:hover .go::after{transform:translateX(4px)}
 .card.cob .tag{background:rgba(255,255,255,.16);color:#fff}
 
 /* projects */
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;grid-auto-flow:dense}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .proj{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:0;overflow:hidden;text-align:left;cursor:pointer;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s;min-width:0}
 .proj:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:6px 6px 0 var(--ink)}
 .proj.wide{grid-column:span 2}
@@ -166,6 +166,16 @@ button.card:hover .go::after{transform:translateX(4px)}
 .proj .who{font:500 12px/1 var(--mono);color:var(--faint);margin-top:auto;padding-top:8px}
 .big-q{font:700 20px/1.25 var(--display);letter-spacing:-.01em;border-left:4px solid var(--orange);padding-left:14px}
 .rank{font:800 78px/.8 var(--display);letter-spacing:-.02em;color:var(--orange)}
+/* grouped project rows */
+.grid-sub{grid-column:1/-1;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:22px;padding-bottom:10px;border-bottom:1.5px solid var(--line)}
+.grid-sub:first-child{margin-top:0}
+.grid-sub i{flex:none;width:12px;height:12px;border-radius:3px;transform:rotate(45deg);align-self:center}
+.grid-sub i.m{background:var(--orange)} .grid-sub i.s{background:var(--cobalt)} .grid-sub i.a{background:var(--ink)}
+.grid-sub h3{font:800 clamp(19px,2.1vw,25px)/1 var(--display);letter-spacing:-.025em}
+.grid-sub span{font:500 11.5px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--faint);margin-left:auto}
+/* case-study takeaway */
+.sheet .take{margin-top:30px;padding:16px 18px;border-radius:16px;background:var(--soft);border-left:4px solid var(--cobalt);font:600 clamp(16px,1.6vw,18px)/1.45 var(--body)}
+.sheet .take b{display:block;font:500 11.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .thumb{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff}
 .thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:left top}
 
@@ -384,9 +394,10 @@ dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
   <section class="blk" id="projects">
     <div class="blk-head">
       <div><span class="kicker">Coursework · Great Lakes</span><h2>Selected <em>projects.</em></h2></div>
-      <p>Orange is marketing, blue is sales and distribution, black is analytics and strategy. Group work is marked as group work.</p>
+      <p>Grouped by discipline, strongest first. Every case opens with the brief, the numbers, what I did and what I took from it. Group work is marked as group work.</p>
     </div>
     <div class="grid">
+      <div class="grid-sub"><i class="s"></i><h3>Sales &amp; distribution</h3><span>Go-to-market · channel · dealer planning</span></div>
       <button class="proj wide" data-case="lg">
         <div class="band s"><span>Sales & distribution · Go-to-market</span><span>Individual</span></div>
         <div class="proj-b">
@@ -401,14 +412,6 @@ dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
           <span class="who">SDM end-term exam</span>
         </div>
       </button>
-      <button class="proj" data-case="levis">
-        <div class="band m"><span>Brand & retail launch</span><span>Group</span></div>
-        <div class="proj-b">
-          <h3>Launching a Levi's store on Golf Course Road</h3>
-          <p class="muted">Archetype "The Heritage Seeker", a launch invite with free in-store personalisation for the first 50 buyers, and the floor pitch.</p>
-          <span class="who">SDM · Group of 8</span>
-        </div>
-      </button>
       <button class="proj" data-case="kia">
         <div class="band s"><span>Dealer planning</span><span>Group</span></div>
         <div class="proj-b">
@@ -417,14 +420,25 @@ dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
           <span class="who">SDM · Group of 8</span>
         </div>
       </button>
-      <button class="proj" data-case="ev">
-        <div class="band a"><span>Project management</span><span>Group</span></div>
+      <div class="grid-sub"><i class="m"></i><h3>Marketing &amp; brand</h3><span>Retail analytics · brand launch</span></div>
+      <button class="proj wide" data-case="hm">
+        <div class="band m"><span>Marketing & retail analytics · Live tool</span><span>Course project</span></div>
         <div class="proj-b">
-          <h3>ChargeNCR: 25 EV chargers in 52 weeks?</h3>
-          <p class="muted">I wrote the charter, mapped stakeholders and built the RACI. The team's PERT run gave the promised date a 1% chance.</p>
-          <span class="who">Final project · Group of 8</span>
+          <h3>H&amp;M India DecisionHub</h3>
+          <p class="muted">A decision support system with one screen per decision maker: leadership ("Are we winning?"), marketing ("Where is the waste?"), store ops, customer and category. Click to use it live.</p>
+          <div class="tags"><span class="tag">8 brands</span><span class="tag">4 regions</span><span class="tag">18 stores</span><span class="tag">Sample data</span></div>
+          <span class="who">Marketing & Retail Analytics</span>
         </div>
       </button>
+      <button class="proj" data-case="levis">
+        <div class="band m"><span>Brand & retail launch</span><span>Group</span></div>
+        <div class="proj-b">
+          <h3>Launching a Levi's store on Golf Course Road</h3>
+          <p class="muted">Archetype "The Heritage Seeker", a launch invite with free in-store personalisation for the first 50 buyers, and the floor pitch.</p>
+          <span class="who">SDM · Group of 8</span>
+        </div>
+      </button>
+      <div class="grid-sub"><i class="a"></i><h3>Analytics &amp; strategy</h3><span>Simulation · project management · process design</span></div>
       <button class="proj" data-case="cesim">
         <div class="band a"><span>Strategy simulation</span><span>Team</span></div>
         <div class="proj-b">
@@ -433,13 +447,12 @@ dialog.sheet::backdrop{background:rgba(10,9,14,.6);backdrop-filter:blur(4px)}
           <span class="who">Strategic Management · Team</span>
         </div>
       </button>
-      <button class="proj wide" data-case="hm">
-        <div class="band m"><span>Marketing & retail analytics · Live tool</span><span>Course project</span></div>
+      <button class="proj" data-case="ev">
+        <div class="band a"><span>Project management</span><span>Group</span></div>
         <div class="proj-b">
-          <h3>H&amp;M India DecisionHub</h3>
-          <p class="muted">A decision support system with one screen per decision maker: leadership ("Are we winning?"), marketing ("Where is the waste?"), store ops, customer and category. Click to use it live.</p>
-          <div class="tags"><span class="tag">8 brands</span><span class="tag">4 regions</span><span class="tag">18 stores</span><span class="tag">Sample data</span></div>
-          <span class="who">Marketing & Retail Analytics</span>
+          <h3>ChargeNCR: 25 EV chargers in 52 weeks?</h3>
+          <p class="muted">I wrote the charter, mapped stakeholders and built the RACI. The team's PERT run gave the promised date a 1% chance.</p>
+          <span class="who">Final project · Group of 8</span>
         </div>
       </button>
       <button class="proj" data-case="ff">
@@ -554,61 +567,77 @@ sic:{eye:'Leadership · President · 2025-26',title:'Self Interest Club',lede:'G
   ['What we ran',['<b>Mind Over Matter</b>, a national business strategy case competition: 291 participants in 138 teams.','<b>Elysium Vogue</b> at Crest 14.0: the first fashion show in the festival\'s history. 75 participants in 29 teams, a ₹50,000 prize pool, and an external winner from Motilal Nehru College, University of Delhi.','<b>Section Wars</b> with the Cultural Committee: 100 participants.','Six more on-campus events, from Bollywood Baazigar (224 participants) to Traitors and Squid Games.']],
   ['What I learned',['A club with no subject is a weak position until you say out loud that it is the point.','Outside teams raise the standard. The best result of the year came from a college we had never hosted.']]],
  gal:['assets/sic-team.jpg','assets/sic-president.jpg','assets/sic-elysium-poster.jpg','assets/sic-deck-2.jpg','assets/sic-deck-4.jpg','assets/sic-deck-5.jpg'],
- links:[['Self Interest Club on Instagram','https://www.instagram.com/selfinterest_greatlakes/']]},
+ links:[['Self Interest Club on Instagram','https://www.instagram.com/selfinterest_greatlakes/']],
+ take:'A club with no subject could have been the thing that killed it. Naming that as the whole point, instead of apologising for it, is what filled the room.'},
 fp:{eye:'Internship · PR & Marketing · Apr to Jun 2026',title:'First Partners, Noida',lede:'A corporate communications and public affairs consultancy. My summer project: next-gen marketing, experiential engagement and influencer ecosystem research.',
  stats:[['500+','influencers identified'],['65%','outreach response rate'],['~30','influencers onboarded'],['up to 40%','below initial quotes']],
  sec:[['Influencer marketing, end to end',['Identified 500+ influencers using discovery platforms, got a 65% response to outreach, and onboarded around 30 of them.','Negotiated fees and deliverables, closing some partnerships up to 40% below the first quote.','Coordinated influencers before, during and after events. Seven micro-influencers attended one campaign event in person.']],
   ['Events and content',['Supported an advocacy campaign event with about 120 attendees and national media coverage.','Supported a policy summit and a seminar for a second client.','Designed event creatives and passes in Canva, wrote invitation copy, and wrote post-event closure reports.','Built an HTML email mailer and an outreach tracker for the team, and researched global awards entries for a manager\'s presentation.']]],
+ take:'A 65% response rate came from writing to people like people, one at a time. And a first quote is never the real price, which is the most useful thing I learned all summer.',
  note:'Client names, creatives and figures beyond these are covered by an NDA, so this case is text only.'},
 ba:{eye:'Sales internship · Big Assets Infra, Gurugram · April 2026 · one week',title:'Tools for selling commercial real estate',lede:'A one-week internship on the sales floor for three Gurugram commercial projects: SPJ Vedatam, The Omaxe State and Iris Broadway. A week is not long enough to close a deal, so I used it to learn how these units are actually sold, and left behind two tools to make the calls and the conversations faster.',
+ stats:[['1 wk','on the sales floor'],['3','projects priced in the tool'],['2','tools built and handed over'],['1 click','from lead list to dialling']],
  sec:[['Budget Matcher and ROI calculator',['Enter a budget, pick a unit, and see instalments, assured return till possession, three years of lease guarantee, and the effective yield on the whole investment, for all three projects.']],
   ['Cold Call Automator',['Paste the day\'s leads from a sheet, dial in one click through Windows Phone Link, log the outcome with a single key, and export the feedback back to the sheet.']]],
  embed:['tools/roi-calculator.html','Budget Matcher and ROI calculator'],embed2:['tools/cold-call-automator.html','Cold Call Automator'],
+ take:'A brochure answers the question the seller wants to ask. A calculator answers the one the buyer is actually doing in their head. Given a week and no sales record, building the second was worth more than faking the first.',
  note:'Rates and terms are as of April 2026 and for illustration only.'},
 lg:{eye:'Go-to-market · Individual · Sales & Distribution Management end-term',title:'Opening an LG brand shop on Sohna Road',lede:'The brief: open a new LG brand shop and plan how washing machines reach the buyer. I chose Airia Mall, Sector 68, because the nearest LG shops sit 8 to 12 km north and the Sohna Road corridor is unserved.',
  stats:[['₹35,000 cr','washing machine market, 2026'],['27%','LG share, the category leader'],['342','machines in year 1'],['₹1.15 cr','year 1 sales']],
  sec:[['Two buyers, not one',['<b>The Supervised Household</b> (semi-automatic): the wash is delegated to domestic help, so the family wants a machine it can watch, that runs on stored water.','<b>The Hour Buyer</b> (fully automatic): both partners work and nobody is home mid-cycle. The fear is not the power bill, it is a ₹12,000 sari coming out ruined.']],
   ['The forecast',['45 walk-ins a day, 14 machine enquiries, 10% conversion: a full capacity of 42 machines a month.','Year 1 at 68% average utilisation: 342 machines worth ₹114.66 lakh, about 29 machines a month.','Q3 is the peak because Diwali is the appliance quarter. The shop exits March at 90% of capacity.']],
   ['The channel plan',['Intermediary empowerment as the primary channel, because a washing machine has to be seen, installed and serviced. Infomediaries and LG\'s own site support it.','Distributor selection criteria and 11 success KPIs, from 85% effective coverage to same-day installation.','A floor pitch that turns a borewell household\'s grey whites into a 60°C hard-water wash.']]],
- quote:'"India\'s most trusted washing machine brand, thereby making the customer ask for it before your salesman speaks."'},
+ quote:'"India\'s most trusted washing machine brand, thereby making the customer ask for it before your salesman speaks."',
+ take:'Splitting one "washing machine buyer" into two different fears changed the whole floor pitch. Sizing the market was the easy half; deciding who the shop talks to was the half that mattered.'},
 levis:{eye:'Retail launch · Group of 8 · Sales & Distribution Management',title:'A new Levi\'s store on Golf Course Road',lede:'India\'s denim market is about ₹23,100 crore (FY2025) and growing at 8.1% a year. Levi\'s holds about 30 to 35% of the premium tier above ₹3,000. Our task was to open its newest store and win both the customer and the channel.',
+ stats:[['₹23,100 cr','India denim market, FY2025'],['8.1%','growth a year'],['30-35%','Levi\'s share above ₹3,000'],['50','early-bird personalisation slots']],
  sec:[['Who we built it for',['Archetype <b>"The Heritage Seeker"</b>: 30+, household income ₹3 lakh a month and up, Tier 1 and 2 cities. Wants trusted heritage and a reliable fit that works at the office and after it.']],
   ['The launch',['Store at South Point Mall, DLF Phase 5, Gurugram, opening 29 September 2026.','Early bird: the first 50 buyers get a free personalisation session at the in-store tailor shop, custom embroidery or distressing.','A floor pitch built on fit and how long the pair lasts, with the newer relaxed and wide-leg fits as the second option.']],
   ['The channel',['Keep the hybrid model: own stores and levi.in, plus Myntra, Ajio and Tata CLiQ Luxury, plus franchise and large-format retail.','Channel positioning: "Powering Sustainable Growth with the World\'s No. 1 Denim Brand".']]],
+ take:'A heritage brand does not win on being older. It wins on the buyer trusting the fit before they try it on, which is why the personalisation offer did more work than any discount would have.',
  note:'Group project, Section 2, Group 8.'},
 kia:{eye:'Dealer planning · Group of 8 · Sales & Distribution Management',title:'A new Kia dealership in Mandi, Himachal Pradesh',lede:'Where should Kia\'s next dealer go, how much will it sell, and how do you stop dealers undercutting each other?',
  stats:[['45 lakh','passenger cars sold a year in India'],['6.3%','Kia share: 2,83,500 cars'],['≈ 41','cars a month per mature dealer'],['12-13','a month by Q4 for a new one']],
  sec:[['Location',['NH-154, Kanaid-Sundernagar Road, Mandi: highway visibility, an established automotive corridor, and about 22 km from the nearest Kia dealer.','6,000 to 7,000 sq ft showroom, a separate workshop, a 15 to 20 seat lounge, and a dedicated EV zone with charging.']],
   ['Ramp-up',['5 to 7 cars a month in Q1, rising to 12 to 13 by Q4 as awareness and the lead base build.']],
   ['Keeping dealers in harmony',['One ex-factory price for every dealer. Discounts only through Kia-approved accessories.','A standard value cap on freebies across the network.','Compete on service instead: doorstep test drives, pick-up and drop, personalised handovers.']]],
+ take:'Dealer conflict is a pricing design problem, not a discipline problem. Fix the price structure and you do not have to police the network.',
  note:'Group project, Section 2, Group 8.'},
 ev:{eye:'Project Management · Group 5 of 8 · Final project',title:'ChargeNCR',lede:'Commission 25 DC fast-charging stations across Delhi-NCR on a single app, within 52 weeks, at a budget of ₹51.5 crore, for a hypothetical charge-point operator.',
  stats:[['25','stations, 2 × 60 kW each'],['52 wk','promised in the charter'],['60 wk','the critical path'],['1%','chance of hitting week 52']],
- sec:[['My part',['<b>Project charter</b>: sponsor, PM authority, scope and the boundaries the project had to fit inside.','<b>Stakeholder analysis</b> on a power-interest grid, with a different engagement plan for each quadrant, from the state EV policy department to residents.','<b>RACI matrix</b> over the work breakdown: 7 deliverables, 21 work packages, one accountable owner each.']],
-  ['What the team found',['Sequenced properly, the plan needed 60 weeks. The DISCOM sanction was a 13-week bottleneck.','PERT gave the charter date a 1% chance. 90% confidence meant quoting 64.4 weeks.','We crashed the cheapest activities week by week, levelled resources, built a risk register and ran earned value analysis at week 26.']]],
+ role:['<b>Project charter</b>: sponsor, PM authority, scope and the boundaries the project had to fit inside.','<b>Stakeholder analysis</b> on a power-interest grid, with a different engagement plan for each quadrant, from the state EV policy department to residents.','<b>RACI matrix</b> over the work breakdown: 7 deliverables, 21 work packages, one accountable owner each.'],
+ sec:[['What the team found',['Sequenced properly, the plan needed 60 weeks. The DISCOM sanction was a 13-week bottleneck.','PERT gave the charter date a 1% chance. 90% confidence meant quoting 64.4 weeks.','We crashed the cheapest activities week by week, levelled resources, built a risk register and ran earned value analysis at week 26.']]],
+ take:'The charter promised 52 weeks and the maths said 60. Project management is largely the job of saying that out loud early, while it is still cheap to change.',
  note:'Group project with seven classmates. "My part" lists only the slides I owned.'},
 hm:{eye:'Marketing & Retail Analytics · Course project',title:'H&M India DecisionHub',lede:'A marketing and retail decision support system for H&M India. Each screen is built for one decision maker and one recurring decision, such as a quarterly budget reallocation across brands and regions.',
+ stats:[['6','decision screens'],['8','brands'],['4','regions'],['18','stores']],
  sec:[['How it is organised',['<b>Leadership:</b> "Are we winning?" Investment vs. return, brand scorecard, regional performance against target.','<b>Marketing:</b> "Where is the waste?" Campaign and channel effectiveness for every rupee of spend.','Store ops, customer, category and a KPI tracker, all reading from one data model, with filters by brand, region, channel and period.']]],
- embed:['tools/hm-decisionhub.html','H&M India DecisionHub'],note:'Runs on sample data built for the course, not H&M figures.'},
+ embed:['tools/hm-decisionhub.html','H&M India DecisionHub'],note:'Runs on sample data built for the course, not H&M figures.',
+ take:'A dashboard nobody opens is a reporting exercise. Building one screen per decision maker, around the decision they actually repeat, is what turns data into something someone acts on.'},
 cesim:{eye:'Strategic Management · Team · Cesim Global Challenge',title:'From a bad start to #1',lede:'Six rounds running a global tech company against other teams, as Team Lakshmi Chit Fund.',
  stats:[['#1','final rank, Universe 1'],['53.57%','ROCE in Round 6'],['+12.52%','TSR in Round 6'],['$11.5B','market capitalisation']],
  sec:[['How it went',['A strong Round 1, then a sharp financial setback in Rounds 2 and 3.','Stabilised operations, then reset strategy in Round 4: fewer markets and technologies, chosen more carefully.','A clear recovery in Rounds 5 and 6 to finish first.']],['The lesson',['Cumulative earnings stayed negative. Finishing first did not erase the early mistakes, it only stopped them compounding.']]],
+ take:'Finishing first did not erase Rounds 2 and 3. Cumulative earnings stayed negative all the way to the end, which is the clearest lesson I have had in how long a bad early call keeps costing you.',
  note:'Team project.'},
 ff:{eye:'ERP & process design · Individual',title:'FreshFarm Organics',lede:'A hypothetical omni-channel organic grocer with stores, a central distribution centre and a quick-commerce storefront. Two individual assignments on the same company.',
  sec:[['ERP system design',['Selected modules, defined master data, mapped the key transactions, and designed workflows and integrations for a business where shelf life and organic certification change the rules.']],
   ['BPMN 2.0 process model',['Modelled the Background Check sub-process of Hiring in Bizagi Modeler, with the business rules documented alongside.']]],
- gal:['assets/bpmn-background-check.jpg'],gal1:true}
+ gal:['assets/bpmn-background-check.jpg'],gal1:true,
+ take:'Mapping a process properly forces out the assumptions. Most of the design work was not drawing the diagram, it was discovering rules that lived only in the head of whoever did the job last.'}
+
 };
 const sheet=$('#sheet'),inn=$('#sheetIn');
 function open(id){const c=CASES[id];if(!c)return;
   let h=`<div class="sheet-head"><div><span class="kicker">${c.eye}</span><h2 id="sheetTitle">${c.title}</h2></div>
     <button class="icon-btn" id="sheetClose" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="lede">${c.lede}</p>`;
   if(c.stats)h+=`<div class="bigstats">${c.stats.map(s=>`<div><div class="n">${s[0]}</div><p>${s[1]}</p></div>`).join('')}</div>`;
+  if(c.role)h+=`<h4>My part</h4><ul>${c.role.map(i=>`<li>${i}</li>`).join('')}</ul>`;
   (c.sec||[]).forEach(([t,items])=>{h+=`<h4>${t}</h4><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;});
-  if(c.quote)h+=`<h4>Channel positioning</h4><p class="big-q">${c.quote}</p>`;
+  if(c.quote)h+=`<h4>${c.quoteLabel||'Channel positioning'}</h4><p class="big-q">${c.quote}</p>`;
   [c.embed,c.embed2].filter(Boolean).forEach(([src,name])=>{h+=`<h4>${name}, live</h4><div class="embed"><div class="embed-bar"><span>${name}</span><a href="${src}" target="_blank" rel="noopener">Open full screen ↗</a></div><iframe src="${src}" title="${name}" loading="lazy"></iframe></div>`;});
   if(c.gal)h+=`<h4>${c.gal1?'The model':'From the club'}</h4><div class="gal" ${c.gal1?'style="grid-template-columns:1fr"':''}>${c.gal.map(g=>`<img src="${g}" alt="" loading="lazy">`).join('')}</div>`;
   if(c.links)h+=`<h4>More</h4><div class="cta">${c.links.map(([t,u])=>`<a class="btn" href="${u}" target="_blank" rel="noopener">${t} ↗</a>`).join('')}</div>`;
+  if(c.take)h+=`<p class="take"><b>What I took from it</b>${c.take}</p>`;
   if(c.note)h+=`<p class="fineprint">${c.note}</p>`;
   inn.innerHTML=h;inn.scrollTop=0;$('#sheetClose').addEventListener('click',()=>sheet.close());sheet.showModal();}
 $$('[data-case]').forEach(el=>el.addEventListener('click',()=>open(el.dataset.case)));
